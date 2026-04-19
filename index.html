@@ -3,11 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0d5c42">
+    <meta name="description" content="Aplikasi Tasmi' Juz Amma untuk menilai hafalan santri dengan piagam digital">
     <title>Tasmi' Juz Amma</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Ikon untuk PWA -->
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/0d5c42/white?text=Tasmi">
+    
+    <!-- Library External -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
         @font-face {
             font-family: 'Uthmanic Hafs';
@@ -48,7 +59,7 @@
             min-height: 100vh;
         }
 
-        /* ===== PATTERN BACKGROUND ===== */
+        /* Pattern background */
         body::before {
             content: '';
             position: fixed;
@@ -70,7 +81,7 @@
             z-index: 1;
         }
 
-        /* ===== APP HEADER ===== */
+        /* ===== APP HEADER (optional) ===== */
         .app-header {
             text-align: center;
             margin-bottom: 28px;
@@ -103,17 +114,28 @@
             font-weight: 400;
         }
 
-        /* ===== TAB BAR ===== */
+        /* ===== STICKY TAB BAR ===== */
         .tab-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             background: var(--white);
-            border-radius: 18px;
+            border-radius: 0 0 18px 18px;
             padding: 5px;
             margin-bottom: 20px;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-md);
             border: 1px solid var(--gold-border);
+            border-top: none;
             gap: 4px;
+            backdrop-filter: blur(0px);
+            transition: all 0.2s ease;
+        }
+
+        /* Efek shadow saat scroll untuk tab bar */
+        .tab-bar.scrolled {
+            box-shadow: 0 8px 20px rgba(13,92,66,0.2);
         }
 
         .tab-btn {
@@ -203,7 +225,6 @@
             background: var(--white);
             box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
         }
-
 
         /* ===== AYAT LIST ===== */
         .ayat-toolbar {
@@ -653,7 +674,6 @@
             text-align: center;
         }
 
-        /* ===== FOOTER ===== */
         footer {
             font-size: 0.72rem;
             text-align: center;
@@ -675,7 +695,6 @@
             .piagam-nilai { font-size: 2.4rem; }
             .result-header-row { flex-direction: column; align-items: stretch; }
             .score-circle-wrap { flex-direction: row; gap: 16px; align-items: center; }
-            .timer-display { font-size: 2.6rem; }
         }
         @media (max-width: 360px) {
             .piagam-title { font-size: 1.4rem; }
@@ -692,8 +711,8 @@
 <body>
 <div class="app-wrapper">
 
-    <!-- Tab Bar (navigasi) tetap di bawah header -->
-    <div class="tab-bar">
+    <!-- Sticky Tab Bar -->
+    <div class="tab-bar" id="stickyTabBar">
         <button class="tab-btn active" data-tab="tab1"><span class="tab-icon">📋</span>Data Siswa</button>
         <button class="tab-btn" data-tab="tab2"><span class="tab-icon">📖</span>Juz Amma</button>
         <button class="tab-btn" data-tab="tab3"><span class="tab-icon">📊</span>Hasil</button>
@@ -877,6 +896,7 @@
 </div>
 
 <script>
+    // ======================== LOGIKA UTAMA APLIKASI ========================
     let allAyahs = [];
     let wrongStatus = [];
     let totalAyat = 0;
@@ -904,7 +924,6 @@
     const piagamNilai = document.getElementById('piagamNilai');
     const piagamStatusBadge = document.getElementById('piagamStatusBadge');
     const scoreCirclePath = document.getElementById('scoreCirclePath');
-    const timerDisplay = document.getElementById('timerDisplay');
 
     function getCurrentStatus() {
         return document.querySelector('input[name="statusKelulusan"]:checked').value;
@@ -918,7 +937,6 @@
         const circumference = 263.9;
         const offset = circumference - (nilai / 100) * circumference;
         scoreCirclePath.style.strokeDashoffset = offset;
-        // Color based on score
         if (nilai >= 80) scoreCirclePath.style.stroke = '#0d5c42';
         else if (nilai >= 60) scoreCirclePath.style.stroke = '#b8892a';
         else scoreCirclePath.style.stroke = '#c0392b';
@@ -1080,7 +1098,6 @@
         return true;
     }
 
-    // Export PDF
     async function exportPiagamPDF() {
         const piagam = document.getElementById('piagamCard');
         if (!piagam) return;
@@ -1103,7 +1120,25 @@
         finally { btn.innerText = orig; btn.disabled = false; }
     }
 
-    // Init
+    // Sticky Tab Bar Shadow Effect
+    const tabBar = document.getElementById('stickyTabBar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 10) tabBar.classList.add('scrolled');
+        else tabBar.classList.remove('scrolled');
+    });
+
+    // PWA Service Worker Registration
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(reg => {
+                console.log('Service Worker registered:', reg);
+            }).catch(err => {
+                console.log('Service Worker registration failed:', err);
+            });
+        });
+    }
+
+    // Init App
     window.addEventListener('DOMContentLoaded', async () => {
         [namaInput, kelasInput, tanggalInput, pengujiInput].forEach(i => i.addEventListener('input', updateAllUI));
         tanggalInput.addEventListener('change', updateAllUI);
@@ -1111,7 +1146,6 @@
         document.getElementById('resetAllWrongBtn').addEventListener('click', resetAllWrong);
         document.getElementById('exportPdfBtn').addEventListener('click', exportPiagamPDF);
 
-        // Tabs
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-tab');
