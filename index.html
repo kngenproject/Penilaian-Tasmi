@@ -853,6 +853,11 @@
         #timerStartBtn { background: var(--emerald); color: white; }
         #timerStopBtn { background: var(--muted); color: white; }
         #timerResetBtn { background: var(--gold); color: white; }
+        /* Mencegah pull-to-refresh dan overscroll di seluruh halaman */
+        html, body {
+    overscroll-behavior-y: contain;
+    overscroll-behavior-x: none;
+}
     </style>
 </head>
 <body>
