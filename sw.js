@@ -1,7 +1,6 @@
-const CACHE_NAME = 'tasmi-cache-v2';
+const CACHE_NAME = 'tasmi-cache-v3';
 
-// Hanya cache resource same-origin dan CDN yang mendukung CORS
-// Google Fonts dihapus karena response opaque tidak bisa di-addAll (akan error)
+// Resource yang di-cache saat install
 const urlsToCache = [
   './',
   './index.html',
@@ -10,27 +9,13 @@ const urlsToCache = [
 ];
 
 self.addEventListener('install', event => {
-  // skipWaiting agar SW langsung aktif tanpa menunggu tab lama ditutup
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
-  );
-});
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) return response;
-      // Clone request karena fetch hanya bisa dikonsumsi sekali
-      return fetch(event.request.clone()).then(networkResponse => {
-        // Hanya cache response yang valid
-        if (!networkResponse || networkResponse.status !== 200 || networkResponse.type === 'opaque') {
-          return networkResponse;
-        }
-        const responseToCache = networkResponse.clone();
-        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseToCache));
-        return networkResponse;
-      }).catch(() => response); // fallback ke cache jika offline
+    caches.open(CACHE_NAME).then(cache => {
+      // addAll diganti add satu-satu agar satu gagal tidak blokir semua
+      return Promise.allSettled(
+        urlsToCache.map(url => cache.add(url).catch(err => console.warn('Cache miss:', url, err)))
+      );
     })
   );
 });
@@ -38,14 +23,41 @@ self.addEventListener('fetch', event => {
 self.addEventListener('activate', event => {
   event.waitUntil(
     Promise.all([
-      // Hapus cache lama
       caches.keys().then(keys => Promise.all(
-        keys.map(key => {
-          if (key !== CACHE_NAME) return caches.delete(key);
-        })
+        keys.map(key => { if (key !== CACHE_NAME) return caches.delete(key); })
       )),
-      // Langsung ambil kontrol semua tab yang terbuka
       self.clients.claim()
     ])
+  );
+});
+
+self.addEventListener('fetch', event => {
+  // Hanya tangani GET request
+  if (event.request.method !== 'GET') return;
+
+  event.respondWith(
+    caches.match(event.request).then(cached => {
+      if (cached) return cached;
+
+      return fetch(event.request.clone()).then(networkResponse => {
+        // Hanya cache response valid dan bukan opaque (cross-origin tanpa CORS)
+        if (
+          networkResponse &&
+          networkResponse.status === 200 &&
+          networkResponse.type !== 'opaque'
+        ) {
+          const toCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => cache.put(event.request, toCache));
+        }
+        return networkResponse;
+      }).catch(() => {
+        // Offline fallback: kembalikan index.html untuk navigasi
+        if (event.request.mode === 'navigate') {
+          return caches.match('./index.html');
+        }
+        // Untuk aset lain, kembalikan cached jika ada
+        return cached || new Response('Offline', { status: 503 });
+      });
+    })
   );
 });
