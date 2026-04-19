@@ -703,9 +703,7 @@
             .tab-btn { font-size: 0.62rem; padding: 10px 2px; }
             .ayat-item { font-size: 1.1rem; }
         }
-        .app-header {
-          display: none;
-        }
+        .app-header { display: none; }
     </style>
 </head>
 <body>
@@ -1130,7 +1128,7 @@
     // PWA Service Worker Registration
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js').then(reg => {
+            navigator.serviceWorker.register('./sw.js').then(reg => {
                 console.log('Service Worker registered:', reg);
             }).catch(err => {
                 console.log('Service Worker registration failed:', err);
@@ -1138,8 +1136,8 @@
         });
     }
 
-    // Init App
-    window.addEventListener('DOMContentLoaded', async () => {
+    // Init App — script ada di akhir body, DOM sudah siap, tidak perlu DOMContentLoaded
+    (async () => {
         [namaInput, kelasInput, tanggalInput, pengujiInput].forEach(i => i.addEventListener('input', updateAllUI));
         tanggalInput.addEventListener('change', updateAllUI);
         document.querySelectorAll('input[name="statusKelulusan"]').forEach(r => r.addEventListener('change', updateAllUI));
@@ -1158,7 +1156,7 @@
 
         await fetchAllJuzAmmaWithRetry();
         updateAllUI();
-    });
+    })();
 </script>
 </body>
 </html>
