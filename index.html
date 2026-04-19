@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0d5c42">
-    <meta name="description" content="Aplikasi Tasmi' Juz Amma untuk menilai hafalan santri dengan piagam digital">
-    <title>Tasmi' Juz Amma</title>
+    <meta name="description" content="Aplikasi Tasmi' Juz Amma untuk menilai hafalan santri dengan piagam digital - ONLINE FIRST & OFFLINE CAPABLE">
+    <title>Tasmi' Juz Amma | Online-First</title>
     
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
     <!-- Ikon untuk PWA -->
-    <link rel="apple-touch-icon" href="https://placehold.co/192x192/0d5c42/white?text=Tasmi">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230d5c42'/%3E%3Ctext x='256' y='380' font-size='280' text-anchor='middle' fill='white' font-family='monospace'%3E📖%3C/text%3E%3C/svg%3E">
     
     <!-- Library External -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -81,40 +81,35 @@
             z-index: 1;
         }
 
-        /* ===== APP HEADER (optional) ===== */
-        .app-header {
-            text-align: center;
-            margin-bottom: 28px;
-            padding: 24px 20px;
+        /* Status Banner Online-First */
+        .status-banner {
+            background: var(--emerald-pale);
+            border-radius: 40px;
+            padding: 8px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            font-weight: 500;
+            border: 1px solid var(--emerald-pale2);
+        }
+        .status-banner.online { background: #e8f5ef; color: var(--emerald); }
+        .status-banner.offline { background: #fdecea; color: var(--red); border-color: #f5c2be; }
+        .status-banner .sync-badge { display: flex; align-items: center; gap: 6px; }
+        .refresh-indicator {
             background: var(--white);
-            border-radius: 28px;
+            padding: 4px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
             border: 1px solid var(--gold-border);
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
+            transition: 0.2s;
         }
-        .app-header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--emerald), var(--gold-light), var(--emerald));
-        }
-        .app-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--emerald);
-            letter-spacing: -0.5px;
-        }
-        .app-header p {
-            font-size: 0.82rem;
-            color: var(--muted);
-            margin-top: 4px;
-            font-weight: 400;
-        }
+        .refresh-indicator:hover { background: var(--emerald-pale2); }
 
-        /* ===== STICKY TAB BAR ===== */
+        /* Tab Bar Sticky */
         .tab-bar {
             position: sticky;
             top: 0;
@@ -129,15 +124,9 @@
             border: 1px solid var(--gold-border);
             border-top: none;
             gap: 4px;
-            backdrop-filter: blur(0px);
             transition: all 0.2s ease;
         }
-
-        /* Efek shadow saat scroll untuk tab bar */
-        .tab-bar.scrolled {
-            box-shadow: 0 8px 20px rgba(13,92,66,0.2);
-        }
-
+        .tab-bar.scrolled { box-shadow: 0 8px 20px rgba(13,92,66,0.2); }
         .tab-btn {
             background: transparent;
             border: none;
@@ -153,7 +142,6 @@
             flex-direction: column;
             align-items: center;
             gap: 4px;
-            line-height: 1.2;
         }
         .tab-btn .tab-icon { font-size: 1.2rem; }
         .tab-btn.active {
@@ -162,7 +150,7 @@
             box-shadow: 0 4px 14px rgba(13,92,66,0.3);
         }
 
-        /* ===== CARD ===== */
+        /* Card */
         .card {
             background: var(--white);
             border-radius: var(--radius);
@@ -194,13 +182,10 @@
             height: 20px;
             background: linear-gradient(to bottom, var(--gold), var(--emerald));
             border-radius: 2px;
-            flex-shrink: 0;
         }
 
-        /* ===== FORM ===== */
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .form-grid .span2 { grid-column: span 2; }
-
         .input-group { display: flex; flex-direction: column; gap: 6px; }
         .input-group label {
             font-size: 0.75rem;
@@ -209,7 +194,7 @@
             letter-spacing: 0.5px;
             text-transform: uppercase;
         }
-        .input-group input, .input-group select {
+        .input-group input {
             padding: 13px 16px;
             border-radius: var(--radius-sm);
             border: 1.5px solid #e0d9cc;
@@ -218,7 +203,6 @@
             outline: none;
             transition: all 0.2s;
             font-family: 'DM Sans', sans-serif;
-            color: var(--ink);
         }
         .input-group input:focus {
             border-color: var(--emerald-light);
@@ -226,7 +210,6 @@
             box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
         }
 
-        /* ===== AYAT LIST ===== */
         .ayat-toolbar {
             display: flex;
             align-items: center;
@@ -253,7 +236,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'DM Sans', sans-serif;
         }
         .btn-reset-wrong:hover { border-color: var(--red); color: var(--red); background: var(--red-pale); }
 
@@ -281,7 +263,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            letter-spacing: 0.5px;
         }
         .surah-header .surah-num {
             background: rgba(255,255,255,0.2);
@@ -349,7 +330,6 @@
         }
         .ayat-item.salah .ayat-text { color: var(--red); }
 
-        /* ===== RESULT TAB ===== */
         .result-header-row {
             display: flex;
             align-items: center;
@@ -401,8 +381,6 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .score-circle-wrap small { font-size: 0.72rem; color: var(--muted); }
-
         .result-info-grid {
             flex: 1;
             display: grid;
@@ -416,9 +394,8 @@
             border-radius: var(--radius-sm);
             padding: 10px 14px;
         }
-        .result-info-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 2px; }
+        .result-info-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
         .result-info-value { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
-
         .result-stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -437,7 +414,6 @@
         .stat-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 800; color: var(--emerald); }
         .stat-box.danger .stat-value { color: var(--red); }
         .stat-sub { font-size: 0.7rem; color: var(--muted); font-weight: 500; margin-top: 2px; }
-
         .status-selector {
             background: var(--cream);
             border-radius: var(--radius-sm);
@@ -446,10 +422,7 @@
         }
         .status-selector-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--emerald); letter-spacing: 0.5px; margin-bottom: 12px; }
         .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        .radio-option {
-            flex: 1;
-            position: relative;
-        }
+        .radio-option { flex: 1; position: relative; }
         .radio-option input { position: absolute; opacity: 0; width: 0; height: 0; }
         .radio-option label {
             display: flex;
@@ -476,7 +449,7 @@
             color: var(--red);
         }
 
-        /* ===== PIAGAM ===== */
+        /* Piagam dengan ornamen lengkap */
         .piagam-card {
             background: linear-gradient(160deg, #fffef5 0%, #fff9ea 50%, #fdf3d8 100%);
             border: 2px solid var(--gold-border);
@@ -526,7 +499,6 @@
             background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
         }
         .piagam-divider span { font-size: 0.8rem; color: var(--gold); }
-
         .piagam-title {
             font-family: 'Playfair Display', serif;
             font-size: 1.9rem;
@@ -535,7 +507,6 @@
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1.2;
-            position: relative; z-index: 1;
         }
         .piagam-subtitle {
             font-size: 0.78rem;
@@ -592,8 +563,6 @@
             color: var(--muted);
             flex-wrap: wrap;
         }
-        .piagam-footer-row span strong { color: var(--ink2); font-weight: 600; }
-
         .btn-export {
             width: 100%;
             margin-top: 16px;
@@ -609,19 +578,14 @@
             font-family: 'DM Sans', sans-serif;
             box-shadow: 0 4px 16px rgba(13,92,66,0.25);
         }
-        .btn-export:hover { background: var(--emerald-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,92,66,0.3); }
+        .btn-export:hover { background: var(--emerald-light); transform: translateY(-1px); }
         .btn-export:active { transform: translateY(0); }
         .export-note { font-size: 0.72rem; text-align: center; color: var(--muted); margin-top: 8px; }
 
-        /* ===== TAB CONTENT ===== */
         .tab-content { display: none; }
         .tab-content.active-tab { display: block; animation: tabIn 0.25s ease; }
-        @keyframes tabIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes tabIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ===== LOADING & ERROR ===== */
         .loading-state {
             text-align: center;
             padding: 48px 20px;
@@ -638,7 +602,6 @@
         .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
         .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px);opacity:1} }
-        .loading-state p { font-size: 0.85rem; font-weight: 500; }
 
         .error-retry {
             text-align: center;
@@ -658,10 +621,8 @@
             cursor: pointer;
             font-weight: 700;
             font-size: 0.85rem;
-            font-family: 'DM Sans', sans-serif;
         }
 
-        /* ===== FORMULA INFO ===== */
         .formula-box {
             background: var(--emerald-pale);
             border-radius: var(--radius-sm);
@@ -673,41 +634,29 @@
             border: 1px solid var(--emerald-pale2);
             text-align: center;
         }
-
         footer {
             font-size: 0.72rem;
             text-align: center;
             margin-top: 24px;
             color: var(--muted);
-            font-weight: 400;
         }
-
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 520px) {
             .form-grid { grid-template-columns: 1fr; }
-            .form-grid .span2 { grid-column: span 1; }
             .tab-btn { font-size: 0.68rem; }
-            .tab-btn .tab-icon { font-size: 1.1rem; }
             .ayat-item { font-size: 1.2rem; }
             .basmalah-item { font-size: 1.35rem; }
-            .result-info-grid { grid-template-columns: 1fr 1fr; }
             .piagam-name { font-size: 1.5rem; }
             .piagam-nilai { font-size: 2.4rem; }
-            .result-header-row { flex-direction: column; align-items: stretch; }
-            .score-circle-wrap { flex-direction: row; gap: 16px; align-items: center; }
         }
-        @media (max-width: 360px) {
-            .piagam-title { font-size: 1.4rem; }
-            .piagam-name { font-size: 1.2rem; }
-            .piagam-nilai { font-size: 2rem; }
-            .tab-btn { font-size: 0.62rem; padding: 10px 2px; }
-            .ayat-item { font-size: 1.1rem; }
-        }
-        .app-header { display: none; }
     </style>
 </head>
 <body>
 <div class="app-wrapper">
+    <!-- Status Banner Online-First -->
+    <div class="status-banner online" id="statusBanner">
+        <div class="sync-badge">🌐 <span id="connStatus">Online - Mengambil dari server</span></div>
+        <div class="refresh-indicator" id="forceRefreshBtn">🔄 Refresh Quran</div>
+    </div>
 
     <!-- Sticky Tab Bar -->
     <div class="tab-bar" id="stickyTabBar">
@@ -838,30 +787,30 @@
     <div id="tab4" class="tab-content">
         <div class="card" style="padding:0;background:transparent;border:none;box-shadow:none;">
             <div id="piagamCard" class="piagam-card">
-                <!-- Ornamen sudut -->
+                <!-- Ornamen sudut lengkap -->
                 <div class="piagam-corner tl">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 50 50" fill="none">
                         <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
                         <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
                         <circle cx="5" cy="5" r="3" fill="#b8892a"/>
                     </svg>
                 </div>
                 <div class="piagam-corner tr">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 50 50" fill="none">
                         <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
                         <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
                         <circle cx="5" cy="5" r="3" fill="#b8892a"/>
                     </svg>
                 </div>
                 <div class="piagam-corner bl">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 50 50" fill="none">
                         <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
                         <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
                         <circle cx="5" cy="5" r="3" fill="#b8892a"/>
                     </svg>
                 </div>
                 <div class="piagam-corner br">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg viewBox="0 0 50 50" fill="none">
                         <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
                         <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
                         <circle cx="5" cy="5" r="3" fill="#b8892a"/>
@@ -890,101 +839,143 @@
         </div>
     </div>
 
-    <footer>Tasmi' Juz Amma · Klik ayat untuk tandai kesalahan · Basmalah dipisah dari penilaian</footer>
+    <footer>Tasmi' Juz Amma · Online-First: prioritas server, fallback offline · Klik ayat untuk tandai kesalahan</footer>
 </div>
 
 <script>
-    // ======================== LOGIKA UTAMA APLIKASI ========================
+    // ======================== ONLINE-FIRST + OFFLINE CAPABLE ========================
     let allAyahs = [];
     let wrongStatus = [];
     let totalAyat = 0;
     let ayatElements = [];
 
-    const ayatContainer = document.getElementById('ayatContainer');
+    const CACHE_KEY = 'tasmi_quran_onlinefirst_v2';
     const namaInput = document.getElementById('namaSiswa');
     const kelasInput = document.getElementById('kelasSiswa');
     const tanggalInput = document.getElementById('tanggalTasmi');
     const pengujiInput = document.getElementById('namaPenguji');
+    const ayatContainer = document.getElementById('ayatContainer');
+    const statusBanner = document.getElementById('statusBanner');
+    const connStatusSpan = document.getElementById('connStatus');
 
-    const resNama = document.getElementById('resNama');
-    const resKelas = document.getElementById('resKelas');
-    const resTanggal = document.getElementById('resTanggal');
-    const resPenguji = document.getElementById('resPenguji');
-    const resTotalAyat = document.getElementById('resTotalAyat');
-    const resJumlahSalah = document.getElementById('resJumlahSalah');
-    const resNilaiPersen = document.getElementById('resNilaiPersen');
-    const resBenar = document.getElementById('resBenar');
+    function isOnline() { return navigator.onLine; }
 
-    const piagamNama = document.getElementById('piagamNama');
-    const piagamKelas = document.getElementById('piagamKelas');
-    const piagamTanggal = document.getElementById('piagamTanggal');
-    const piagamPenguji = document.getElementById('piagamPenguji');
-    const piagamNilai = document.getElementById('piagamNilai');
-    const piagamStatusBadge = document.getElementById('piagamStatusBadge');
-    const scoreCirclePath = document.getElementById('scoreCirclePath');
-
-    function getCurrentStatus() {
-        return document.querySelector('input[name="statusKelulusan"]:checked').value;
-    }
-    function computeNilai() {
-        if (totalAyat === 0) return 0;
-        const salah = wrongStatus.filter(v => v).length;
-        return Math.round(100 - (salah / totalAyat) * 100);
-    }
-    function updateScoreCircle(nilai) {
-        const circumference = 263.9;
-        const offset = circumference - (nilai / 100) * circumference;
-        scoreCirclePath.style.strokeDashoffset = offset;
-        if (nilai >= 80) scoreCirclePath.style.stroke = '#0d5c42';
-        else if (nilai >= 60) scoreCirclePath.style.stroke = '#b8892a';
-        else scoreCirclePath.style.stroke = '#c0392b';
-    }
-    function updateAllUI() {
-        const nama = namaInput.value.trim() || "—";
-        const kelas = kelasInput.value.trim() || "—";
-        const tanggal = tanggalInput.value ? formatTanggal(tanggalInput.value) : "—";
-        const penguji = pengujiInput.value.trim() || "—";
-        const salah = wrongStatus.filter(v => v).length;
-        const benar = totalAyat - salah;
-        const nilai = computeNilai();
-        const status = getCurrentStatus();
-
-        resNama.textContent = nama;
-        resKelas.textContent = kelas;
-        resTanggal.textContent = tanggal;
-        resPenguji.textContent = penguji;
-        resTotalAyat.textContent = totalAyat;
-        resJumlahSalah.textContent = salah;
-        resBenar.textContent = benar;
-        resNilaiPersen.textContent = nilai;
-        updateScoreCircle(nilai);
-
-        piagamNama.textContent = nama === "—" ? "Nama Siswa" : nama;
-        piagamKelas.textContent = kelas === "—" ? "Kelas —" : `Kelas ${kelas}`;
-        piagamTanggal.textContent = tanggal;
-        piagamPenguji.textContent = penguji;
-        piagamNilai.textContent = `${nilai}%`;
-        piagamStatusBadge.textContent = status;
-        piagamStatusBadge.className = `piagam-status ${status === 'LULUS' ? 'lulus' : 'tidak'}`;
-    }
-    function formatTanggal(dateStr) {
-        if (!dateStr) return "—";
-        const d = new Date(dateStr + "T00:00:00");
-        return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-    }
-    function toggleWrong(index) {
-        if (index < 0 || index >= totalAyat) return;
-        wrongStatus[index] = !wrongStatus[index];
-        const el = ayatElements[index];
-        if (el) el.classList.toggle('salah', wrongStatus[index]);
-        updateAllUI();
-    }
-    function resetAllWrong() {
-        for (let i = 0; i < totalAyat; i++) {
-            wrongStatus[i] = false;
-            if (ayatElements[i]) ayatElements[i].classList.remove('salah');
+    function updateBanner(online, source = 'server') {
+        if (online) {
+            statusBanner.className = 'status-banner online';
+            connStatusSpan.innerHTML = source === 'server' ? '✅ Online - Data dari server' : '📡 Online - Data dari cache (server error)';
+        } else {
+            statusBanner.className = 'status-banner offline';
+            connStatusSpan.innerHTML = '⚠️ Offline - Menggunakan data tersimpan';
         }
-        updateAllUI();
+    }
+
+    async function fetchAllJuzAmmaFromNetwork() {
+        const temp = [];
+        for (let s = 78; s <= 114; s++) {
+            try {
+                const url = `https://api.alquran.cloud/v1/surah/${s}?edition=quran-uthmani`;
+                const res = await fetch(url);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                const data = await res.json();
+                if (data?.data?.ayahs) {
+                    for (const a of data.data.ayahs) {
+                        temp.push({ text: a.text, surahName: data.data.name, ayahNum: a.numberInSurah, surahId: s });
+                    }
+                } else throw new Error('Invalid structure');
+            } catch (err) {
+                console.warn(`Gagal surah ${s}`, err);
+                return null;
+            }
+        }
+        return temp.length ? temp : null;
+    }
+
+    function saveToLocalStorage(verses) {
+        try {
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ timestamp: Date.now(), verses }));
+        } catch(e) { console.warn(e); }
+    }
+
+    function loadFromLocalStorage() {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+            try {
+                const data = JSON.parse(raw);
+                if (data.verses && data.verses.length) return data.verses;
+            } catch(e) {}
+        }
+        return null;
+    }
+
+    // Online-First: coba network dulu, gagal fallback ke cache
+    async function loadQuranDataOnlineFirst(showLoading = true) {
+        if (showLoading) {
+            ayatContainer.innerHTML = `<div class="loading-state"><div class="loading-dots"><span></span><span></span><span></span></div><p>🌐 Mengambil data dari server online...</p></div>`;
+        }
+        let networkSuccess = false;
+        let networkData = null;
+        if (isOnline()) {
+            networkData = await fetchAllJuzAmmaFromNetwork();
+            if (networkData && networkData.length) {
+                networkSuccess = true;
+                allAyahs = networkData;
+                totalAyat = allAyahs.length;
+                wrongStatus = new Array(totalAyat).fill(false);
+                saveToLocalStorage(allAyahs);
+                renderAyahListWithSurahHeaders();
+                updateAllUI();
+                updateBanner(true, 'server');
+                return true;
+            }
+        }
+        // Jika offline atau network gagal, pakai cache
+        const cached = loadFromLocalStorage();
+        if (cached && cached.length) {
+            allAyahs = cached;
+            totalAyat = allAyahs.length;
+            wrongStatus = new Array(totalAyat).fill(false);
+            renderAyahListWithSurahHeaders();
+            updateAllUI();
+            if (!isOnline()) updateBanner(false, 'cache');
+            else updateBanner(true, 'cache'); // online tapi API gagal
+            return true;
+        }
+        // Tidak ada data sama sekali
+        ayatContainer.innerHTML = `<div class="error-retry"><strong>❌ Gagal memuat data</strong><p>Tidak ada koneksi dan belum pernah menyimpan cache. Sambungkan ke internet untuk pertama kali.</p><button class="retry-btn" id="manualRetryBtn">🔄 Coba Ulang</button></div>`;
+        document.getElementById('manualRetryBtn')?.addEventListener('click', () => loadQuranDataOnlineFirst(true));
+        return false;
+    }
+
+    async function forceRefresh() {
+        if (!isOnline()) {
+            alert('Tidak ada koneksi internet. Aktifkan koneksi untuk refresh data dari server.');
+            return false;
+        }
+        ayatContainer.innerHTML = `<div class="loading-state"><div class="loading-dots"><span></span><span></span><span></span></div><p>🔄 Memperbarui dari server online...</p></div>`;
+        const fresh = await fetchAllJuzAmmaFromNetwork();
+        if (fresh && fresh.length) {
+            allAyahs = fresh;
+            totalAyat = allAyahs.length;
+            wrongStatus = new Array(totalAyat).fill(false);
+            saveToLocalStorage(allAyahs);
+            renderAyahListWithSurahHeaders();
+            updateAllUI();
+            updateBanner(true, 'server');
+            alert('Data Quran berhasil diperbarui dari server!');
+            return true;
+        } else {
+            alert('Gagal mengambil data dari server. Gunakan data cache yang ada.');
+            const cached = loadFromLocalStorage();
+            if (cached) {
+                allAyahs = cached;
+                totalAyat = allAyahs.length;
+                wrongStatus = new Array(totalAyat).fill(false);
+                renderAyahListWithSurahHeaders();
+                updateAllUI();
+            }
+            return false;
+        }
     }
 
     function splitBasmalah(text) {
@@ -995,15 +986,7 @@
     }
 
     function renderAyahListWithSurahHeaders() {
-        if (!allAyahs.length) {
-            ayatContainer.innerHTML = `<div class="error-retry">
-                <strong>⚠️ Belum ada data ayat</strong>
-                <p>Coba muat ulang halaman</p>
-                <button class="retry-btn" id="manualRetryBtn">🔄 Muat Ulang</button>
-            </div>`;
-            document.getElementById('manualRetryBtn')?.addEventListener('click', fetchAllJuzAmmaWithRetry);
-            return;
-        }
+        if (!allAyahs.length) return;
         const grouped = [];
         let curId = null, curName = null, curAyahs = [];
         for (let i = 0; i < allAyahs.length; i++) {
@@ -1044,56 +1027,72 @@
                 const ns = document.createElement('span');
                 ns.className = 'ayat-number'; ns.innerText = `⦿ ${ayah.ayahNum}`;
                 div.appendChild(ts); div.appendChild(ns);
-                div.addEventListener('click', e => { e.stopPropagation(); toggleWrong(idx); });
+                div.addEventListener('click', (e) => { e.stopPropagation(); toggleWrong(idx); });
                 ayatContainer.appendChild(div);
                 ayatElements[idx] = div;
             }
         }
     }
 
-    async function fetchSurahWithRetry(id, retries = 2) {
-        const url = `https://api.alquran.cloud/v1/surah/${id}?edition=quran-uthmani`;
-        for (let attempt = 0; attempt <= retries; attempt++) {
-            try {
-                const r = await fetch(url);
-                if (!r.ok) throw new Error(`HTTP ${r.status}`);
-                const d = await r.json();
-                if (d?.data?.ayahs) return d.data;
-                throw new Error('Invalid structure');
-            } catch (err) {
-                if (attempt === retries) throw err;
-                await new Promise(r => setTimeout(r, 800));
-            }
-        }
+    function toggleWrong(index) {
+        if (index < 0 || index >= totalAyat) return;
+        wrongStatus[index] = !wrongStatus[index];
+        if (ayatElements[index]) ayatElements[index].classList.toggle('salah', wrongStatus[index]);
+        updateAllUI();
     }
 
-    async function fetchAllJuzAmmaWithRetry() {
-        ayatContainer.innerHTML = `<div class="loading-state">
-            <div class="loading-dots"><span></span><span></span><span></span></div>
-            <p>Memuat seluruh 37 surat Juz Amma...<br>Pastikan koneksi internet stabil.</p>
-        </div>`;
-        const temp = []; const failed = [];
-        for (let s = 78; s <= 114; s++) {
-            try {
-                const d = await fetchSurahWithRetry(s, 2);
-                for (const a of d.ayahs) temp.push({ text: a.text, surahName: d.name, ayahNum: a.numberInSurah, surahId: s });
-            } catch { failed.push(s); }
+    function resetAllWrong() {
+        for (let i = 0; i < totalAyat; i++) {
+            wrongStatus[i] = false;
+            if (ayatElements[i]) ayatElements[i].classList.remove('salah');
         }
-        if (temp.length === 0) {
-            ayatContainer.innerHTML = `<div class="error-retry">
-                <strong>❌ Gagal memuat semua ayat</strong>
-                <p>Periksa koneksi internet Anda</p>
-                <button class="retry-btn" id="forceRetryBtn">🔄 Coba Muat Ulang</button>
-            </div>`;
-            document.getElementById('forceRetryBtn')?.addEventListener('click', fetchAllJuzAmmaWithRetry);
-            return false;
-        }
-        allAyahs = temp;
-        totalAyat = allAyahs.length;
-        wrongStatus = new Array(totalAyat).fill(false);
-        renderAyahListWithSurahHeaders();
         updateAllUI();
-        return true;
+    }
+
+    function computeNilai() {
+        if (totalAyat === 0) return 0;
+        const salah = wrongStatus.filter(v => v).length;
+        return Math.round(100 - (salah / totalAyat) * 100);
+    }
+
+    function updateScoreCircle(nilai) {
+        const circumference = 263.9;
+        const offset = circumference - (nilai / 100) * circumference;
+        const circle = document.getElementById('scoreCirclePath');
+        if (circle) circle.style.strokeDashoffset = offset;
+        if (nilai >= 80) circle.style.stroke = '#0d5c42';
+        else if (nilai >= 60) circle.style.stroke = '#b8892a';
+        else circle.style.stroke = '#c0392b';
+    }
+
+    function updateAllUI() {
+        const nama = namaInput.value.trim() || "—";
+        const kelas = kelasInput.value.trim() || "—";
+        const tanggal = tanggalInput.value ? new Date(tanggalInput.value + "T00:00:00").toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' }) : "—";
+        const penguji = pengujiInput.value.trim() || "—";
+        const salah = wrongStatus.filter(v => v).length;
+        const benar = totalAyat - salah;
+        const nilai = computeNilai();
+        const status = document.querySelector('input[name="statusKelulusan"]:checked').value;
+
+        document.getElementById('resNama').textContent = nama;
+        document.getElementById('resKelas').textContent = kelas;
+        document.getElementById('resTanggal').textContent = tanggal;
+        document.getElementById('resPenguji').textContent = penguji;
+        document.getElementById('resTotalAyat').textContent = totalAyat;
+        document.getElementById('resJumlahSalah').textContent = salah;
+        document.getElementById('resBenar').textContent = benar;
+        document.getElementById('resNilaiPersen').textContent = nilai;
+        updateScoreCircle(nilai);
+
+        document.getElementById('piagamNama').textContent = nama === "—" ? "Nama Siswa" : nama;
+        document.getElementById('piagamKelas').textContent = kelas === "—" ? "Kelas —" : `Kelas ${kelas}`;
+        document.getElementById('piagamTanggal').textContent = tanggal;
+        document.getElementById('piagamPenguji').textContent = penguji;
+        document.getElementById('piagamNilai').textContent = `${nilai}%`;
+        const badge = document.getElementById('piagamStatusBadge');
+        badge.textContent = status;
+        badge.className = `piagam-status ${status === 'LULUS' ? 'lulus' : 'tidak'}`;
     }
 
     async function exportPiagamPDF() {
@@ -1118,32 +1117,11 @@
         finally { btn.innerText = orig; btn.disabled = false; }
     }
 
-    // Sticky Tab Bar Shadow Effect
-    const tabBar = document.getElementById('stickyTabBar');
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 10) tabBar.classList.add('scrolled');
-        else tabBar.classList.remove('scrolled');
-    });
+    // Event listeners & initial load
+    window.addEventListener('online', () => { updateBanner(true, 'server'); loadQuranDataOnlineFirst(true); });
+    window.addEventListener('offline', () => { updateBanner(false, 'cache'); loadQuranDataOnlineFirst(true); });
 
-    // PWA Service Worker Registration
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js').then(reg => {
-                console.log('Service Worker registered:', reg);
-            }).catch(err => {
-                console.log('Service Worker registration failed:', err);
-            });
-        });
-    }
-
-    // Init App — script ada di akhir body, DOM sudah siap, tidak perlu DOMContentLoaded
-    (async () => {
-        [namaInput, kelasInput, tanggalInput, pengujiInput].forEach(i => i.addEventListener('input', updateAllUI));
-        tanggalInput.addEventListener('change', updateAllUI);
-        document.querySelectorAll('input[name="statusKelulusan"]').forEach(r => r.addEventListener('change', updateAllUI));
-        document.getElementById('resetAllWrongBtn').addEventListener('click', resetAllWrong);
-        document.getElementById('exportPdfBtn').addEventListener('click', exportPiagamPDF);
-
+    document.addEventListener('DOMContentLoaded', async () => {
         document.querySelectorAll('.tab-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 const id = btn.getAttribute('data-tab');
@@ -1154,9 +1132,26 @@
             });
         });
 
-        await fetchAllJuzAmmaWithRetry();
-        updateAllUI();
-    })();
+        [namaInput, kelasInput, pengujiInput, tanggalInput].forEach(i => i.addEventListener('input', updateAllUI));
+        document.querySelectorAll('input[name="statusKelulusan"]').forEach(r => r.addEventListener('change', updateAllUI));
+        document.getElementById('resetAllWrongBtn').addEventListener('click', resetAllWrong);
+        document.getElementById('exportPdfBtn').addEventListener('click', exportPiagamPDF);
+        document.getElementById('forceRefreshBtn').addEventListener('click', forceRefresh);
+
+        await loadQuranDataOnlineFirst(true);
+
+        // Sticky tab bar shadow
+        window.addEventListener('scroll', () => {
+            const tb = document.getElementById('stickyTabBar');
+            if (window.scrollY > 10) tb.classList.add('scrolled');
+            else tb.classList.remove('scrolled');
+        });
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js').catch(e => console.log('SW skip', e));
+        }
+    });
 </script>
 </body>
 </html>
