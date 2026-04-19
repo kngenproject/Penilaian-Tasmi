@@ -1205,15 +1205,16 @@ function renderAyahListWithSurahHeaders() {
             const idx = g.startIndex + j;
             let text = ayah.text;
 
-            // Pisahkan basmalah dari ayat pertama (kecuali At-Taubah)
+            // Tambahkan basmalah di awal setiap surat (kecuali At-Taubah, id=9)
             if (j === 0 && g.surahId !== 9) {
+                // Jika teks ayat sudah mengandung basmalah, hapus dulu agar tidak dobel
                 if (text.startsWith(BASMALAH)) {
-                    const bd = document.createElement('div');
-                    bd.className = 'basmalah-item';
-                    bd.innerText = BASMALAH;
-                    ayatContainer.appendChild(bd);
                     text = text.substring(BASMALAH.length).trim();
                 }
+                const bd = document.createElement('div');
+                bd.className = 'basmalah-item';
+                bd.innerText = BASMALAH;
+                ayatContainer.appendChild(bd);
             }
 
             const div = document.createElement('div');
