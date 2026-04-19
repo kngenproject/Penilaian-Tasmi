@@ -670,6 +670,189 @@
             .ayat-item { font-size: 1.1rem; }
         }
         .app-header { display: none; }
+        /* ===== Perbaikan tampilan radio status kelulusan ===== */
+        .status-selector .radio-group {
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+        .radio-option {
+    flex: 1;
+    min-width: 130px;
+}
+
+        .radio-option label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--cream);
+    border: 2px solid #e0d9cc;
+}
+
+/* Efek hover */
+        .radio-option.lulus label:hover {
+    background: var(--emerald-pale);
+    border-color: var(--emerald);
+    transform: translateY(-1px);
+}
+
+        .radio-option.tidak label:hover {
+    background: var(--red-pale);
+    border-color: var(--red);
+    transform: translateY(-1px);
+}
+
+/* Saat dipilih (checked) */
+        .radio-option.lulus input:checked + label {
+    background: var(--emerald-pale);
+    border-color: var(--emerald);
+    color: var(--emerald);
+    box-shadow: 0 2px 8px rgba(13,92,66,0.15);
+}
+
+        .radio-option.tidak input:checked + label {
+    background: var(--red-pale);
+    border-color: var(--red);
+    color: var(--red);
+    box-shadow: 0 2px 8px rgba(192,57,43,0.15);
+}
+
+/* Efek klik ringan */
+        .radio-option input:checked + label:active {
+    transform: scale(0.98);
+}
+/* ===== Perbaikan tampilan form identitas siswa ===== */
+        .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 18px; /* jarak vertikal & horizontal lebih lega */
+    align-items: start;
+}
+
+/* Input grup */
+        .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Label */
+        .input-group label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--emerald);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    margin-left: 4px;
+}
+
+/* Input & select */
+        .input-group input,
+        .input-group select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    border: 1.5px solid #e0d9cc;
+    border-radius: 14px;
+    background: var(--cream);
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+        .input-group input:focus,
+        .input-group select:focus {
+    border-color: var(--emerald-light);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
+    outline: none;
+}
+
+/* Placeholder lebih halus */
+        .input-group input::placeholder {
+    color: #b3a98c;
+    font-weight: 400;
+    font-size: 0.85rem;
+}
+
+/* Span2 (Nama Lengkap) tetap memenuhi 2 kolom */
+        .form-grid .span2 {
+    grid-column: span 2;
+}
+
+/* Responsif: layar di bawah 640px -> 1 kolom */
+        @media (max-width: 640px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .form-grid .span2 {
+        grid-column: span 1;
+    }
+}
+
+/* Perbaikan untuk layar sangat kecil (opsional) */
+        @media (max-width: 480px) {
+    .input-group input,
+    .input-group select {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+    }
+    .input-group label {
+        font-size: 0.7rem;
+    }
+}
+        /* ===== Timer Section ===== */
+        .timer-section {
+    margin-top: 20px;
+    border-top: 1px solid var(--gold-border);
+    padding-top: 16px;
+}
+        .timer-display {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: 'DM Sans', monospace;
+    text-align: center;
+    background: var(--cream);
+    padding: 12px;
+    border-radius: 16px;
+    border: 1px solid var(--gold-border);
+    letter-spacing: 2px;
+}
+        .timer-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+    justify-content: center;
+}
+        .btn-timer {
+    border: none;
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: 'DM Sans', sans-serif;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+        .btn-timer:hover {
+    transform: translateY(-1px);
+    filter: brightness(0.95);
+}
+        .btn-timer:active {
+    transform: translateY(1px);
+}
+        #timerStartBtn { background: var(--emerald); color: white; }
+        #timerStopBtn { background: var(--muted); color: white; }
+        #timerResetBtn { background: var(--gold); color: white; }
     </style>
 </head>
 <body>
@@ -705,6 +888,16 @@
                     <input type="text" id="namaPenguji" placeholder="Nama guru penguji">
                 </div>
             </div>
+            <!-- Timer Section -->
+            <div class="timer-section">
+    <div class="section-title">⏱️ Timer Tasmi'</div>
+    <div class="timer-display" id="timerDisplay">00:00:00</div>
+    <div class="timer-buttons">
+        <button id="timerStartBtn" class="btn-timer">▶ Mulai</button>
+        <button id="timerStopBtn" class="btn-timer">⏸ Stop</button>
+        <button id="timerResetBtn" class="btn-timer">🔄 Reset</button>
+    </div>
+</div>
         </div>
     </div>
 
@@ -762,6 +955,10 @@
                         <div class="result-info-label">Penguji</div>
                         <div class="result-info-value" id="resPenguji">—</div>
                     </div>
+                    <div class="result-info-item">
+    <div class="result-info-label">⏱️ Durasi Tasmi'</div>
+    <div class="result-info-value" id="resDurasi">00:00:00</div>
+</div>
                 </div>
             </div>
 
@@ -845,9 +1042,10 @@
                 <div><span id="piagamStatusBadge" class="piagam-status lulus">LULUS</span></div>
                 <div class="piagam-divider"><span>✦</span></div>
                 <div class="piagam-footer-row">
-                    <span>📅 <strong id="piagamTanggal">—</strong></span>
-                    <span>👨‍🏫 Penguji: <strong id="piagamPenguji">—</strong></span>
-                </div>
+    <span>📅 <strong id="piagamTanggal">—</strong></span>
+    <span>👨‍🏫 Penguji: <strong id="piagamPenguji">—</strong></span>
+    <span>⏱️ Durasi: <strong id="piagamDurasi">—</strong></span>
+</div>                
             </div>
 
             <button id="exportPdfBtn" class="btn-export">📄 Export Piagam ke PDF (Landscape A4)</button>
@@ -1239,7 +1437,7 @@ async function exportPiagamPDF() {
     const orig = btn.innerText;
     btn.innerText = "⏳ Memproses PDF..."; btn.disabled = true;
     try {
-        const canvas = await html2canvas(piagam, { scale: 3, backgroundColor: '#fffef5', logging: false });
+        const canvas = await html2canvas(piagam, { scale: 2, backgroundColor: '#fffef5', logging: false });
         const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = window.jspdf;
         const pdf = new jsPDF('landscape', 'mm', 'a4');
@@ -1271,7 +1469,66 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
+// ======================== TIMER TASMI' ========================
+let timerSeconds = 0;
+let timerActive = false;
+let timerInterval = null;
 
+const timerDisplay = document.getElementById('timerDisplay');
+const timerStartBtn = document.getElementById('timerStartBtn');
+const timerStopBtn = document.getElementById('timerStopBtn');
+const timerResetBtn = document.getElementById('timerResetBtn');
+const resDurasiElem = document.getElementById('resDurasi');
+const piagamDurasiElem = document.getElementById('piagamDurasi');
+
+function formatTime(seconds) {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updateTimerDisplay() {
+    timerDisplay.textContent = formatTime(timerSeconds);
+    if (resDurasiElem) resDurasiElem.textContent = formatTime(timerSeconds);
+    if (piagamDurasiElem) piagamDurasiElem.textContent = formatTime(timerSeconds);
+}
+
+function startTimer() {
+    if (timerActive) return;
+    timerActive = true;
+    timerInterval = setInterval(() => {
+        if (timerActive) {
+            timerSeconds++;
+            updateTimerDisplay();
+            // Update hasil dan piagam juga (sudah dipanggil di updateTimerDisplay)
+            // Juga panggil updateAllUI() jika diperlukan untuk nilai lain, tapi tidak perlu karena durasi sudah diupdate langsung
+        }
+    }, 1000);
+}
+
+function stopTimer() {
+    if (!timerActive) return;
+    timerActive = false;
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
+function resetTimer() {
+    stopTimer();
+    timerSeconds = 0;
+    updateTimerDisplay();
+}
+
+// Event listener untuk tombol timer
+if (timerStartBtn) timerStartBtn.addEventListener('click', startTimer);
+if (timerStopBtn) timerStopBtn.addEventListener('click', stopTimer);
+if (timerResetBtn) timerResetBtn.addEventListener('click', resetTimer);
+
+// Inisialisasi tampilan durasi
+updateTimerDisplay();
 // Init App
 (function() {
     [namaInput, kelasInput, tanggalInput, pengujiInput].forEach(i => i.addEventListener('input', updateAllUI));
