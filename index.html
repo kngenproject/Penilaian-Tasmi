@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Tasmi' Juz Amma</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -204,69 +204,6 @@
             box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
         }
 
-        /* ===== STOPWATCH ===== */
-        .stopwatch-wrap {
-            background: var(--emerald);
-            border-radius: 20px;
-            padding: 24px 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .stopwatch-wrap::before {
-            content: '';
-            position: absolute;
-            top: -30px; right: -30px;
-            width: 120px; height: 120px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 50%;
-        }
-        .stopwatch-wrap::after {
-            content: '';
-            position: absolute;
-            bottom: -20px; left: -20px;
-            width: 80px; height: 80px;
-            background: rgba(255,255,255,0.04);
-            border-radius: 50%;
-        }
-        .timer-label {
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.5);
-            text-transform: uppercase;
-            margin-bottom: 10px;
-        }
-        .timer-display {
-            font-size: 3.2rem;
-            font-weight: 300;
-            font-family: 'Playfair Display', serif;
-            letter-spacing: 4px;
-            color: var(--white);
-            margin-bottom: 20px;
-            text-shadow: 0 4px 16px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 1;
-        }
-        .timer-display.running { color: #7effd8; }
-
-        .timer-buttons { display: flex; gap: 10px; justify-content: center; position: relative; z-index: 1; }
-        .timer-btn {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.25);
-            padding: 10px 22px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-            backdrop-filter: blur(4px);
-            font-family: 'DM Sans', sans-serif;
-        }
-        .timer-btn:hover { background: rgba(255,255,255,0.25); }
-        .timer-btn.start { background: var(--gold); border-color: var(--gold-light); }
-        .timer-btn.start:hover { background: var(--gold-light); }
 
         /* ===== AYAT LIST ===== */
         .ayat-toolbar {
@@ -300,7 +237,7 @@
         .btn-reset-wrong:hover { border-color: var(--red); color: var(--red); background: var(--red-pale); }
 
         .ayat-list {
-            max-height: 580px;
+            max-height: calc(100vh - 260px);
             overflow-y: auto;
             border-radius: 16px;
             border: 1px solid #ece6da;
@@ -450,7 +387,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            min-width: 200px;
+            min-width: 0;
         }
         .result-info-item {
             background: var(--cream);
@@ -740,6 +677,13 @@
             .score-circle-wrap { flex-direction: row; gap: 16px; align-items: center; }
             .timer-display { font-size: 2.6rem; }
         }
+        @media (max-width: 360px) {
+            .piagam-title { font-size: 1.4rem; }
+            .piagam-name { font-size: 1.2rem; }
+            .piagam-nilai { font-size: 2rem; }
+            .tab-btn { font-size: 0.62rem; padding: 10px 2px; }
+            .ayat-item { font-size: 1.1rem; }
+        }
         .app-header {
           display: none;
         }
@@ -750,13 +694,13 @@
 
     <!-- Tab Bar (navigasi) tetap di bawah header -->
     <div class="tab-bar">
-        <button class="tab-btn active" data-tab="tab1"><span class="tab-icon">📋</span>Data & Waktu</button>
+        <button class="tab-btn active" data-tab="tab1"><span class="tab-icon">📋</span>Data Siswa</button>
         <button class="tab-btn" data-tab="tab2"><span class="tab-icon">📖</span>Juz Amma</button>
         <button class="tab-btn" data-tab="tab3"><span class="tab-icon">📊</span>Hasil</button>
         <button class="tab-btn" data-tab="tab4"><span class="tab-icon">🏅</span>Piagam</button>
     </div>
 
-    <!-- TAB 1: Identitas + Stopwatch -->
+    <!-- TAB 1: Identitas -->
     <div id="tab1" class="tab-content active-tab">
         <div class="card">
             <div class="section-title">Identitas Siswa</div>
@@ -776,19 +720,6 @@
                 <div class="input-group span2">
                     <label>Nama Penguji</label>
                     <input type="text" id="namaPenguji" placeholder="Nama guru penguji">
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="section-title">Stopwatch Tasmi'</div>
-            <div class="stopwatch-wrap">
-                <div class="timer-label">⏱ WAKTU BERJALAN</div>
-                <div class="timer-display" id="timerDisplay">00:00:00</div>
-                <div class="timer-buttons">
-                    <button class="timer-btn start" id="startTimer">▶ Mulai</button>
-                    <button class="timer-btn" id="pauseTimer">⏸ Jeda</button>
-                    <button class="timer-btn" id="resetTimer">↺ Reset</button>
                 </div>
             </div>
         </div>
@@ -938,7 +869,7 @@
             </div>
 
             <button id="exportPdfBtn" class="btn-export">📄 Export Piagam ke PDF (Landscape A4)</button>
-            <p class="export-note">* Piagam akan diekspor dengan data penilaian terbaru</p>
+            <p class="export-note">* Proses PDF bisa memakan waktu lebih lama di HP. Pastikan layar tidak terkunci saat proses berlangsung.</p>
         </div>
     </div>
 
@@ -1149,29 +1080,6 @@
         return true;
     }
 
-    // Stopwatch
-    let timerInterval = null, elapsed = 0, isRunning = false;
-    function formatTime(s) {
-        const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
-        return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
-    }
-    function startTimer() {
-        if (isRunning) return;
-        isRunning = true;
-        timerDisplay.classList.add('running');
-        timerInterval = setInterval(() => { elapsed++; timerDisplay.textContent = formatTime(elapsed); }, 1000);
-    }
-    function pauseTimer() {
-        if (!isRunning) return;
-        clearInterval(timerInterval); isRunning = false;
-        timerDisplay.classList.remove('running');
-    }
-    function resetTimer() {
-        pauseTimer(); elapsed = 0;
-        timerDisplay.textContent = '00:00:00';
-        timerDisplay.classList.remove('running');
-    }
-
     // Export PDF
     async function exportPiagamPDF() {
         const piagam = document.getElementById('piagamCard');
@@ -1201,9 +1109,6 @@
         tanggalInput.addEventListener('change', updateAllUI);
         document.querySelectorAll('input[name="statusKelulusan"]').forEach(r => r.addEventListener('change', updateAllUI));
         document.getElementById('resetAllWrongBtn').addEventListener('click', resetAllWrong);
-        document.getElementById('startTimer').addEventListener('click', startTimer);
-        document.getElementById('pauseTimer').addEventListener('click', pauseTimer);
-        document.getElementById('resetTimer').addEventListener('click', resetTimer);
         document.getElementById('exportPdfBtn').addEventListener('click', exportPiagamPDF);
 
         // Tabs
