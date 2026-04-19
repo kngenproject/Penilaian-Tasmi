@@ -1440,7 +1440,7 @@ async function exportPiagamPDF() {
         const canvas = await html2canvas(piagam, { scale: 2, backgroundColor: '#fffef5', logging: false });
         const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('landscape', 'mm', 'a4');
+        const pdf = new jsPDF('portrait', 'mm', 'a4'); // ← DIUBAH ke portrait
         const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
         const ratio = canvas.width / canvas.height;
         let fw = pw - 20, fh = fw / ratio;
@@ -1451,7 +1451,6 @@ async function exportPiagamPDF() {
     } catch (err) { console.error(err); alert("Gagal generate PDF."); }
     finally { btn.innerText = orig; btn.disabled = false; }
 }
-
 // Sticky Tab Bar Shadow Effect
 const tabBar = document.getElementById('stickyTabBar');
 window.addEventListener('scroll', () => {
