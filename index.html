@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>Tasmi' Juz Amma</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Uthmanic Hafs';
+            src: url('https://cdn.jsdelivr.net/gh/mpcabd/quran-fonts@master/UthmanicHafs1/UthmanicHafs1.woff2') format('woff2');
+            font-weight: normal; font-style: normal; font-display: swap;
+        }
+
+        :root {
+            --emerald: #0d5c42;
+            --emerald-light: #1a7a5a;
+            --emerald-pale: #e8f5ef;
+            --emerald-pale2: #d0ece0;
+            --gold: #b8892a;
+            --gold-light: #d4a63a;
+            --gold-pale: #fdf5e1;
+            --gold-border: #e8d099;
+            --cream: #faf7f2;
+            --cream2: #f3ede4;
+            --ink: #1a1208;
+            --ink2: #3a3020;
+            --muted: #7a7060;
+            --red: #c0392b;
+            --red-pale: #fdecea;
+            --white: #ffffff;
+            --shadow-sm: 0 2px 8px rgba(13,92,66,0.08);
+            --shadow-md: 0 8px 24px rgba(13,92,66,0.12);
+            --shadow-lg: 0 20px 48px rgba(13,92,66,0.16);
+            --radius: 20px;
+            --radius-sm: 12px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background: var(--cream);
+            font-family: 'DM Sans', sans-serif;
+            color: var(--ink);
+            min-height: 100vh;
+        }
+
+        /* ===== PATTERN BACKGROUND ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            background-image:
+                repeating-linear-gradient(45deg, var(--emerald) 0, var(--emerald) 1px, transparent 0, transparent 50%),
+                repeating-linear-gradient(-45deg, var(--emerald) 0, var(--emerald) 1px, transparent 0, transparent 50%);
+            background-size: 28px 28px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app-wrapper {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 20px 16px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== APP HEADER ===== */
+        .app-header {
+            text-align: center;
+            margin-bottom: 28px;
+            padding: 24px 20px;
+            background: var(--white);
+            border-radius: 28px;
+            border: 1px solid var(--gold-border);
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        .app-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--emerald), var(--gold-light), var(--emerald));
+        }
+        .app-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--emerald);
+            letter-spacing: -0.5px;
+        }
+        .app-header p {
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* ===== TAB BAR ===== */
+        .tab-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: var(--white);
+            border-radius: 18px;
+            padding: 5px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gold-border);
+            gap: 4px;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 4px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            border-radius: 13px;
+            color: var(--muted);
+            transition: all 0.25s ease;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            line-height: 1.2;
+        }
+        .tab-btn .tab-icon { font-size: 1.2rem; }
+        .tab-btn.active {
+            background: var(--emerald);
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(13,92,66,0.3);
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 22px 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(184,137,42,0.15);
+            animation: cardIn 0.3s ease;
+        }
+        @keyframes cardIn {
+            from { opacity:0; transform: translateY(12px); }
+            to { opacity:1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--emerald);
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 20px;
+            background: linear-gradient(to bottom, var(--gold), var(--emerald));
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ===== FORM ===== */
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-grid .span2 { grid-column: span 2; }
+
+        .input-group { display: flex; flex-direction: column; gap: 6px; }
+        .input-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--emerald);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .input-group input, .input-group select {
+            padding: 13px 16px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid #e0d9cc;
+            background: var(--cream);
+            font-size: 0.95rem;
+            outline: none;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--ink);
+        }
+        .input-group input:focus {
+            border-color: var(--emerald-light);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
+        }
+
+        /* ===== STOPWATCH ===== */
+        .stopwatch-wrap {
+            background: var(--emerald);
+            border-radius: 20px;
+            padding: 24px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .stopwatch-wrap::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 120px; height: 120px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+        }
+        .stopwatch-wrap::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: -20px;
+            width: 80px; height: 80px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 50%;
+        }
+        .timer-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .timer-display {
+            font-size: 3.2rem;
+            font-weight: 300;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 4px;
+            color: var(--white);
+            margin-bottom: 20px;
+            text-shadow: 0 4px 16px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+        }
+        .timer-display.running { color: #7effd8; }
+
+        .timer-buttons { display: flex; gap: 10px; justify-content: center; position: relative; z-index: 1; }
+        .timer-btn {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.25);
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            backdrop-filter: blur(4px);
+            font-family: 'DM Sans', sans-serif;
+        }
+        .timer-btn:hover { background: rgba(255,255,255,0.25); }
+        .timer-btn.start { background: var(--gold); border-color: var(--gold-light); }
+        .timer-btn.start:hover { background: var(--gold-light); }
+
+        /* ===== AYAT LIST ===== */
+        .ayat-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .ayat-hint {
+            font-size: 0.75rem;
+            color: var(--muted);
+            background: var(--cream);
+            padding: 6px 14px;
+            border-radius: 50px;
+            border: 1px solid var(--gold-border);
+        }
+        .btn-reset-wrong {
+            background: var(--white);
+            border: 1.5px solid #e0d9cc;
+            color: var(--ink2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+        }
+        .btn-reset-wrong:hover { border-color: var(--red); color: var(--red); background: var(--red-pale); }
+
+        .ayat-list {
+            max-height: 580px;
+            overflow-y: auto;
+            border-radius: 16px;
+            border: 1px solid #ece6da;
+            background: var(--cream);
+            padding: 6px;
+            scroll-behavior: smooth;
+        }
+        .ayat-list::-webkit-scrollbar { width: 5px; }
+        .ayat-list::-webkit-scrollbar-track { background: transparent; }
+        .ayat-list::-webkit-scrollbar-thumb { background: var(--emerald-pale2); border-radius: 3px; }
+
+        .surah-header {
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            padding: 11px 18px;
+            margin: 10px 4px 6px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            letter-spacing: 0.5px;
+        }
+        .surah-header .surah-num {
+            background: rgba(255,255,255,0.2);
+            padding: 3px 10px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+        }
+
+        .basmalah-item {
+            direction: rtl;
+            text-align: center;
+            padding: 14px 18px;
+            margin: 6px 4px;
+            font-family: 'Uthmanic Hafs', 'Amiri', 'Noto Naskh Arabic', serif;
+            font-size: 1.55rem;
+            background: var(--gold-pale);
+            border-radius: 12px;
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+            line-height: 2;
+        }
+
+        .ayat-item {
+            direction: rtl;
+            text-align: right;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin: 3px 4px;
+            font-family: 'Uthmanic Hafs', 'Amiri', 'Noto Naskh Arabic', serif;
+            font-size: 1.35rem;
+            line-height: 1.8;
+            cursor: pointer;
+            background: var(--white);
+            transition: all 0.15s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid transparent;
+        }
+        .ayat-item:hover { background: var(--emerald-pale); border-color: var(--emerald-pale2); }
+        .ayat-item:active { transform: scale(0.99); }
+        .ayat-text { flex: 1; font-weight: 400; }
+        .ayat-number {
+            direction: ltr;
+            font-size: 0.68rem;
+            background: var(--cream2);
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-family: 'DM Sans', monospace;
+            font-weight: 700;
+            color: var(--emerald);
+            white-space: nowrap;
+            flex-shrink: 0;
+            border: 1px solid var(--emerald-pale2);
+        }
+        .ayat-item.salah {
+            background: var(--red-pale);
+            border-color: #f5c2be;
+        }
+        .ayat-item.salah .ayat-number {
+            background: #fde0dd;
+            color: var(--red);
+            border-color: #f5c2be;
+        }
+        .ayat-item.salah .ayat-text { color: var(--red); }
+
+        /* ===== RESULT TAB ===== */
+        .result-header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .score-circle-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        .score-circle {
+            width: 100px;
+            height: 100px;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .score-circle svg { transform: rotate(-90deg); }
+        .score-circle .circle-bg { fill: none; stroke: var(--emerald-pale2); stroke-width: 7; }
+        .score-circle .circle-val {
+            fill: none;
+            stroke: var(--emerald);
+            stroke-width: 7;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);
+        }
+        .score-circle-inner {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .score-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--emerald);
+            line-height: 1;
+        }
+        .score-label {
+            font-size: 0.62rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .score-circle-wrap small { font-size: 0.72rem; color: var(--muted); }
+
+        .result-info-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            min-width: 200px;
+        }
+        .result-info-item {
+            background: var(--cream);
+            border: 1px solid #ece6da;
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+        }
+        .result-info-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 2px; }
+        .result-info-value { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
+
+        .result-stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 16px 0;
+        }
+        .stat-box {
+            background: var(--cream);
+            border: 1px solid #ece6da;
+            border-radius: var(--radius-sm);
+            padding: 14px 12px;
+            text-align: center;
+        }
+        .stat-box.highlight { background: var(--emerald-pale); border-color: var(--emerald-pale2); }
+        .stat-box.danger { background: var(--red-pale); border-color: #f5c2be; }
+        .stat-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 800; color: var(--emerald); }
+        .stat-box.danger .stat-value { color: var(--red); }
+        .stat-sub { font-size: 0.7rem; color: var(--muted); font-weight: 500; margin-top: 2px; }
+
+        .status-selector {
+            background: var(--cream);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            border: 1px solid #ece6da;
+        }
+        .status-selector-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--emerald); letter-spacing: 0.5px; margin-bottom: 12px; }
+        .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .radio-option {
+            flex: 1;
+            position: relative;
+        }
+        .radio-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+        .radio-option label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: var(--radius-sm);
+            border: 2px solid #e0d9cc;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.88rem;
+            transition: all 0.2s;
+            background: var(--white);
+        }
+        .radio-option.lulus input:checked + label {
+            border-color: var(--emerald);
+            background: var(--emerald-pale);
+            color: var(--emerald);
+        }
+        .radio-option.tidak input:checked + label {
+            border-color: var(--red);
+            background: var(--red-pale);
+            color: var(--red);
+        }
+
+        /* ===== PIAGAM ===== */
+        .piagam-card {
+            background: linear-gradient(160deg, #fffef5 0%, #fff9ea 50%, #fdf3d8 100%);
+            border: 2px solid var(--gold-border);
+            border-radius: 28px;
+            padding: 36px 28px;
+            text-align: center;
+            box-shadow: 0 12px 40px rgba(184,137,42,0.15), inset 0 1px 0 rgba(255,255,255,0.9);
+            position: relative;
+            overflow: hidden;
+        }
+        .piagam-card::before {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(184,137,42,0.25);
+            border-radius: 22px;
+            pointer-events: none;
+        }
+        .piagam-corner {
+            position: absolute;
+            width: 48px; height: 48px;
+            opacity: 0.2;
+        }
+        .piagam-corner svg { width: 100%; height: 100%; }
+        .piagam-corner.tl { top: 14px; left: 14px; }
+        .piagam-corner.tr { top: 14px; right: 14px; transform: scaleX(-1); }
+        .piagam-corner.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
+        .piagam-corner.br { bottom: 14px; right: 14px; transform: scale(-1); }
+
+        .piagam-arabic {
+            font-family: 'Uthmanic Hafs', 'Amiri', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 6px;
+            line-height: 2;
+        }
+        .piagam-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 10px 0;
+        }
+        .piagam-divider::before, .piagam-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+        }
+        .piagam-divider span { font-size: 0.8rem; color: var(--gold); }
+
+        .piagam-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            position: relative; z-index: 1;
+        }
+        .piagam-subtitle {
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 500;
+        }
+        .piagam-keterangan {
+            font-size: 0.88rem;
+            color: var(--muted);
+            margin: 12px 0;
+            font-style: italic;
+        }
+        .piagam-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--emerald);
+            margin: 4px 0;
+            line-height: 1.2;
+        }
+        .piagam-kelas {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin-bottom: 18px;
+            font-weight: 500;
+        }
+        .piagam-nilai {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--emerald);
+            line-height: 1;
+        }
+        .piagam-status {
+            display: inline-block;
+            padding: 8px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin: 12px 0 18px;
+        }
+        .piagam-status.lulus { background: var(--emerald-pale); color: var(--emerald); border: 2px solid var(--emerald-pale2); }
+        .piagam-status.tidak { background: var(--red-pale); color: var(--red); border: 2px solid #f5c2be; }
+        .piagam-footer-row {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 0.8rem;
+            color: var(--muted);
+            flex-wrap: wrap;
+        }
+        .piagam-footer-row span strong { color: var(--ink2); font-weight: 600; }
+
+        .btn-export {
+            width: 100%;
+            margin-top: 16px;
+            padding: 15px 20px;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            background: var(--emerald);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 4px 16px rgba(13,92,66,0.25);
+        }
+        .btn-export:hover { background: var(--emerald-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,92,66,0.3); }
+        .btn-export:active { transform: translateY(0); }
+        .export-note { font-size: 0.72rem; text-align: center; color: var(--muted); margin-top: 8px; }
+
+        /* ===== TAB CONTENT ===== */
+        .tab-content { display: none; }
+        .tab-content.active-tab { display: block; animation: tabIn 0.25s ease; }
+        @keyframes tabIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== LOADING & ERROR ===== */
+        .loading-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: var(--muted);
+        }
+        .loading-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 14px; }
+        .loading-dots span {
+            width: 8px; height: 8px;
+            background: var(--emerald);
+            border-radius: 50%;
+            animation: bounce 1.2s ease infinite;
+            opacity: 0.6;
+        }
+        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px);opacity:1} }
+        .loading-state p { font-size: 0.85rem; font-weight: 500; }
+
+        .error-retry {
+            text-align: center;
+            padding: 36px 20px;
+            background: var(--red-pale);
+            border-radius: 16px;
+            border: 1px solid #f5c2be;
+        }
+        .error-retry strong { display: block; font-size: 0.95rem; color: var(--red); margin-bottom: 8px; }
+        .error-retry p { font-size: 0.82rem; color: var(--muted); margin-bottom: 16px; }
+        .retry-btn {
+            background: var(--red);
+            color: white;
+            border: none;
+            padding: 11px 28px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.85rem;
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        /* ===== FORMULA INFO ===== */
+        .formula-box {
+            background: var(--emerald-pale);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            margin-top: 14px;
+            font-size: 0.8rem;
+            color: var(--emerald);
+            font-weight: 500;
+            border: 1px solid var(--emerald-pale2);
+            text-align: center;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            font-size: 0.72rem;
+            text-align: center;
+            margin-top: 24px;
+            color: var(--muted);
+            font-weight: 400;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 520px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-grid .span2 { grid-column: span 1; }
+            .tab-btn { font-size: 0.68rem; }
+            .tab-btn .tab-icon { font-size: 1.1rem; }
+            .ayat-item { font-size: 1.2rem; }
+            .basmalah-item { font-size: 1.35rem; }
+            .result-info-grid { grid-template-columns: 1fr 1fr; }
+            .piagam-name { font-size: 1.5rem; }
+            .piagam-nilai { font-size: 2.4rem; }
+            .result-header-row { flex-direction: column; align-items: stretch; }
+            .score-circle-wrap { flex-direction: row; gap: 16px; align-items: center; }
+            .timer-display { font-size: 2.6rem; }
+        }
+        .app-header {
+          display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+
+    <!-- Tab Bar (navigasi) tetap di bawah header -->
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="tab1"><span class="tab-icon">📋</span>Data & Waktu</button>
+        <button class="tab-btn" data-tab="tab2"><span class="tab-icon">📖</span>Juz Amma</button>
+        <button class="tab-btn" data-tab="tab3"><span class="tab-icon">📊</span>Hasil</button>
+        <button class="tab-btn" data-tab="tab4"><span class="tab-icon">🏅</span>Piagam</button>
+    </div>
+
+    <!-- TAB 1: Identitas + Stopwatch -->
+    <div id="tab1" class="tab-content active-tab">
+        <div class="card">
+            <div class="section-title">Identitas Siswa</div>
+            <div class="form-grid">
+                <div class="input-group span2">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="namaSiswa" placeholder="Masukkan nama siswa">
+                </div>
+                <div class="input-group">
+                    <label>Kelas</label>
+                    <input type="text" id="kelasSiswa" placeholder="Contoh: 5A">
+                </div>
+                <div class="input-group">
+                    <label>Tanggal Tasmi'</label>
+                    <input type="date" id="tanggalTasmi">
+                </div>
+                <div class="input-group span2">
+                    <label>Nama Penguji</label>
+                    <input type="text" id="namaPenguji" placeholder="Nama guru penguji">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section-title">Stopwatch Tasmi'</div>
+            <div class="stopwatch-wrap">
+                <div class="timer-label">⏱ WAKTU BERJALAN</div>
+                <div class="timer-display" id="timerDisplay">00:00:00</div>
+                <div class="timer-buttons">
+                    <button class="timer-btn start" id="startTimer">▶ Mulai</button>
+                    <button class="timer-btn" id="pauseTimer">⏸ Jeda</button>
+                    <button class="timer-btn" id="resetTimer">↺ Reset</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: Juz Amma -->
+    <div id="tab2" class="tab-content">
+        <div class="card">
+            <div class="section-title">Ayat Juz Amma</div>
+            <div class="ayat-toolbar">
+                <div class="ayat-hint">👆 Ketuk ayat untuk tandai salah</div>
+                <button id="resetAllWrongBtn" class="btn-reset-wrong">↺ Reset Semua Tanda</button>
+            </div>
+            <div id="ayatContainer" class="ayat-list">
+                <div class="loading-state">
+                    <div class="loading-dots"><span></span><span></span><span></span></div>
+                    <p>Memuat 37 surat Juz Amma...</p>
+                </div>
+            </div>
+            <p style="font-size:0.72rem;margin-top:12px;color:var(--muted);text-align:center;">Basmalah ditampilkan terpisah dan tidak mempengaruhi perhitungan nilai.</p>
+        </div>
+    </div>
+
+    <!-- TAB 3: Hasil Penilaian -->
+    <div id="tab3" class="tab-content">
+        <div class="card">
+            <div class="section-title">Ringkasan Penilaian</div>
+            <div class="result-header-row">
+                <div class="score-circle-wrap">
+                    <div class="score-circle">
+                        <svg viewBox="0 0 100 100" width="100" height="100">
+                            <circle class="circle-bg" cx="50" cy="50" r="42"/>
+                            <circle class="circle-val" id="scoreCirclePath" cx="50" cy="50" r="42"
+                                stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
+                        </svg>
+                        <div class="score-circle-inner">
+                            <div class="score-num" id="resNilaiPersen">0</div>
+                            <div class="score-label">Nilai</div>
+                        </div>
+                    </div>
+                    <small>dari 100</small>
+                </div>
+                <div class="result-info-grid">
+                    <div class="result-info-item">
+                        <div class="result-info-label">Nama</div>
+                        <div class="result-info-value" id="resNama">—</div>
+                    </div>
+                    <div class="result-info-item">
+                        <div class="result-info-label">Kelas</div>
+                        <div class="result-info-value" id="resKelas">—</div>
+                    </div>
+                    <div class="result-info-item">
+                        <div class="result-info-label">Tanggal</div>
+                        <div class="result-info-value" id="resTanggal">—</div>
+                    </div>
+                    <div class="result-info-item">
+                        <div class="result-info-label">Penguji</div>
+                        <div class="result-info-value" id="resPenguji">—</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="result-stats-row">
+                <div class="stat-box">
+                    <div class="stat-value" id="resTotalAyat">0</div>
+                    <div class="stat-sub">Total Ayat</div>
+                </div>
+                <div class="stat-box danger">
+                    <div class="stat-value" id="resJumlahSalah">0</div>
+                    <div class="stat-sub">Kesalahan</div>
+                </div>
+                <div class="stat-box highlight">
+                    <div class="stat-value" id="resBenar">0</div>
+                    <div class="stat-sub">Benar</div>
+                </div>
+            </div>
+
+            <div class="status-selector">
+                <div class="status-selector-label">Status Kelulusan (Manual)</div>
+                <div class="radio-group">
+                    <div class="radio-option lulus">
+                        <input type="radio" name="statusKelulusan" id="radioLulus" value="LULUS" checked>
+                        <label for="radioLulus">✅ LULUS</label>
+                    </div>
+                    <div class="radio-option tidak">
+                        <input type="radio" name="statusKelulusan" id="radioTidak" value="TIDAK LULUS">
+                        <label for="radioTidak">❌ TIDAK LULUS</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formula-box">
+                📌 Nilai = 100 − (jumlah salah ÷ total ayat × 100)
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: Piagam + Export -->
+    <div id="tab4" class="tab-content">
+        <div class="card" style="padding:0;background:transparent;border:none;box-shadow:none;">
+            <div id="piagamCard" class="piagam-card">
+                <!-- Ornamen sudut -->
+                <div class="piagam-corner tl">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
+                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
+                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
+                    </svg>
+                </div>
+                <div class="piagam-corner tr">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
+                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
+                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
+                    </svg>
+                </div>
+                <div class="piagam-corner bl">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
+                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
+                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
+                    </svg>
+                </div>
+                <div class="piagam-corner br">
+                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
+                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
+                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
+                    </svg>
+                </div>
+
+                <div class="piagam-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
+                <div class="piagam-divider"><span>✦</span></div>
+                <div class="piagam-subtitle">Piagam Penghargaan</div>
+                <div class="piagam-title">TASMI' JUZ AMMA</div>
+                <div class="piagam-keterangan">Diberikan kepada</div>
+                <div class="piagam-name" id="piagamNama">Nama Siswa</div>
+                <div class="piagam-kelas" id="piagamKelas">Kelas —</div>
+                <div class="piagam-keterangan">✨ Telah menyelesaikan Tasmi' Juz Amma dengan nilai ✨</div>
+                <div class="piagam-nilai" id="piagamNilai">—%</div>
+                <div><span id="piagamStatusBadge" class="piagam-status lulus">LULUS</span></div>
+                <div class="piagam-divider"><span>✦</span></div>
+                <div class="piagam-footer-row">
+                    <span>📅 <strong id="piagamTanggal">—</strong></span>
+                    <span>👨‍🏫 Penguji: <strong id="piagamPenguji">—</strong></span>
+                </div>
+            </div>
+
+            <button id="exportPdfBtn" class="btn-export">📄 Export Piagam ke PDF (Landscape A4)</button>
+            <p class="export-note">* Piagam akan diekspor dengan data penilaian terbaru</p>
+        </div>
+    </div>
+
+    <footer>Tasmi' Juz Amma · Klik ayat untuk tandai kesalahan · Basmalah dipisah dari penilaian</footer>
+</div>
+
+<script>
+    let allAyahs = [];
+    let wrongStatus = [];
+    let totalAyat = 0;
+    let ayatElements = [];
+
+    const ayatContainer = document.getElementById('ayatContainer');
+    const namaInput = document.getElementById('namaSiswa');
+    const kelasInput = document.getElementById('kelasSiswa');
+    const tanggalInput = document.getElementById('tanggalTasmi');
+    const pengujiInput = document.getElementById('namaPenguji');
+
+    const resNama = document.getElementById('resNama');
+    const resKelas = document.getElementById('resKelas');
+    const resTanggal = document.getElementById('resTanggal');
+    const resPenguji = document.getElementById('resPenguji');
+    const resTotalAyat = document.getElementById('resTotalAyat');
+    const resJumlahSalah = document.getElementById('resJumlahSalah');
+    const resNilaiPersen = document.getElementById('resNilaiPersen');
+    const resBenar = document.getElementById('resBenar');
+
+    const piagamNama = document.getElementById('piagamNama');
+    const piagamKelas = document.getElementById('piagamKelas');
+    const piagamTanggal = document.getElementById('piagamTanggal');
+    const piagamPenguji = document.getElementById('piagamPenguji');
+    const piagamNilai = document.getElementById('piagamNilai');
+    const piagamStatusBadge = document.getElementById('piagamStatusBadge');
+    const scoreCirclePath = document.getElementById('scoreCirclePath');
+    const timerDisplay = document.getElementById('timerDisplay');
+
+    function getCurrentStatus() {
+        return document.querySelector('input[name="statusKelulusan"]:checked').value;
+    }
+    function computeNilai() {
+        if (totalAyat === 0) return 0;
+        const salah = wrongStatus.filter(v => v).length;
+        return Math.round(100 - (salah / totalAyat) * 100);
+    }
+    function updateScoreCircle(nilai) {
+        const circumference = 263.9;
+        const offset = circumference - (nilai / 100) * circumference;
+        scoreCirclePath.style.strokeDashoffset = offset;
+        // Color based on score
+        if (nilai >= 80) scoreCirclePath.style.stroke = '#0d5c42';
+        else if (nilai >= 60) scoreCirclePath.style.stroke = '#b8892a';
+        else scoreCirclePath.style.stroke = '#c0392b';
+    }
+    function updateAllUI() {
+        const nama = namaInput.value.trim() || "—";
+        const kelas = kelasInput.value.trim() || "—";
+        const tanggal = tanggalInput.value ? formatTanggal(tanggalInput.value) : "—";
+        const penguji = pengujiInput.value.trim() || "—";
+        const salah = wrongStatus.filter(v => v).length;
+        const benar = totalAyat - salah;
+        const nilai = computeNilai();
+        const status = getCurrentStatus();
+
+        resNama.textContent = nama;
+        resKelas.textContent = kelas;
+        resTanggal.textContent = tanggal;
+        resPenguji.textContent = penguji;
+        resTotalAyat.textContent = totalAyat;
+        resJumlahSalah.textContent = salah;
+        resBenar.textContent = benar;
+        resNilaiPersen.textContent = nilai;
+        updateScoreCircle(nilai);
+
+        piagamNama.textContent = nama === "—" ? "Nama Siswa" : nama;
+        piagamKelas.textContent = kelas === "—" ? "Kelas —" : `Kelas ${kelas}`;
+        piagamTanggal.textContent = tanggal;
+        piagamPenguji.textContent = penguji;
+        piagamNilai.textContent = `${nilai}%`;
+        piagamStatusBadge.textContent = status;
+        piagamStatusBadge.className = `piagam-status ${status === 'LULUS' ? 'lulus' : 'tidak'}`;
+    }
+    function formatTanggal(dateStr) {
+        if (!dateStr) return "—";
+        const d = new Date(dateStr + "T00:00:00");
+        return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    function toggleWrong(index) {
+        if (index < 0 || index >= totalAyat) return;
+        wrongStatus[index] = !wrongStatus[index];
+        const el = ayatElements[index];
+        if (el) el.classList.toggle('salah', wrongStatus[index]);
+        updateAllUI();
+    }
+    function resetAllWrong() {
+        for (let i = 0; i < totalAyat; i++) {
+            wrongStatus[i] = false;
+            if (ayatElements[i]) ayatElements[i].classList.remove('salah');
+        }
+        updateAllUI();
+    }
+
+    function splitBasmalah(text) {
+        const b = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
+        if (text.startsWith(b)) return { basmalah: b, remaining: text.substring(b.length).trim() };
+        if (text.includes(b)) return { basmalah: b, remaining: text.replace(b, "").trim() };
+        return null;
+    }
+
+    function renderAyahListWithSurahHeaders() {
+        if (!allAyahs.length) {
+            ayatContainer.innerHTML = `<div class="error-retry">
+                <strong>⚠️ Belum ada data ayat</strong>
+                <p>Coba muat ulang halaman</p>
+                <button class="retry-btn" id="manualRetryBtn">🔄 Muat Ulang</button>
+            </div>`;
+            document.getElementById('manualRetryBtn')?.addEventListener('click', fetchAllJuzAmmaWithRetry);
+            return;
+        }
+        const grouped = [];
+        let curId = null, curName = null, curAyahs = [];
+        for (let i = 0; i < allAyahs.length; i++) {
+            const a = allAyahs[i];
+            if (curId !== a.surahId) {
+                if (curAyahs.length > 0) grouped.push({ surahId: curId, surahName: curName, ayahs: [...curAyahs], startIndex: i - curAyahs.length });
+                curId = a.surahId; curName = a.surahName; curAyahs = [a];
+            } else { curAyahs.push(a); }
+        }
+        if (curAyahs.length > 0) grouped.push({ surahId: curId, surahName: curName, ayahs: [...curAyahs], startIndex: allAyahs.length - curAyahs.length });
+
+        ayatContainer.innerHTML = '';
+        ayatElements = [];
+        for (const g of grouped) {
+            const hdr = document.createElement('div');
+            hdr.className = 'surah-header';
+            hdr.innerHTML = `<span>📖 ${g.surahName}</span><span class="surah-num">${g.surahId}</span>`;
+            ayatContainer.appendChild(hdr);
+            for (let j = 0; j < g.ayahs.length; j++) {
+                const ayah = g.ayahs[j];
+                const idx = g.startIndex + j;
+                let text = ayah.text;
+                if (j === 0 && g.surahId !== 9) {
+                    const split = splitBasmalah(text);
+                    if (split) {
+                        const bd = document.createElement('div');
+                        bd.className = 'basmalah-item';
+                        bd.innerText = split.basmalah;
+                        ayatContainer.appendChild(bd);
+                        text = split.remaining;
+                    }
+                }
+                const div = document.createElement('div');
+                div.className = 'ayat-item';
+                if (wrongStatus[idx]) div.classList.add('salah');
+                const ts = document.createElement('span');
+                ts.className = 'ayat-text'; ts.innerText = text;
+                const ns = document.createElement('span');
+                ns.className = 'ayat-number'; ns.innerText = `⦿ ${ayah.ayahNum}`;
+                div.appendChild(ts); div.appendChild(ns);
+                div.addEventListener('click', e => { e.stopPropagation(); toggleWrong(idx); });
+                ayatContainer.appendChild(div);
+                ayatElements[idx] = div;
+            }
+        }
+    }
+
+    async function fetchSurahWithRetry(id, retries = 2) {
+        const url = `https://api.alquran.cloud/v1/surah/${id}?edition=quran-uthmani`;
+        for (let attempt = 0; attempt <= retries; attempt++) {
+            try {
+                const r = await fetch(url);
+                if (!r.ok) throw new Error(`HTTP ${r.status}`);
+                const d = await r.json();
+                if (d?.data?.ayahs) return d.data;
+                throw new Error('Invalid structure');
+            } catch (err) {
+                if (attempt === retries) throw err;
+                await new Promise(r => setTimeout(r, 800));
+            }
+        }
+    }
+
+    async function fetchAllJuzAmmaWithRetry() {
+        ayatContainer.innerHTML = `<div class="loading-state">
+            <div class="loading-dots"><span></span><span></span><span></span></div>
+            <p>Memuat seluruh 37 surat Juz Amma...<br>Pastikan koneksi internet stabil.</p>
+        </div>`;
+        const temp = []; const failed = [];
+        for (let s = 78; s <= 114; s++) {
+            try {
+                const d = await fetchSurahWithRetry(s, 2);
+                for (const a of d.ayahs) temp.push({ text: a.text, surahName: d.name, ayahNum: a.numberInSurah, surahId: s });
+            } catch { failed.push(s); }
+        }
+        if (temp.length === 0) {
+            ayatContainer.innerHTML = `<div class="error-retry">
+                <strong>❌ Gagal memuat semua ayat</strong>
+                <p>Periksa koneksi internet Anda</p>
+                <button class="retry-btn" id="forceRetryBtn">🔄 Coba Muat Ulang</button>
+            </div>`;
+            document.getElementById('forceRetryBtn')?.addEventListener('click', fetchAllJuzAmmaWithRetry);
+            return false;
+        }
+        allAyahs = temp;
+        totalAyat = allAyahs.length;
+        wrongStatus = new Array(totalAyat).fill(false);
+        renderAyahListWithSurahHeaders();
+        updateAllUI();
+        return true;
+    }
+
+    // Stopwatch
+    let timerInterval = null, elapsed = 0, isRunning = false;
+    function formatTime(s) {
+        const h = Math.floor(s/3600), m = Math.floor((s%3600)/60), sec = s%60;
+        return `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    }
+    function startTimer() {
+        if (isRunning) return;
+        isRunning = true;
+        timerDisplay.classList.add('running');
+        timerInterval = setInterval(() => { elapsed++; timerDisplay.textContent = formatTime(elapsed); }, 1000);
+    }
+    function pauseTimer() {
+        if (!isRunning) return;
+        clearInterval(timerInterval); isRunning = false;
+        timerDisplay.classList.remove('running');
+    }
+    function resetTimer() {
+        pauseTimer(); elapsed = 0;
+        timerDisplay.textContent = '00:00:00';
+        timerDisplay.classList.remove('running');
+    }
+
+    // Export PDF
+    async function exportPiagamPDF() {
+        const piagam = document.getElementById('piagamCard');
+        if (!piagam) return;
+        const btn = document.getElementById('exportPdfBtn');
+        const orig = btn.innerText;
+        btn.innerText = "⏳ Memproses PDF..."; btn.disabled = true;
+        try {
+            const canvas = await html2canvas(piagam, { scale: 3, backgroundColor: '#fffef5', logging: false });
+            const imgData = canvas.toDataURL('image/png');
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF('landscape', 'mm', 'a4');
+            const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
+            const ratio = canvas.width / canvas.height;
+            let fw = pw - 20, fh = fw / ratio;
+            if (fh > ph - 20) { fh = ph - 20; fw = fh * ratio; }
+            pdf.addImage(imgData, 'PNG', (pw-fw)/2, (ph-fh)/2, fw, fh);
+            const nm = (namaInput.value.trim() || "Siswa").replace(/[^a-z0-9]/gi, '_');
+            pdf.save(`Piagam_Tasmi_${nm}.pdf`);
+        } catch (err) { console.error(err); alert("Gagal generate PDF."); }
+        finally { btn.innerText = orig; btn.disabled = false; }
+    }
+
+    // Init
+    window.addEventListener('DOMContentLoaded', async () => {
+        [namaInput, kelasInput, tanggalInput, pengujiInput].forEach(i => i.addEventListener('input', updateAllUI));
+        tanggalInput.addEventListener('change', updateAllUI);
+        document.querySelectorAll('input[name="statusKelulusan"]').forEach(r => r.addEventListener('change', updateAllUI));
+        document.getElementById('resetAllWrongBtn').addEventListener('click', resetAllWrong);
+        document.getElementById('startTimer').addEventListener('click', startTimer);
+        document.getElementById('pauseTimer').addEventListener('click', pauseTimer);
+        document.getElementById('resetTimer').addEventListener('click', resetTimer);
+        document.getElementById('exportPdfBtn').addEventListener('click', exportPiagamPDF);
+
+        // Tabs
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = btn.getAttribute('data-tab');
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active-tab'));
+                document.getElementById(id)?.classList.add('active-tab');
+            });
+        });
+
+        await fetchAllJuzAmmaWithRetry();
+        updateAllUI();
+    });
+</script>
+</body>
+</html>
