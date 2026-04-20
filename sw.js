@@ -6,18 +6,9 @@ const urlsToCache = [
   './index.html',
   './manifest.json',
   
-  // Font Arab (Uthmanic Hafs) – pastikan path sesuai
-  // Jika font disimpan lokal di folder fonts/
-  './fonts/UthmanicHafs1.woff2',
-  // Atau jika tetap menggunakan CDN, tambahkan juga URL CDN-nya
-  'https://cdn.jsdelivr.net/gh/mpcabd/quran-fonts@master/UthmanicHafs1/UthmanicHafs1.woff2',
-  
   // Library eksternal
   'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
-  
-  // Google Fonts (preconnect dan stylesheet) – opsional, tapi tidak semua bisa di-cache karena dinamis
-  // Lebih baik tidak usah, atau cache font spesifik dari Google jika diperlukan
 ];
 
 // Event Install: cache semua asset penting
@@ -25,12 +16,9 @@ self.addEventListener('install', event => {
   self.skipWaiting(); // aktifkan SW baru segera
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      // Menggunakan Promise.allSettled agar satu gagal tidak menghentikan semua
-      return Promise.allSettled(
-        urlsToCache.map(url => 
-          cache.add(url).catch(err => console.warn('Gagal cache:', url, err))
-        )
-      );
+      return Promise.all(
+        urlsToCache.map(url => cache.add(url).catch(err => console.warn('Gagal cache:', url)))
+      ).catch(() => {});
     })
   );
 });
