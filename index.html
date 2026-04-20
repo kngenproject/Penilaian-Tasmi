@@ -10,6 +10,9 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json">
     
+    <!-- Ikon untuk PWA -->
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/0d5c42/white?text=Tasmi">
+    
     <!-- Library External -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -19,7 +22,7 @@
     <style>
         @font-face {
             font-family: 'Uthmanic Hafs';
-            src: url('https://cdn.rawcdn.com/mpcabd/quran-fonts/master/UthmanicHafs1/UthmanicHafs1.woff2') format('woff2');
+            src: url('https://cdn.jsdelivr.net/gh/mpcabd/quran-fonts@master/UthmanicHafs1/UthmanicHafs1.woff2') format('woff2');
             font-weight: normal; font-style: normal; font-display: swap;
         }
 
@@ -77,33 +80,25 @@
             z-index: 1;
         }
 
+        /* ===== HEADER SIMPEL ===== */
         .app-header {
             text-align: center;
-            margin-bottom: 28px;
-            padding: 24px 20px;
+            margin-bottom: 20px;
+            padding: 12px 16px;
             background: var(--white);
-            border-radius: 28px;
+            border-radius: 24px;
             border: 1px solid var(--gold-border);
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-        .app-header::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--emerald), var(--gold-light), var(--emerald));
+            box-shadow: var(--shadow-sm);
         }
         .app-header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
-            font-weight: 800;
+            font-size: 1.5rem;
+            font-weight: 700;
             color: var(--emerald);
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
         }
         .app-header p {
-            font-size: 0.82rem;
+            font-size: 0.75rem;
             color: var(--muted);
             margin-top: 4px;
             font-weight: 400;
@@ -658,6 +653,8 @@
             .piagam-nilai { font-size: 2.4rem; }
             .result-header-row { flex-direction: column; align-items: stretch; }
             .score-circle-wrap { flex-direction: row; gap: 16px; align-items: center; }
+            .app-header h1 { font-size: 1.2rem; }
+            .app-header p { font-size: 0.65rem; }
         }
         @media (max-width: 360px) {
             .piagam-title { font-size: 1.4rem; }
@@ -666,199 +663,60 @@
             .tab-btn { font-size: 0.62rem; padding: 10px 2px; }
             .ayat-item { font-size: 1.1rem; }
         }
-        .app-header { display: none; }
-        /* ===== Perbaikan tampilan radio status kelulusan ===== */
-        .status-selector .radio-group {
-    gap: 16px;
-    flex-wrap: wrap;
-}
 
-        .radio-option {
-    flex: 1;
-    min-width: 130px;
-}
-
-        .radio-option label {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 12px 16px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    background: var(--cream);
-    border: 2px solid #e0d9cc;
-}
-
-/* Efek hover */
-        .radio-option.lulus label:hover {
-    background: var(--emerald-pale);
-    border-color: var(--emerald);
-    transform: translateY(-1px);
-}
-
-        .radio-option.tidak label:hover {
-    background: var(--red-pale);
-    border-color: var(--red);
-    transform: translateY(-1px);
-}
-
-/* Saat dipilih (checked) */
-        .radio-option.lulus input:checked + label {
-    background: var(--emerald-pale);
-    border-color: var(--emerald);
-    color: var(--emerald);
-    box-shadow: 0 2px 8px rgba(13,92,66,0.15);
-}
-
-        .radio-option.tidak input:checked + label {
-    background: var(--red-pale);
-    border-color: var(--red);
-    color: var(--red);
-    box-shadow: 0 2px 8px rgba(192,57,43,0.15);
-}
-
-/* Efek klik ringan */
-        .radio-option input:checked + label:active {
-    transform: scale(0.98);
-}
-/* ===== Perbaikan tampilan form identitas siswa ===== */
-        .form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px 18px; /* jarak vertikal & horizontal lebih lega */
-    align-items: start;
-}
-
-/* Input grup */
-        .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-/* Label */
-        .input-group label {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--emerald);
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
-    margin-left: 4px;
-}
-
-/* Input & select */
-        .input-group input,
-        .input-group select {
-    width: 100%;
-    padding: 12px 16px;
-    font-size: 0.95rem;
-    font-family: 'DM Sans', sans-serif;
-    border: 1.5px solid #e0d9cc;
-    border-radius: 14px;
-    background: var(--cream);
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-}
-
-        .input-group input:focus,
-        .input-group select:focus {
-    border-color: var(--emerald-light);
-    background: var(--white);
-    box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
-    outline: none;
-}
-
-/* Placeholder lebih halus */
-        .input-group input::placeholder {
-    color: #b3a98c;
-    font-weight: 400;
-    font-size: 0.85rem;
-}
-
-/* Span2 (Nama Lengkap) tetap memenuhi 2 kolom */
-        .form-grid .span2 {
-    grid-column: span 2;
-}
-
-/* Responsif: layar di bawah 640px -> 1 kolom */
-        @media (max-width: 640px) {
-    .form-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    .form-grid .span2 {
-        grid-column: span 1;
-    }
-}
-
-/* Perbaikan untuk layar sangat kecil (opsional) */
-        @media (max-width: 480px) {
-    .input-group input,
-    .input-group select {
-        padding: 10px 14px;
-        font-size: 0.9rem;
-    }
-    .input-group label {
-        font-size: 0.7rem;
-    }
-}
-        /* ===== Timer Section ===== */
         .timer-section {
-    margin-top: 20px;
-    border-top: 1px solid var(--gold-border);
-    padding-top: 16px;
-}
+            margin-top: 20px;
+            border-top: 1px solid var(--gold-border);
+            padding-top: 16px;
+        }
         .timer-display {
-    font-size: 2rem;
-    font-weight: 700;
-    font-family: 'DM Sans', monospace;
-    text-align: center;
-    background: var(--cream);
-    padding: 12px;
-    border-radius: 16px;
-    border: 1px solid var(--gold-border);
-    letter-spacing: 2px;
-}
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: 'DM Sans', monospace;
+            text-align: center;
+            background: var(--cream);
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid var(--gold-border);
+            letter-spacing: 2px;
+        }
         .timer-buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 12px;
-    justify-content: center;
-}
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+            justify-content: center;
+        }
         .btn-timer {
-    border: none;
-    padding: 8px 20px;
-    border-radius: 40px;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-family: 'DM Sans', sans-serif;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-        .btn-timer:hover {
-    transform: translateY(-1px);
-    filter: brightness(0.95);
-}
-        .btn-timer:active {
-    transform: translateY(1px);
-}
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'DM Sans', sans-serif;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .btn-timer:hover { transform: translateY(-1px); filter: brightness(0.95); }
+        .btn-timer:active { transform: translateY(1px); }
         #timerStartBtn { background: var(--emerald); color: white; }
         #timerStopBtn { background: var(--muted); color: white; }
         #timerResetBtn { background: var(--gold); color: white; }
-        /* Mencegah pull-to-refresh dan overscroll di seluruh halaman */
+
         html, body {
-    overscroll-behavior-y: contain;
-    overscroll-behavior-x: none;
-}
+            overscroll-behavior-y: contain;
+            overscroll-behavior-x: none;
+        }
     </style>
 </head>
 <body>
 <div class="app-wrapper">
+
+    <!-- HEADER SIMPEL -->
+    <div class="app-header">
+        <h1>Tasmi' Juz Amma</h1>
+        <p>Penilaian Hafalan Juz Amma</p>
+    </div>
 
     <!-- Sticky Tab Bar -->
     <div class="tab-bar" id="stickyTabBar">
@@ -892,14 +750,14 @@
             </div>
             <!-- Timer Section -->
             <div class="timer-section">
-    <div class="section-title">⏱️ Timer Tasmi'</div>
-    <div class="timer-display" id="timerDisplay">00:00:00</div>
-    <div class="timer-buttons">
-        <button id="timerStartBtn" class="btn-timer">▶ Mulai</button>
-        <button id="timerStopBtn" class="btn-timer">⏸ Stop</button>
-        <button id="timerResetBtn" class="btn-timer">🔄 Reset</button>
-    </div>
-</div>
+                <div class="section-title">⏱️ Timer Tasmi'</div>
+                <div class="timer-display" id="timerDisplay">00:00:00</div>
+                <div class="timer-buttons">
+                    <button id="timerStartBtn" class="btn-timer">▶ Mulai</button>
+                    <button id="timerStopBtn" class="btn-timer">⏸ Stop</button>
+                    <button id="timerResetBtn" class="btn-timer">🔄 Reset</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -958,9 +816,9 @@
                         <div class="result-info-value" id="resPenguji">—</div>
                     </div>
                     <div class="result-info-item">
-    <div class="result-info-label">⏱️ Durasi Tasmi'</div>
-    <div class="result-info-value" id="resDurasi">00:00:00</div>
-</div>
+                        <div class="result-info-label">⏱️ Durasi Tasmi'</div>
+                        <div class="result-info-value" id="resDurasi">00:00:00</div>
+                    </div>
                 </div>
             </div>
 
@@ -1044,10 +902,10 @@
                 <div><span id="piagamStatusBadge" class="piagam-status lulus">LULUS</span></div>
                 <div class="piagam-divider"><span>✦</span></div>
                 <div class="piagam-footer-row">
-    <span>📅 <strong id="piagamTanggal">—</strong></span>
-    <span>Penguji: <strong id="piagamPenguji">—</strong></span>
-    <span>Durasi: <strong id="piagamDurasi">—</strong></span>
-</div>                
+                    <span>📅 <strong id="piagamTanggal">—</strong></span>
+                    <span>Penguji: <strong id="piagamPenguji">—</strong></span>
+                    <span>Durasi: <strong id="piagamDurasi">—</strong></span>
+                </div>                
             </div>
 
             <button id="exportPdfBtn" class="btn-export">📄 Export Piagam ke PDF (Portrait A4)</button>
@@ -1060,7 +918,6 @@
 
 <script>
 // ======================== DATA JUZ AMMA (EMBEDDED — OFFLINE) ========================
-// Data ayat Juz Amma (Surah 78-114) Quran Uthmani — tidak perlu internet
 const JUZ_AMMA_DATA = [
   {id:78,name:"An-Naba'",ayahs:[
     {n:1,t:"عَمَّ يَتَسَاءَلُونَ"},{n:2,t:"عَنِ النَّبَإِ الْعَظِيمِ"},{n:3,t:"الَّذِي هُمْ فِيهِ مُخْتَلِفُونَ"},{n:4,t:"كَلَّا سَيَعْلَمُونَ"},{n:5,t:"ثُمَّ كَلَّا سَيَعْلَمُونَ"},
@@ -1265,10 +1122,9 @@ const JUZ_AMMA_DATA = [
   ]}
 ];
 
-// Basmalah yang dipisah dari teks ayat pertama
 const BASMALAH = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ";
 
-// ======================== LOGIKA UTAMA APLIKASI ========================
+// ======================== LOGIKA UTAMA ========================
 let allAyahs = [];
 let wrongStatus = [];
 let totalAyat = 0;
@@ -1361,7 +1217,6 @@ function resetAllWrong() {
     updateAllUI();
 }
 
-// ======================== LOAD DATA LOKAL (OFFLINE) ========================
 function loadJuzAmmaLocal() {
     const temp = [];
     for (const surah of JUZ_AMMA_DATA) {
@@ -1404,10 +1259,7 @@ function renderAyahListWithSurahHeaders() {
             const ayah = g.ayahs[j];
             const idx = g.startIndex + j;
             let text = ayah.text;
-
-            // Tambahkan basmalah di awal setiap surat (kecuali At-Taubah, id=9)
             if (j === 0 && g.surahId !== 9) {
-                // Jika teks ayat sudah mengandung basmalah, hapus dulu agar tidak dobel
                 if (text.startsWith(BASMALAH)) {
                     text = text.substring(BASMALAH.length).trim();
                 }
@@ -1416,7 +1268,6 @@ function renderAyahListWithSurahHeaders() {
                 bd.innerText = BASMALAH;
                 ayatContainer.appendChild(bd);
             }
-
             const div = document.createElement('div');
             div.className = 'ayat-item';
             if (wrongStatus[idx]) div.classList.add('salah');
@@ -1442,7 +1293,7 @@ async function exportPiagamPDF() {
         const canvas = await html2canvas(piagam, { scale: 2, backgroundColor: '#fffef5', logging: false });
         const imgData = canvas.toDataURL('image/png');
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('portrait', 'mm', 'a4'); // ← DIUBAH ke portrait
+        const pdf = new jsPDF('portrait', 'mm', 'a4');
         const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
         const ratio = canvas.width / canvas.height;
         let fw = pw - 20, fh = fw / ratio;
@@ -1453,14 +1304,15 @@ async function exportPiagamPDF() {
     } catch (err) { console.error(err); alert("Gagal generate PDF."); }
     finally { btn.innerText = orig; btn.disabled = false; }
 }
-// Sticky Tab Bar Shadow Effect
+
+// Sticky Tab Bar Shadow
 const tabBar = document.getElementById('stickyTabBar');
 window.addEventListener('scroll', () => {
     if (window.scrollY > 10) tabBar.classList.add('scrolled');
     else tabBar.classList.remove('scrolled');
 });
 
-// PWA Service Worker Registration
+// Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').then(reg => {
@@ -1470,7 +1322,8 @@ if ('serviceWorker' in navigator) {
         });
     });
 }
-// ======================== TIMER TASMI' ========================
+
+// ======================== TIMER ========================
 let timerSeconds = 0;
 let timerActive = false;
 let timerInterval = null;
@@ -1502,8 +1355,6 @@ function startTimer() {
         if (timerActive) {
             timerSeconds++;
             updateTimerDisplay();
-            // Update hasil dan piagam juga (sudah dipanggil di updateTimerDisplay)
-            // Juga panggil updateAllUI() jika diperlukan untuk nilai lain, tapi tidak perlu karena durasi sudah diupdate langsung
         }
     }, 1000);
 }
@@ -1523,14 +1374,12 @@ function resetTimer() {
     updateTimerDisplay();
 }
 
-// Event listener untuk tombol timer
-if (timerStartBtn) timerStartBtn.addEventListener('click', startTimer);
-if (timerStopBtn) timerStopBtn.addEventListener('click', stopTimer);
-if (timerResetBtn) timerResetBtn.addEventListener('click', resetTimer);
-
-// Inisialisasi tampilan durasi
+timerStartBtn.addEventListener('click', startTimer);
+timerStopBtn.addEventListener('click', stopTimer);
+timerResetBtn.addEventListener('click', resetTimer);
 updateTimerDisplay();
-// Init App
+
+// ======================== INIT ========================
 (function() {
     [namaInput, kelasInput, tanggalInput, pengujiInput].forEach(i => i.addEventListener('input', updateAllUI));
     tanggalInput.addEventListener('change', updateAllUI);
@@ -1548,7 +1397,6 @@ updateTimerDisplay();
         });
     });
 
-    // Load data lokal — tidak perlu internet
     loadJuzAmmaLocal();
     updateAllUI();
 })();
