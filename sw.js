@@ -1,62 +1,100 @@
-const CACHE_NAME = 'tasmi-cache-v3';
+const CACHE_NAME = 'tasmi-cache-v4'; // ubah versi jika ada update
 
-// Resource yang di-cache saat install
+// Daftar resource yang wajib di-cache saat install
 const urlsToCache = [
   './',
   './index.html',
+  './manifest.json',
+  
+  // Font Arab (Uthmanic Hafs) – pastikan path sesuai
+  // Jika font disimpan lokal di folder fonts/
+  './fonts/UthmanicHafs1.woff2',
+  // Atau jika tetap menggunakan CDN, tambahkan juga URL CDN-nya
+  'https://cdn.jsdelivr.net/gh/mpcabd/quran-fonts@master/UthmanicHafs1/UthmanicHafs1.woff2',
+  
+  // Library eksternal
   'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
-  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
+  'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+  
+  // Google Fonts (preconnect dan stylesheet) – opsional, tapi tidak semua bisa di-cache karena dinamis
+  // Lebih baik tidak usah, atau cache font spesifik dari Google jika diperlukan
 ];
 
+// Event Install: cache semua asset penting
 self.addEventListener('install', event => {
-  self.skipWaiting();
+  self.skipWaiting(); // aktifkan SW baru segera
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache => {
-      // addAll diganti add satu-satu agar satu gagal tidak blokir semua
+      // Menggunakan Promise.allSettled agar satu gagal tidak menghentikan semua
       return Promise.allSettled(
-        urlsToCache.map(url => cache.add(url).catch(err => console.warn('Cache miss:', url, err)))
+        urlsToCache.map(url => 
+          cache.add(url).catch(err => console.warn('Gagal cache:', url, err))
+        )
       );
     })
   );
 });
 
+// Event Activate: hapus cache lama dan claim client
 self.addEventListener('activate', event => {
   event.waitUntil(
     Promise.all([
-      caches.keys().then(keys => Promise.all(
-        keys.map(key => { if (key !== CACHE_NAME) return caches.delete(key); })
-      )),
-      self.clients.claim()
+      caches.keys().then(keys => 
+        Promise.all(
+          keys.map(key => {
+            if (key !== CACHE_NAME) {
+              console.log('Menghapus cache lama:', key);
+              return caches.delete(key);
+            }
+          })
+        )
+      ),
+      self.clients.claim() // mengambil kontrol semua client segera
     ])
   );
 });
 
+// Event Fetch: strategi Cache First, fallback ke network, lalu offline fallback
 self.addEventListener('fetch', event => {
-  // Hanya tangani GET request
-  if (event.request.method !== 'GET') return;
-
+  const { request } = event;
+  
+  // Abaikan request non-GET
+  if (request.method !== 'GET') return;
+  
+  // Abaikan request ke extension atau chrome-extension
+  if (request.url.startsWith('chrome-extension')) return;
+  
   event.respondWith(
-    caches.match(event.request).then(cached => {
-      if (cached) return cached;
-
-      return fetch(event.request.clone()).then(networkResponse => {
-        // Hanya cache response valid dan bukan opaque (cross-origin tanpa CORS)
+    caches.match(request).then(cachedResponse => {
+      if (cachedResponse) {
+        // Jika ada di cache, kembalikan
+        return cachedResponse;
+      }
+      
+      // Jika tidak di cache, ambil dari jaringan
+      return fetch(request.clone()).then(networkResponse => {
+        // Hanya cache response yang sukses (status 200) dan bukan opaque
         if (
           networkResponse &&
           networkResponse.status === 200 &&
           networkResponse.type !== 'opaque'
         ) {
-          const toCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then(cache => cache.put(event.request, toCache));
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then(cache => {
+            cache.put(request, responseToCache);
+          });
         }
         return networkResponse;
       }).catch(() => {
-        // Offline fallback: kembalikan index.html untuk navigasi
-        if (event.request.mode === 'navigate') {
+        // Jika offline dan tidak ada di cache, berikan fallback untuk navigasi
+        if (request.mode === 'navigate') {
           return caches.match('./index.html');
         }
-        // Untuk aset lain, kembalikan cached jika ada
-        return cached || new Response('Offline', { status: 503 });
+        // Untuk asset lain (font, gambar) yang tidak ada cache, kembalikan respons error
+        return new Response('Offline - kontak tidak tersedia', { 
+          status: 503, 
+          statusText: 'Service Unavailable' 
+        });
       });
     })
   );
