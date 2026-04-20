@@ -34,4 +34,4 @@ Siswa dapat ditandai kesalahan bacaannya secara langsung, dan nilai otomatis dih
 - Ekspor PDF berjalan sepenuhnya di sisi klien (tidak mengirim data ke server).
 
 ## 📄 Lisensi
-MIT © 2025 – Bebas digunakan, dimodifikasi, dan disebarluaskan untuk pendidikan.
+MIT © 2026 – Bebas digunakan, dimodifikasi, dan disebarluaskan untuk pendidikan.
