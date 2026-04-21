@@ -498,47 +498,70 @@
             box-shadow: 0 2px 8px rgba(192,57,43,0.15);
         }
 
+        /* === PIAGAM CARD — portrait A4 ratio (1:√2 ≈ 210:297) === */
+        .piagam-wrapper {
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+        }
         .piagam-card {
             background: linear-gradient(160deg, #fffef5 0%, #fff9ea 50%, #fdf3d8 100%);
             border: 2px solid var(--gold-border);
-            border-radius: 28px;
-            padding: 36px 28px;
+            border-radius: 20px;
+            /* A4 portrait ratio: height ≈ width × 1.414 */
+            aspect-ratio: 210 / 297;
+            padding: 5% 6%;
             text-align: center;
             box-shadow: 0 12px 40px rgba(184,137,42,0.15), inset 0 1px 0 rgba(255,255,255,0.9);
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
         }
         .piagam-card::before {
             content: '';
             position: absolute;
-            inset: 8px;
-            border: 1px solid rgba(184,137,42,0.25);
-            border-radius: 22px;
+            inset: 10px;
+            border: 1px solid rgba(184,137,42,0.3);
+            border-radius: 14px;
             pointer-events: none;
+        }
+        /* decorative top stripe */
+        .piagam-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald));
+            border-radius: 20px 20px 0 0;
         }
         .piagam-corner {
             position: absolute;
-            width: 48px; height: 48px;
-            opacity: 0.2;
+            width: 44px; height: 44px;
+            opacity: 0.25;
         }
         .piagam-corner svg { width: 100%; height: 100%; }
-        .piagam-corner.tl { top: 14px; left: 14px; }
-        .piagam-corner.tr { top: 14px; right: 14px; transform: scaleX(-1); }
-        .piagam-corner.bl { bottom: 14px; left: 14px; transform: scaleY(-1); }
-        .piagam-corner.br { bottom: 14px; right: 14px; transform: scale(-1); }
+        .piagam-corner.tl { top: 18px; left: 18px; }
+        .piagam-corner.tr { top: 18px; right: 18px; transform: scaleX(-1); }
+        .piagam-corner.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
+        .piagam-corner.br { bottom: 18px; right: 18px; transform: scale(-1); }
 
         .piagam-arabic {
             font-family: 'Uthmanic Hafs', 'Amiri', serif;
-            font-size: 1.4rem;
+            font-size: clamp(1rem, 3.5vw, 1.4rem);
             color: var(--gold);
-            margin-bottom: 6px;
+            margin-bottom: 2px;
             line-height: 2;
         }
         .piagam-divider {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin: 10px 0;
+            gap: 10px;
+            margin: 6px 0;
+            width: 100%;
         }
         .piagam-divider::before, .piagam-divider::after {
             content: '';
@@ -546,74 +569,95 @@
             height: 1px;
             background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
         }
-        .piagam-divider span { font-size: 0.8rem; color: var(--gold); }
+        .piagam-divider span { font-size: 0.75rem; color: var(--gold); }
+
+        .piagam-logo-circle {
+            width: clamp(52px, 12%, 70px);
+            height: clamp(52px, 12%, 70px);
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
+            display: flex; align-items: center; justify-content: center;
+            margin: 6px auto;
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            box-shadow: 0 4px 16px rgba(13,92,66,0.25);
+            border: 3px solid rgba(184,137,42,0.4);
+            flex-shrink: 0;
+        }
 
         .piagam-title {
             font-family: 'Playfair Display', serif;
-            font-size: 1.9rem;
+            font-size: clamp(1.3rem, 4.5vw, 2rem);
             font-weight: 800;
             color: var(--gold);
             letter-spacing: 2px;
             text-transform: uppercase;
-            line-height: 1.2;
+            line-height: 1.15;
             position: relative; z-index: 1;
+            margin: 2px 0;
         }
         .piagam-subtitle {
-            font-size: 0.78rem;
+            font-size: clamp(0.6rem, 2vw, 0.75rem);
             text-transform: uppercase;
             letter-spacing: 2.5px;
             color: var(--muted);
-            margin-top: 4px;
             font-weight: 500;
+            margin: 1px 0 4px;
         }
         .piagam-keterangan {
-            font-size: 0.88rem;
+            font-size: clamp(0.72rem, 2.2vw, 0.85rem);
             color: var(--muted);
-            margin: 12px 0;
+            margin: 6px 0 2px;
             font-style: italic;
         }
         .piagam-name {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: clamp(1.3rem, 5vw, 2.2rem);
             font-weight: 700;
             color: var(--emerald);
-            margin: 4px 0;
+            margin: 2px 0;
             line-height: 1.2;
         }
         .piagam-kelas {
-            font-size: 0.9rem;
+            font-size: clamp(0.75rem, 2.4vw, 0.9rem);
             color: var(--muted);
-            margin-bottom: 18px;
+            margin-bottom: 8px;
             font-weight: 500;
         }
         .piagam-nilai {
             font-family: 'Playfair Display', serif;
-            font-size: 3rem;
+            font-size: clamp(2rem, 7vw, 3.2rem);
             font-weight: 800;
             color: var(--emerald);
             line-height: 1;
         }
         .piagam-status {
             display: inline-block;
-            padding: 8px 28px;
+            padding: 6px 24px;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 0.95rem;
+            font-size: clamp(0.72rem, 2.2vw, 0.88rem);
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin: 12px 0 18px;
+            margin: 8px 0 10px;
         }
         .piagam-status.lulus { background: var(--emerald-pale); color: var(--emerald); border: 2px solid var(--emerald-pale2); }
         .piagam-status.tidak { background: var(--red-pale); color: var(--red); border: 2px solid #f5c2be; }
         .piagam-footer-row {
             display: flex;
             justify-content: center;
-            gap: 24px;
-            font-size: 0.8rem;
+            gap: 16px;
+            font-size: clamp(0.65rem, 2vw, 0.78rem);
             color: var(--muted);
             flex-wrap: wrap;
         }
         .piagam-footer-row span strong { color: var(--ink2); font-weight: 600; }
+        .piagam-bottom-stripe {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald));
+            border-radius: 0 0 20px 20px;
+        }
 
         .btn-export {
             width: 100%;
@@ -922,7 +966,9 @@
     <!-- TAB 4: Piagam + Export -->
     <div id="tab4" class="tab-content">
         <div class="card" style="padding:0;background:transparent;border:none;box-shadow:none;">
+            <div class="piagam-wrapper">
             <div id="piagamCard" class="piagam-card">
+                <!-- corner ornaments -->
                 <div class="piagam-corner tl">
                     <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
@@ -952,22 +998,27 @@
                     </svg>
                 </div>
 
+                <!-- content -->
                 <div class="piagam-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
                 <div class="piagam-divider"><span>✦</span></div>
                 <div class="piagam-subtitle">Piagam Penghargaan</div>
+                <div class="piagam-logo-circle">🌙</div>
                 <div class="piagam-title">TASMI' JUZ AMMA</div>
+                <div class="piagam-divider"><span>✦</span></div>
                 <div class="piagam-keterangan">Diberikan kepada</div>
                 <div class="piagam-name" id="piagamNama">Nama Siswa</div>
                 <div class="piagam-kelas" id="piagamKelas">Kelas —</div>
-                <div class="piagam-keterangan">✨ Telah menyelesaikan Tasmi' Juz Amma dengan nilai ✨</div>
+                <div class="piagam-keterangan">Telah menyelesaikan Tasmi' Juz Amma dengan nilai</div>
                 <div class="piagam-nilai" id="piagamNilai">—%</div>
                 <div><span id="piagamStatusBadge" class="piagam-status lulus">LULUS</span></div>
                 <div class="piagam-divider"><span>✦</span></div>
                 <div class="piagam-footer-row">
                     <span>📅 <strong id="piagamTanggal">—</strong></span>
                     <span>Penguji: <strong id="piagamPenguji">—</strong></span>
-                    <span>Durasi: <strong id="piagamDurasi">—</strong></span>
-                </div>                
+                    <span>⏱ <strong id="piagamDurasi">—</strong></span>
+                </div>
+                <div class="piagam-bottom-stripe"></div>
+            </div>
             </div>
 
             <button id="exportPdfBtn" class="btn-export">📄 Export Piagam ke PDF (Portrait A4)</button>
@@ -1352,52 +1403,60 @@ async function exportPiagamPDF() {
     const orig = btn.innerText;
     btn.innerText = "⏳ Memproses PDF..."; btn.disabled = true;
     try {
-        // Simpan ukuran asli
-        const origWidth = piagam.style.width;
-        const origTransform = piagam.style.transform;
+        // A4 portrait di 150 DPI: 1240 × 1754 px
+        // Kita render piagam dengan lebar tetap 794px (A4 portrait @96dpi)
+        // lalu scale 3x → resolusi tajam tanpa terlalu berat
+        const A4_W = 794;  // px — lebar A4 portrait @96dpi
+        const A4_H = 1123; // px — tinggi A4 portrait @96dpi
 
-        // Set lebar tetap agar render konsisten di semua device
-        piagam.style.width = '800px';
+        // Simpan style asli
+        const origStyle = {
+            width: piagam.style.width,
+            height: piagam.style.height,
+            aspectRatio: piagam.style.aspectRatio,
+            transform: piagam.style.transform,
+            borderRadius: piagam.style.borderRadius,
+            margin: piagam.style.margin,
+        };
+
+        // Paksa dimensi persis A4 portrait agar html2canvas menangkap proporsi yang benar
+        piagam.style.width = A4_W + 'px';
+        piagam.style.height = A4_H + 'px';
+        piagam.style.aspectRatio = 'unset';
         piagam.style.transform = 'none';
+        piagam.style.borderRadius = '0';
+        piagam.style.margin = '0';
+
+        // Tunggu re-layout selesai
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
         const canvas = await html2canvas(piagam, {
-            scale: 4,                        // skala tinggi untuk resolusi tajam
+            scale: 3,               // 3× → resolusi tajam
+            width: A4_W,
+            height: A4_H,
             backgroundColor: '#fffef5',
             logging: false,
             useCORS: true,
             allowTaint: true,
             imageTimeout: 0,
-            removeContainer: true,
             letterRendering: true,
         });
 
-        // Kembalikan style asli
-        piagam.style.width = origWidth;
-        piagam.style.transform = origTransform;
+        // Pulihkan style asli
+        Object.assign(piagam.style, origStyle);
 
-        // Konversi ke JPEG kualitas tinggi (lebih ringan dari PNG)
-        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        // Konversi ke JPEG kualitas tinggi
+        const imgData = canvas.toDataURL('image/jpeg', 0.97);
 
         const { jsPDF } = window.jspdf;
-        // Gunakan ukuran A4 dalam px berdasarkan 300 DPI
+        // PDF A4 portrait — isi penuh halaman (margin 0)
         const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
-        const pw = pdf.internal.pageSize.getWidth();
-        const ph = pdf.internal.pageSize.getHeight();
+        const pw = pdf.internal.pageSize.getWidth();   // 210 mm
+        const ph = pdf.internal.pageSize.getHeight();  // 297 mm
 
-        // Hitung ukuran gambar agar pas di halaman dengan margin kecil
-        const margin = 10;
-        const ratio = canvas.width / canvas.height;
-        let fw = pw - margin * 2;
-        let fh = fw / ratio;
-        if (fh > ph - margin * 2) {
-            fh = ph - margin * 2;
-            fw = fh * ratio;
-        }
+        // Gambar piagam memenuhi seluruh halaman A4 (tanpa margin agar presisi)
+        pdf.addImage(imgData, 'JPEG', 0, 0, pw, ph, '', 'FAST');
 
-        const x = (pw - fw) / 2;
-        const y = (ph - fh) / 2;
-
-        pdf.addImage(imgData, 'JPEG', x, y, fw, fh, '', 'FAST');
         const nm = (namaInput.value.trim() || "Siswa").replace(/[^a-z0-9]/gi, '_');
         pdf.save(`Piagam_Tasmi_${nm}.pdf`);
     } catch (err) { console.error(err); alert("Gagal generate PDF."); }
