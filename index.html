@@ -75,63 +75,82 @@
         .app-wrapper {
             max-width: 740px;
             margin: 0 auto;
-            padding: 20px 16px 60px;
+            padding: 72px 16px 90px;
             position: relative;
             z-index: 1;
         }
 
         /* ===== HEADER SIMPEL ===== */
         .app-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 16px;
             background: var(--white);
-            border-radius: 24px;
-            border: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
             box-shadow: var(--shadow-sm);
+            height: 56px;
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 740px;
+            z-index: 101;
+            border-radius: 0;
         }
         .app-header h1 {
             font-family: 'Playfair Display', serif;
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--emerald);
             letter-spacing: -0.3px;
+            white-space: nowrap;
         }
         .app-header p {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             color: var(--muted);
-            margin-top: 4px;
             font-weight: 400;
+            white-space: nowrap;
+        }
+        .app-header .header-divider {
+            width: 1px;
+            height: 20px;
+            background: var(--gold-border);
+            flex-shrink: 0;
         }
 
+        /* ===== BOTTOM NAV BAR ===== */
         .tab-bar {
-            position: sticky;
-            top: 0;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 740px;
             z-index: 100;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             background: var(--white);
-            border-radius: 0 0 18px 18px;
-            padding: 5px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--gold-border);
-            border-top: none;
+            padding: 6px 8px;
+            padding-bottom: calc(6px + env(safe-area-inset-bottom));
+            box-shadow: 0 -4px 20px rgba(13,92,66,0.12);
+            border-top: 1px solid var(--gold-border);
             gap: 4px;
-            backdrop-filter: blur(0px);
             transition: all 0.2s ease;
         }
 
         .tab-bar.scrolled {
-            box-shadow: 0 8px 20px rgba(13,92,66,0.2);
+            box-shadow: 0 -4px 20px rgba(13,92,66,0.2);
         }
 
         .tab-btn {
             background: transparent;
             border: none;
-            padding: 12px 4px;
+            padding: 8px 4px;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             border-radius: 13px;
             color: var(--muted);
             transition: all 0.25s ease;
@@ -140,7 +159,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
             line-height: 1.2;
         }
         .tab-btn .tab-icon { font-size: 1.2rem; }
@@ -184,26 +203,22 @@
             flex-shrink: 0;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .form-grid .span2 { grid-column: span 2; }
+        .form-grid { display: flex; flex-direction: column; gap: 12px; }
+        .form-grid .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         .input-group { display: flex; flex-direction: column; gap: 6px; }
         .input-group label {
             font-size: 0.72rem;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--emerald);
-            letter-spacing: 0.6px;
+            letter-spacing: 0.5px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 6px;
         }
         .input-group input, .input-group select {
-            padding: 13px 16px;
+            padding: 12px 14px;
             border-radius: var(--radius-sm);
             border: 1.5px solid #e0d9cc;
             background: var(--cream);
@@ -214,34 +229,10 @@
             color: var(--ink);
             width: 100%;
         }
-        .input-group input[type="date"] {
-            color: var(--ink);
-            -webkit-appearance: none;
-        }
-        .input-group input::placeholder { color: #b0a89a; font-size: 0.88rem; }
-        .input-group input:focus, .input-group select:focus {
+        .input-group input:focus {
             border-color: var(--emerald-light);
             background: var(--white);
             box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
-        }
-        .input-group input:not(:placeholder-shown) {
-            border-color: var(--emerald-pale2);
-            background: var(--white);
-        }
-
-        /* Info note below form */
-        .form-info-note {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 16px;
-            padding: 10px 14px;
-            background: var(--gold-pale);
-            border: 1px solid var(--gold-border);
-            border-radius: var(--radius-sm);
-            font-size: 0.78rem;
-            color: var(--gold);
-            font-weight: 500;
         }
 
         .ayat-toolbar {
@@ -366,32 +357,34 @@
         }
         .ayat-item.salah .ayat-text { color: var(--red); }
 
-        .result-header-row {
+        /* ===== RESULT TAB ===== */
+        .result-score-block {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
+            gap: 6px;
+            padding: 20px 0 16px;
+            border-bottom: 1px solid #ece6da;
+            margin-bottom: 18px;
         }
         .score-circle-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
         .score-circle {
-            width: 100px;
-            height: 100px;
+            width: 130px;
+            height: 130px;
             position: relative;
             flex-shrink: 0;
         }
         .score-circle svg { transform: rotate(-90deg); }
-        .score-circle .circle-bg { fill: none; stroke: var(--emerald-pale2); stroke-width: 7; }
+        .score-circle .circle-bg { fill: none; stroke: var(--emerald-pale2); stroke-width: 8; }
         .score-circle .circle-val {
             fill: none;
             stroke: var(--emerald);
-            stroke-width: 7;
+            stroke-width: 8;
             stroke-linecap: round;
             transition: stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);
         }
@@ -405,65 +398,72 @@
         }
         .score-num {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 2rem;
             font-weight: 800;
             color: var(--emerald);
             line-height: 1;
         }
         .score-label {
-            font-size: 0.62rem;
+            font-size: 0.65rem;
             font-weight: 600;
             color: var(--muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .score-circle-wrap small { font-size: 0.72rem; color: var(--muted); }
+        .score-circle-wrap small { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
 
-        .result-info-grid {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            min-width: 0;
-        }
-        .result-info-item {
-            background: var(--cream);
+        .result-info-list {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
             border: 1px solid #ece6da;
             border-radius: var(--radius-sm);
-            padding: 10px 14px;
+            overflow: hidden;
+            margin-bottom: 16px;
         }
-        .result-info-label { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); margin-bottom: 2px; }
-        .result-info-value { font-size: 0.95rem; font-weight: 600; color: var(--ink); }
+        .result-info-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 11px 16px;
+            background: var(--white);
+            border-bottom: 1px solid #f0ebe1;
+            gap: 12px;
+        }
+        .result-info-row:last-child { border-bottom: none; }
+        .result-info-row:nth-child(even) { background: var(--cream); }
+        .result-info-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); white-space: nowrap; }
+        .result-info-value { font-size: 0.92rem; font-weight: 600; color: var(--ink); text-align: right; }
 
         .result-stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            margin: 16px 0;
+            margin-bottom: 16px;
         }
         .stat-box {
             background: var(--cream);
             border: 1px solid #ece6da;
             border-radius: var(--radius-sm);
-            padding: 14px 12px;
+            padding: 16px 10px;
             text-align: center;
         }
         .stat-box.highlight { background: var(--emerald-pale); border-color: var(--emerald-pale2); }
         .stat-box.danger { background: var(--red-pale); border-color: #f5c2be; }
-        .stat-value { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 800; color: var(--emerald); }
+        .stat-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 800; color: var(--emerald); line-height: 1; }
         .stat-box.danger .stat-value { color: var(--red); }
-        .stat-sub { font-size: 0.7rem; color: var(--muted); font-weight: 500; margin-top: 2px; }
+        .stat-sub { font-size: 0.68rem; color: var(--muted); font-weight: 500; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
 
         .status-selector {
             background: var(--cream);
             border-radius: var(--radius-sm);
             padding: 14px 16px;
             border: 1px solid #ece6da;
+            margin-bottom: 14px;
         }
-        .status-selector-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--emerald); letter-spacing: 0.5px; margin-bottom: 12px; }
-        .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .status-selector-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; color: var(--emerald); letter-spacing: 0.5px; margin-bottom: 10px; }
+        .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .radio-option {
-            flex: 1;
             position: relative;
         }
         .radio-option input { position: absolute; opacity: 0; width: 0; height: 0; }
@@ -472,24 +472,30 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px 14px;
+            padding: 13px 14px;
             border-radius: var(--radius-sm);
             border: 2px solid #e0d9cc;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.88rem;
+            font-weight: 700;
+            font-size: 0.9rem;
             transition: all 0.2s;
             background: var(--white);
+            width: 100%;
+            height: 100%;
+            min-height: 50px;
+            box-sizing: border-box;
         }
         .radio-option.lulus input:checked + label {
             border-color: var(--emerald);
             background: var(--emerald-pale);
             color: var(--emerald);
+            box-shadow: 0 2px 8px rgba(13,92,66,0.15);
         }
         .radio-option.tidak input:checked + label {
             border-color: var(--red);
             background: var(--red-pale);
             color: var(--red);
+            box-shadow: 0 2px 8px rgba(192,57,43,0.15);
         }
 
         .piagam-card {
@@ -674,20 +680,14 @@
         }
 
         @media (max-width: 520px) {
-            .form-grid { grid-template-columns: 1fr 1fr; }
-            .form-grid .span2 { grid-column: span 2; }
             .tab-btn { font-size: 0.68rem; }
             .tab-btn .tab-icon { font-size: 1.1rem; }
             .ayat-item { font-size: 1.2rem; }
             .basmalah-item { font-size: 1.35rem; }
-            .result-info-grid { grid-template-columns: 1fr 1fr; }
             .piagam-name { font-size: 1.5rem; }
             .piagam-nilai { font-size: 2.4rem; }
-            .result-header-row { flex-direction: column; align-items: stretch; }
-            .score-circle-wrap { flex-direction: row; gap: 16px; align-items: center; }
-            .app-header h1 { font-size: 1.2rem; }
-            .app-header p { font-size: 0.65rem; }
-            .input-group input, .input-group select { padding: 11px 13px; font-size: 0.88rem; }
+            .app-header h1 { font-size: 1rem; }
+            .app-header p { font-size: 0.62rem; }
         }
         @media (max-width: 360px) {
             .piagam-title { font-size: 1.4rem; }
@@ -700,35 +700,36 @@
         .timer-section {
             margin-top: 20px;
             border-top: 1px solid var(--gold-border);
-            padding-top: 16px;
+            padding-top: 18px;
         }
         .timer-display {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             font-family: 'DM Sans', monospace;
             text-align: center;
-            background: var(--cream);
-            padding: 12px;
+            background: var(--emerald-pale);
+            color: var(--emerald);
+            padding: 14px;
             border-radius: 16px;
-            border: 1px solid var(--gold-border);
-            letter-spacing: 2px;
+            border: 1.5px solid var(--emerald-pale2);
+            letter-spacing: 4px;
+            margin-bottom: 14px;
         }
         .timer-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
         }
         .btn-timer {
             border: none;
-            padding: 8px 20px;
-            border-radius: 40px;
+            padding: 11px 10px;
+            border-radius: 12px;
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
             transition: all 0.2s ease;
             font-family: 'DM Sans', sans-serif;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
         }
         .btn-timer:hover { transform: translateY(-1px); filter: brightness(0.95); }
         .btn-timer:active { transform: translateY(1px); }
@@ -748,6 +749,7 @@
     <!-- HEADER SIMPEL -->
     <div class="app-header">
         <h1>Tasmi' Juz Amma</h1>
+        <div class="header-divider"></div>
         <p>Penilaian Hafalan Juz Amma</p>
     </div>
 
@@ -764,29 +766,24 @@
         <div class="card">
             <div class="section-title">Identitas Siswa</div>
             <div class="form-grid">
-                <!-- Nama Lengkap: full width -->
-                <div class="input-group span2">
-                    <label>Nama Lengkap</label>
+                <div class="input-group">
+                    <label>👤 Nama Lengkap</label>
                     <input type="text" id="namaSiswa" placeholder="Masukkan nama siswa">
                 </div>
-                <!-- Kelas & Tanggal: 2 kolom seimbang -->
-                <div class="input-group">
-                    <label>Kelas</label>
-                    <input type="text" id="kelasSiswa" placeholder="Contoh: 5A">
+                <div class="row2">
+                    <div class="input-group">
+                        <label>🏫 Kelas</label>
+                        <input type="text" id="kelasSiswa" placeholder="Contoh: 5A">
+                    </div>
+                    <div class="input-group">
+                        <label>📅 Tanggal</label>
+                        <input type="date" id="tanggalTasmi">
+                    </div>
                 </div>
                 <div class="input-group">
-                    <label>Tanggal Tasmi'</label>
-                    <input type="date" id="tanggalTasmi">
-                </div>
-                <!-- Nama Penguji: full width -->
-                <div class="input-group span2">
-                    <label>Nama Penguji</label>
+                    <label>✍️ Nama Penguji</label>
                     <input type="text" id="namaPenguji" placeholder="Nama guru penguji">
                 </div>
-            </div>
-            <!-- Info helper -->
-            <div class="form-info-note">
-                <span>📝</span> Isi data siswa sebelum memulai penilaian hafalan
             </div>
             <!-- Timer Section -->
             <div class="timer-section">
@@ -823,10 +820,12 @@
     <div id="tab3" class="tab-content">
         <div class="card">
             <div class="section-title">Ringkasan Penilaian</div>
-            <div class="result-header-row">
+
+            <!-- Score Circle -->
+            <div class="result-score-block">
                 <div class="score-circle-wrap">
                     <div class="score-circle">
-                        <svg viewBox="0 0 100 100" width="100" height="100">
+                        <svg viewBox="0 0 100 100" width="130" height="130">
                             <circle class="circle-bg" cx="50" cy="50" r="42"/>
                             <circle class="circle-val" id="scoreCirclePath" cx="50" cy="50" r="42"
                                 stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
@@ -838,30 +837,33 @@
                     </div>
                     <small>dari 100</small>
                 </div>
-                <div class="result-info-grid">
-                    <div class="result-info-item">
-                        <div class="result-info-label">Nama</div>
-                        <div class="result-info-value" id="resNama">—</div>
-                    </div>
-                    <div class="result-info-item">
-                        <div class="result-info-label">Kelas</div>
-                        <div class="result-info-value" id="resKelas">—</div>
-                    </div>
-                    <div class="result-info-item">
-                        <div class="result-info-label">Tanggal</div>
-                        <div class="result-info-value" id="resTanggal">—</div>
-                    </div>
-                    <div class="result-info-item">
-                        <div class="result-info-label">Penguji</div>
-                        <div class="result-info-value" id="resPenguji">—</div>
-                    </div>
-                    <div class="result-info-item">
-                        <div class="result-info-label">⏱️ Durasi Tasmi'</div>
-                        <div class="result-info-value" id="resDurasi">00:00:00</div>
-                    </div>
+            </div>
+
+            <!-- Info Siswa -->
+            <div class="result-info-list">
+                <div class="result-info-row">
+                    <span class="result-info-label">👤 Nama</span>
+                    <span class="result-info-value" id="resNama">—</span>
+                </div>
+                <div class="result-info-row">
+                    <span class="result-info-label">🏫 Kelas</span>
+                    <span class="result-info-value" id="resKelas">—</span>
+                </div>
+                <div class="result-info-row">
+                    <span class="result-info-label">📅 Tanggal</span>
+                    <span class="result-info-value" id="resTanggal">—</span>
+                </div>
+                <div class="result-info-row">
+                    <span class="result-info-label">✍️ Penguji</span>
+                    <span class="result-info-value" id="resPenguji">—</span>
+                </div>
+                <div class="result-info-row">
+                    <span class="result-info-label">⏱️ Durasi</span>
+                    <span class="result-info-value" id="resDurasi">00:00:00</span>
                 </div>
             </div>
 
+            <!-- Stat Boxes -->
             <div class="result-stats-row">
                 <div class="stat-box">
                     <div class="stat-value" id="resTotalAyat">0</div>
@@ -877,8 +879,9 @@
                 </div>
             </div>
 
+            <!-- Status Kelulusan -->
             <div class="status-selector">
-                <div class="status-selector-label">Status Kelulusan (Manual)</div>
+                <div class="status-selector-label">🎓 Status Kelulusan (Manual)</div>
                 <div class="radio-group">
                     <div class="radio-option lulus">
                         <input type="radio" name="statusKelulusan" id="radioLulus" value="LULUS" checked>
@@ -1330,15 +1333,52 @@ async function exportPiagamPDF() {
     const orig = btn.innerText;
     btn.innerText = "⏳ Memproses PDF..."; btn.disabled = true;
     try {
-        const canvas = await html2canvas(piagam, { scale: 2, backgroundColor: '#fffef5', logging: false });
-        const imgData = canvas.toDataURL('image/png');
+        // Simpan ukuran asli
+        const origWidth = piagam.style.width;
+        const origTransform = piagam.style.transform;
+
+        // Set lebar tetap agar render konsisten di semua device
+        piagam.style.width = '800px';
+        piagam.style.transform = 'none';
+
+        const canvas = await html2canvas(piagam, {
+            scale: 4,                        // skala tinggi untuk resolusi tajam
+            backgroundColor: '#fffef5',
+            logging: false,
+            useCORS: true,
+            allowTaint: true,
+            imageTimeout: 0,
+            removeContainer: true,
+            letterRendering: true,
+        });
+
+        // Kembalikan style asli
+        piagam.style.width = origWidth;
+        piagam.style.transform = origTransform;
+
+        // Konversi ke JPEG kualitas tinggi (lebih ringan dari PNG)
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+
         const { jsPDF } = window.jspdf;
-        const pdf = new jsPDF('portrait', 'mm', 'a4');
-        const pw = pdf.internal.pageSize.getWidth(), ph = pdf.internal.pageSize.getHeight();
+        // Gunakan ukuran A4 dalam px berdasarkan 300 DPI
+        const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4', compress: true });
+        const pw = pdf.internal.pageSize.getWidth();
+        const ph = pdf.internal.pageSize.getHeight();
+
+        // Hitung ukuran gambar agar pas di halaman dengan margin kecil
+        const margin = 10;
         const ratio = canvas.width / canvas.height;
-        let fw = pw - 20, fh = fw / ratio;
-        if (fh > ph - 20) { fh = ph - 20; fw = fh * ratio; }
-        pdf.addImage(imgData, 'PNG', (pw-fw)/2, (ph-fh)/2, fw, fh);
+        let fw = pw - margin * 2;
+        let fh = fw / ratio;
+        if (fh > ph - margin * 2) {
+            fh = ph - margin * 2;
+            fw = fh * ratio;
+        }
+
+        const x = (pw - fw) / 2;
+        const y = (ph - fh) / 2;
+
+        pdf.addImage(imgData, 'JPEG', x, y, fw, fh, '', 'FAST');
         const nm = (namaInput.value.trim() || "Siswa").replace(/[^a-z0-9]/gi, '_');
         pdf.save(`Piagam_Tasmi_${nm}.pdf`);
     } catch (err) { console.error(err); alert("Gagal generate PDF."); }
