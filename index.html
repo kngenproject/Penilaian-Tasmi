@@ -11,7 +11,9 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Ikon untuk PWA -->
-    <link rel="apple-touch-icon" href="https://placehold.co/192x192/075E54/white?text=Tasmi">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
     
     <!-- Library External -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -121,9 +123,7 @@
             box-shadow: 0 1px 4px rgba(0,0,0,0.25);
         }
         /* WA avatar circle */
-        .app-header::before {
-            content: '🕌';
-            font-size: 1.5rem;
+        .app-header .header-logo {
             width: 38px;
             height: 38px;
             border-radius: 50%;
@@ -132,6 +132,13 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+        .app-header .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
         }
         .app-header h1 {
             font-family: inherit;
@@ -598,8 +605,8 @@
         .pg-header-ornament svg { width: 100%; height: 100%; }
 
         .pg-mihrab {
-            width: 17%;
-            max-width: 80px;
+            width: 20%;
+            max-width: 90px;
             margin: 0 auto 2%;
             display: block;
         }
@@ -886,12 +893,177 @@
             text-align: center;
         }
 
+        /* ═══════════════════════════════════════
+           PERINCIAN SALAH
+           ═══════════════════════════════════════ */
+        .wrong-detail-section {
+            margin-top: 14px;
+            border-top: 1px solid var(--wa-border);
+            padding-top: 12px;
+        }
+        .wrong-detail-title {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .wrong-detail-empty {
+            text-align: center;
+            color: var(--wa-muted);
+            font-size: 0.82rem;
+            padding: 14px 0;
+            font-style: italic;
+        }
+        .wrong-surah-block {
+            margin-bottom: 10px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 1px solid #f5c2be;
+        }
+        .wrong-surah-name {
+            background: var(--red);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .wrong-surah-name .wrong-surah-count {
+            background: rgba(255,255,255,0.25);
+            border-radius: 50px;
+            padding: 1px 8px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .wrong-ayat-chips {
+            background: var(--red-pale);
+            padding: 8px 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .wrong-ayat-chip {
+            background: white;
+            border: 1.5px solid #f5c2be;
+            border-radius: 50px;
+            padding: 3px 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--red);
+            white-space: nowrap;
+        }
+        .wrong-ayat-text {
+            font-family: 'Uthmanic Hafs', 'Amiri', 'Noto Naskh Arabic', serif;
+            font-size: 0.88rem;
+            direction: rtl;
+            color: var(--wa-ink2);
+            background: #fff8f7;
+            padding: 6px 10px;
+            border-top: 1px solid #f5c2be;
+            line-height: 1.9;
+            text-align: right;
+        }
+
         footer {
             font-size: 0.68rem;
             text-align: center;
             margin-top: 20px;
             color: var(--wa-muted);
             font-weight: 400;
+        }
+
+        /* ═══════════════════════════════════════
+           HASIL EXPORT CARD
+           ═══════════════════════════════════════ */
+        .hasil-export-card {
+            background: #ffffff;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 0;
+        }
+
+        .hasil-card-header {
+            background: linear-gradient(135deg, var(--wa-dark) 0%, var(--wa-mid) 100%);
+            padding: 18px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .hasil-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.4);
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        .hasil-header-text { flex: 1; }
+        .hasil-header-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        .hasil-header-sub {
+            font-size: 0.72rem;
+            color: rgba(255,255,255,0.75);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .hasil-badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+        .hasil-badge-status.lulus {
+            background: var(--wa-sent);
+            color: var(--wa-dark);
+            border: 1.5px solid #b5f0c4;
+        }
+        .hasil-badge-status.tidak {
+            background: var(--red-pale);
+            color: var(--red);
+            border: 1.5px solid #f5c2be;
+        }
+
+        /* bungkus semua konten kartu dalam padding */
+        .hasil-export-card .result-score-block,
+        .hasil-export-card .result-info-list,
+        .hasil-export-card .result-stats-row,
+        .hasil-export-card .formula-box,
+        .hasil-export-card .wrong-detail-section {
+            margin-left: 16px;
+            margin-right: 16px;
+        }
+        .hasil-export-card .result-score-block { margin-top: 16px; }
+        .hasil-export-card .formula-box { margin-bottom: 0; }
+        .hasil-export-card .wrong-detail-section { padding-bottom: 4px; }
+
+        .hasil-card-footer {
+            background: var(--wa-panel);
+            border-top: 1px solid var(--wa-border);
+            text-align: center;
+            font-size: 0.68rem;
+            color: var(--wa-muted);
+            padding: 8px 16px;
+            margin-top: 12px;
         }
 
         /* ═══════════════════════════════════════
@@ -983,6 +1155,9 @@
 
     <!-- HEADER WHATSAPP -->
     <div class="app-header">
+        <div class="header-logo">
+            <img src="icons/icon-192x192.png" alt="Tasmi' Logo">
+        </div>
         <div class="header-text">
             <h1>Tasmi' Juz Amma</h1>
             <p>🟢 online</p>
@@ -1055,8 +1230,18 @@
 
     <!-- TAB 3: Hasil Penilaian -->
     <div id="tab3" class="tab-content">
-        <div class="card">
-            <div class="section-title">Ringkasan Penilaian</div>
+
+        <!-- ══ KARTU YANG AKAN DI-EXPORT ══ -->
+        <div id="hasilCard" class="hasil-export-card">
+
+            <!-- Header kartu hasil -->
+            <div class="hasil-card-header">
+                <img src="icons/icon-192x192.png" alt="Logo" class="hasil-logo">
+                <div class="hasil-header-text">
+                    <div class="hasil-header-title">LAPORAN TASMI'</div>
+                    <div class="hasil-header-sub">Juz Amma</div>
+                </div>
+            </div>
 
             <!-- Score Circle -->
             <div class="result-score-block">
@@ -1074,6 +1259,8 @@
                     </div>
                     <small>dari 100</small>
                 </div>
+                <!-- Badge status lulus -->
+                <div id="hasilBadgeStatus" class="hasil-badge-status lulus">✅ LULUS</div>
             </div>
 
             <!-- Info Siswa -->
@@ -1116,8 +1303,28 @@
                 </div>
             </div>
 
+            <div class="formula-box">
+                📌 Nilai = 100 − (jumlah salah ÷ total ayat × 100)
+            </div>
+
+            <!-- Perincian Ayat Salah -->
+            <div class="wrong-detail-section">
+                <div class="wrong-detail-title">❌ Perincian Ayat yang Salah</div>
+                <div id="wrongDetailList">
+                    <div class="wrong-detail-empty">✅ Belum ada ayat yang ditandai salah</div>
+                </div>
+            </div>
+
+            <!-- Footer kartu -->
+            <div class="hasil-card-footer">
+                Tasmi' Juz Amma • <span id="hasilFooterTanggal">—</span>
+            </div>
+        </div>
+
+        <!-- ══ KONTROL DI LUAR KARTU ══ -->
+        <div class="card" style="margin-top:10px;">
             <!-- Status Kelulusan -->
-            <div class="status-selector">
+            <div class="status-selector" style="margin-bottom:0;">
                 <div class="status-selector-label">🎓 Status Kelulusan (Manual)</div>
                 <div class="radio-group">
                     <div class="radio-option lulus">
@@ -1130,11 +1337,14 @@
                     </div>
                 </div>
             </div>
-
-            <div class="formula-box">
-                📌 Nilai = 100 − (jumlah salah ÷ total ayat × 100)
-            </div>
         </div>
+
+        <!-- Tombol Export -->
+        <button id="exportHasilBtn" class="btn-export" style="margin-top:10px;">
+            📸 Simpan Hasil sebagai Gambar
+        </button>
+        <p class="export-note">Hasil penilaian akan disimpan sebagai file .png</p>
+
     </div>
 
     <!-- TAB 4: Piagam + Export -->
@@ -1174,29 +1384,9 @@
                         </svg>
                     </div>
 
-                    <!-- Ikon mihrab islami -->
+                    <!-- Logo App -->
                     <div class="pg-mihrab">
-                        <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
-                            <!-- base -->
-                            <rect x="10" y="110" width="100" height="10" rx="2" fill="#c8a84b"/>
-                            <!-- tiang kiri kanan -->
-                            <rect x="15" y="60" width="12" height="55" rx="2" fill="#c8a84b" opacity="0.7"/>
-                            <rect x="93" y="60" width="12" height="55" rx="2" fill="#c8a84b" opacity="0.7"/>
-                            <!-- lengkung mihrab -->
-                            <path d="M27 60 Q27 20 60 15 Q93 20 93 60 L93 105 L27 105 Z" fill="#c8a84b" opacity="0.15" stroke="#c8a84b" stroke-width="2"/>
-                            <!-- bulan sabit + bintang -->
-                            <path d="M55 38 A14 14 0 1 1 68 52 A10 10 0 1 0 55 38 Z" fill="#c8a84b"/>
-                            <polygon points="72,34 74,40 80,40 75,44 77,50 72,46 67,50 69,44 64,40 70,40" fill="#c8a84b" opacity="0.85" transform="scale(0.6) translate(62,30)"/>
-                            <!-- buku al-quran kecil -->
-                            <rect x="43" y="80" width="34" height="22" rx="2" fill="#c8a84b" opacity="0.9"/>
-                            <line x1="60" y1="80" x2="60" y2="102" stroke="#1a2744" stroke-width="1.5"/>
-                            <line x1="47" y1="87" x2="58" y2="87" stroke="#1a2744" stroke-width="0.8"/>
-                            <line x1="47" y1="91" x2="58" y2="91" stroke="#1a2744" stroke-width="0.8"/>
-                            <line x1="47" y1="95" x2="58" y2="95" stroke="#1a2744" stroke-width="0.8"/>
-                            <line x1="62" y1="87" x2="73" y2="87" stroke="#1a2744" stroke-width="0.8"/>
-                            <line x1="62" y1="91" x2="73" y2="91" stroke="#1a2744" stroke-width="0.8"/>
-                            <line x1="62" y1="95" x2="73" y2="95" stroke="#1a2744" stroke-width="0.8"/>
-                        </svg>
+                        <img src="icons/icon-192x192.png" alt="Logo Tasmi'" style="width:100%;height:auto;border-radius:50%;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));border:2px solid rgba(200,168,75,0.6);">
                     </div>
 
                     <div class="pg-title-main">PIAGAM</div>
@@ -1610,6 +1800,18 @@ function updateAllUI() {
     piagamPenguji.textContent = penguji;
     piagamNilai.textContent = `Nilai: ${nilai}%`;
 
+    // Badge status di kartu hasil
+    const hasilBadge = document.getElementById('hasilBadgeStatus');
+    if (hasilBadge) {
+        const isLulus = status === 'LULUS';
+        hasilBadge.textContent = isLulus ? '✅ LULUS' : '❌ TIDAK LULUS';
+        hasilBadge.className = `hasil-badge-status ${isLulus ? 'lulus' : 'tidak'}`;
+    }
+
+    // Footer tanggal kartu hasil
+    const hasilFooter = document.getElementById('hasilFooterTanggal');
+    if (hasilFooter) hasilFooter.textContent = tanggal;
+
     // Checkbox lulus/tidak di piagam baru
     const boxLulus = document.getElementById('pgBoxLulus');
     const boxTidak = document.getElementById('pgBoxTidak');
@@ -1620,6 +1822,45 @@ function updateAllUI() {
         boxTidak.textContent = !isLulus ? '✓' : '';
         boxTidak.className = `pg-checkbox-box${!isLulus ? ' checked' : ''}`;
     }
+
+    // Render perincian ayat yang salah
+    renderWrongDetail();
+}
+function renderWrongDetail() {
+    const container = document.getElementById('wrongDetailList');
+    if (!container) return;
+
+    // Kumpulkan ayat salah dikelompokkan per surat
+    const surahMap = new Map(); // surahName -> [{ayahNum, text}]
+    for (let i = 0; i < totalAyat; i++) {
+        if (!wrongStatus[i]) continue;
+        const ayah = allAyahs[i];
+        if (!surahMap.has(ayah.surahName)) surahMap.set(ayah.surahName, []);
+        surahMap.get(ayah.surahName).push({ ayahNum: ayah.ayahNum, text: ayah.text });
+    }
+
+    if (surahMap.size === 0) {
+        container.innerHTML = '<div class="wrong-detail-empty">✅ Belum ada ayat yang ditandai salah</div>';
+        return;
+    }
+
+    let html = '';
+    for (const [surahName, ayahs] of surahMap) {
+        const chips = ayahs.map(a => `<span class="wrong-ayat-chip">Ayat ${a.ayahNum}</span>`).join('');
+        const texts = ayahs.map(a =>
+            `<div class="wrong-ayat-text"><span style="font-family:inherit;font-size:0.65rem;color:var(--red);font-weight:700;direction:ltr;display:inline-block;margin-left:6px;">Ayat ${a.ayahNum}</span> ${a.text}</div>`
+        ).join('');
+        html += `
+        <div class="wrong-surah-block">
+            <div class="wrong-surah-name">
+                <span>📖 ${surahName}</span>
+                <span class="wrong-surah-count">${ayahs.length} ayat salah</span>
+            </div>
+            <div class="wrong-ayat-chips">${chips}</div>
+            ${texts}
+        </div>`;
+    }
+    container.innerHTML = html;
 }
 function formatTanggal(dateStr) {
     if (!dateStr) return "—";
@@ -1704,6 +1945,50 @@ function renderAyahListWithSurahHeaders() {
             ayatContainer.appendChild(div);
             ayatElements[idx] = div;
         }
+    }
+}
+
+async function exportHasilImage() {
+    const card = document.getElementById('hasilCard');
+    if (!card) return;
+    const btn = document.getElementById('exportHasilBtn');
+    const orig = btn.innerText;
+    btn.innerText = '⏳ Memproses...';
+    btn.disabled = true;
+    try {
+        // Simpan scroll & posisi
+        const scrollY = window.scrollY;
+
+        // Paksa lebar tetap agar hasil konsisten
+        const origWidth = card.style.width;
+        card.style.width = '480px';
+
+        await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+        const canvas = await html2canvas(card, {
+            scale: 2.5,
+            backgroundColor: '#ffffff',
+            logging: false,
+            useCORS: true,
+            allowTaint: true,
+            imageTimeout: 0,
+            scrollY: -scrollY,
+        });
+
+        card.style.width = origWidth;
+
+        // Download
+        const link = document.createElement('a');
+        const nm = (namaInput.value.trim() || 'Siswa').replace(/[^a-z0-9]/gi, '_');
+        link.download = `Hasil_Tasmi_${nm}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    } catch (err) {
+        console.error(err);
+        alert('Gagal mengekspor gambar.');
+    } finally {
+        btn.innerText = orig;
+        btn.disabled = false;
     }
 }
 
@@ -1881,6 +2166,7 @@ updateTimerDisplay();
     document.querySelectorAll('input[name="statusKelulusan"]').forEach(r => r.addEventListener('change', updateAllUI));
     document.getElementById('resetAllWrongBtn').addEventListener('click', resetAllWrong);
     document.getElementById('exportPdfBtn').addEventListener('click', exportPiagamPDF);
+    document.getElementById('exportHasilBtn').addEventListener('click', exportHasilImage);
 
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
