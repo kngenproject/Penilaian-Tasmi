@@ -478,31 +478,57 @@
             padding: 10px 14px;
             background: #fff;
             border-bottom: 1px solid var(--wa-border);
-            gap: 10px;
+            gap: 8px;
+            flex-wrap: nowrap;
         }
         .result-info-row:last-child { border-bottom: none; }
         .result-info-row:nth-child(even) { background: var(--wa-panel); }
-        .result-info-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--wa-muted); white-space: nowrap; }
-        .result-info-value { font-size: 0.9rem; font-weight: 600; color: var(--wa-ink); text-align: right; }
+        .result-info-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--wa-muted);
+            white-space: nowrap;
+            flex-shrink: 0;
+            max-width: 50%;
+        }
+        .result-info-value {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--wa-ink);
+            text-align: right;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+            min-width: 0;
+            flex: 1;
+        }
 
         .result-stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 6px;
             margin-bottom: 12px;
         }
         .stat-box {
             background: var(--wa-panel);
             border: 1px solid var(--wa-border);
             border-radius: var(--radius-sm);
-            padding: 14px 8px;
+            padding: 12px 6px;
             text-align: center;
+            min-width: 0;
         }
         .stat-box.highlight { background: var(--wa-sent); border-color: #b5f0c4; }
         .stat-box.danger { background: var(--red-pale); border-color: #f5c2be; }
-        .stat-value { font-size: 1.7rem; font-weight: 800; color: var(--wa-dark); line-height: 1; }
+        .stat-value {
+            font-size: clamp(1.2rem, 5vw, 1.7rem);
+            font-weight: 800;
+            color: var(--wa-dark);
+            line-height: 1;
+            word-break: break-all;
+        }
         .stat-box.danger .stat-value { color: var(--red); }
-        .stat-sub { font-size: 0.65rem; color: var(--wa-muted); font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .stat-sub { font-size: 0.62rem; color: var(--wa-muted); font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
 
         .status-selector {
             background: var(--wa-panel);
@@ -547,15 +573,17 @@
         }
 
         /* ═══════════════════════════════════════
-           PIAGAM — WhatsApp theme
+           PIAGAM — Islamic Ornamental Premium
            ═══════════════════════════════════════ */
         :root {
-            --navy: #075E54;
-            --navy2: #054640;
-            --pg-gold: #f0b429;
-            --pg-gold2: #f6c94e;
-            --pg-cream: #d9fdd3;
-            --pg-cream2: #b5f0c4;
+            --navy:  #054640;
+            --navy2: #032e2a;
+            --navy3: #076b5f;
+            --pg-gold:  #c8a84b;
+            --pg-gold2: #e8c96a;
+            --pg-gold3: #f5e199;
+            --pg-cream: #fdf8ee;
+            --pg-cream2:#f5edda;
         }
 
         .piagam-wrapper {
@@ -564,71 +592,126 @@
             margin: 0 auto;
         }
 
+        /* ── Kartu utama ── */
         .piagam-card {
-            background: #f0f2f5;
-            border-radius: 4px;
+            background: var(--pg-cream);
+            border-radius: 3px;
             aspect-ratio: 210 / 297;
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
             align-items: stretch;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.35), 0 2px 8px rgba(0,0,0,0.2);
             font-family: inherit;
         }
 
-        .pg-outer-border {
+        /* ── Border frame berlapis ── */
+        .pg-frame-outer {
             position: absolute;
-            inset: 7px;
-            border: 1.5px solid var(--pg-gold);
-            border-radius: 2px;
+            inset: 5px;
+            border: 2.5px solid var(--pg-gold);
+            border-radius: 1px;
             pointer-events: none;
-            z-index: 5;
+            z-index: 10;
         }
+        .pg-frame-inner {
+            position: absolute;
+            inset: 9px;
+            border: 1px solid rgba(200,168,75,0.45);
+            border-radius: 1px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        /* Sudut ornamen */
+        .pg-corner {
+            position: absolute;
+            width: 5%;
+            height: 5%;
+            z-index: 11;
+            pointer-events: none;
+        }
+        .pg-corner svg { width: 100%; height: 100%; }
+        .pg-corner.tl { top: 5px;    left: 5px; }
+        .pg-corner.tr { top: 5px;    right: 5px;  transform: scaleX(-1); }
+        .pg-corner.bl { bottom: 5px; left: 5px;   transform: scaleY(-1); }
+        .pg-corner.br { bottom: 5px; right: 5px;  transform: scale(-1,-1); }
 
+        /* ── Header ── */
         .pg-header {
-            background: linear-gradient(170deg, var(--navy2) 0%, var(--navy) 100%);
-            padding: 3.5% 8% 2.5%;
+            background: linear-gradient(160deg, var(--navy2) 0%, var(--navy) 60%, var(--navy3) 100%);
+            padding: 3% 12% 2.5%;
             text-align: center;
             position: relative;
             flex-shrink: 0;
+            z-index: 1;
         }
+        /* arabesque side panels */
         .pg-header-ornament {
             position: absolute;
             top: 0; bottom: 0;
-            width: 22%;
-            opacity: 0.12;
+            width: 18%;
             pointer-events: none;
         }
-        .pg-header-ornament.left { left: 0; }
+        .pg-header-ornament.left  { left: 0; }
         .pg-header-ornament.right { right: 0; transform: scaleX(-1); }
         .pg-header-ornament svg { width: 100%; height: 100%; }
 
-        .pg-mihrab {
-            width: 20%;
-            max-width: 90px;
-            margin: 0 auto 2%;
-            display: block;
+        /* bismillah / tajwid arabic di header */
+        .pg-bismillah {
+            font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+            font-size: clamp(0.75rem, 2.8vw, 1.1rem);
+            color: var(--pg-gold3);
+            direction: rtl;
+            letter-spacing: 0;
+            margin-bottom: 1.5%;
+            line-height: 1.6;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
         }
-        .pg-mihrab svg { width: 100%; }
+
+        /* garis ornamen emas horizontal */
+        .pg-header-divider {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 1.5% 0;
+        }
+        .pg-header-divider::before,
+        .pg-header-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pg-gold2));
+        }
+        .pg-header-divider::after {
+            background: linear-gradient(270deg, transparent, var(--pg-gold2));
+        }
+        .pg-header-divider span {
+            color: var(--pg-gold2);
+            font-size: clamp(0.45rem, 1.5vw, 0.6rem);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
 
         .pg-title-main {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(1.6rem, 6vw, 2.8rem);
+            font-size: clamp(1.5rem, 6vw, 2.6rem);
             font-weight: 800;
             color: #ffffff;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             text-transform: uppercase;
             line-height: 1;
-            margin-bottom: 1%;
+            margin-bottom: 0.8%;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
         .pg-title-sub {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            color: var(--pg-gold);
-            font-size: clamp(0.55rem, 2vw, 0.82rem);
+            gap: 6px;
+            color: var(--pg-gold2);
+            font-size: clamp(0.5rem, 1.8vw, 0.75rem);
             font-weight: 600;
             letter-spacing: 3px;
             text-transform: uppercase;
@@ -636,45 +719,96 @@
         .pg-title-sub::before, .pg-title-sub::after {
             content: '';
             flex: 1;
-            max-width: 40px;
+            max-width: 30px;
             height: 1px;
             background: var(--pg-gold);
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
+        /* ── Triple gold bar separator ── */
         .pg-gold-bar {
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--pg-gold2) 20%, var(--pg-gold) 50%, var(--pg-gold2) 80%, transparent);
+            height: 6px;
+            background: linear-gradient(90deg,
+                var(--navy2) 0%,
+                var(--pg-gold) 15%,
+                var(--pg-gold3) 35%,
+                var(--pg-gold2) 50%,
+                var(--pg-gold3) 65%,
+                var(--pg-gold) 85%,
+                var(--navy2) 100%
+            );
             flex-shrink: 0;
+            position: relative;
+            z-index: 2;
         }
 
-        /* WA chat wallpaper inside piagam body */
+        /* ── Body ── */
         .pg-body {
-            background-color: #ECE5DD;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='1.2' fill='%23c5bdb5' opacity='0.4'/%3E%3C/svg%3E");
+            background-color: var(--pg-cream);
+            background-image:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Cg fill='none' stroke='%23c8a84b' stroke-width='0.3' opacity='0.18'%3E%3Cpolygon points='30,2 58,16 58,44 30,58 2,44 2,16'/%3E%3Cpolygon points='30,10 50,20 50,40 30,50 10,40 10,20'/%3E%3Ccircle cx='30' cy='30' r='8'/%3E%3C/g%3E%3C/svg%3E");
             flex: 1;
-            padding: 3% 8% 2%;
+            padding: 2.5% 9% 1.5%;
             display: flex;
             flex-direction: column;
             position: relative;
+            z-index: 1;
         }
 
+        /* watermark kaligrafi al-quran */
         .pg-watermark {
             position: absolute;
-            bottom: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 55%;
-            opacity: 0.05;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            opacity: 0.04;
             pointer-events: none;
         }
         .pg-watermark svg { width: 100%; }
 
+        /* stempel resmi (stamp) */
+        .pg-stamp {
+            position: absolute;
+            bottom: 6%;
+            left: 7%;
+            width: clamp(48px, 14%, 72px);
+            height: clamp(48px, 14%, 72px);
+            z-index: 3;
+            opacity: 0.82;
+            pointer-events: none;
+        }
+        .pg-stamp svg { width: 100%; height: 100%; }
+
         .pg-intro {
             text-align: center;
-            font-size: clamp(0.62rem, 2vw, 0.82rem);
-            color: var(--wa-ink2);
-            margin-bottom: 3%;
+            font-size: clamp(0.6rem, 1.9vw, 0.8rem);
+            color: #5a4a2a;
+            margin-bottom: 2.5%;
             font-style: italic;
+            letter-spacing: 0.5px;
+        }
+
+        /* garis emas tipis antara intro dan data */
+        .pg-intro-line {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 2.5%;
+        }
+        .pg-intro-line::before, .pg-intro-line::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pg-gold));
+        }
+        .pg-intro-line::after {
+            background: linear-gradient(270deg, transparent, var(--pg-gold));
+        }
+        .pg-intro-line span {
+            width: 5px; height: 5px;
+            background: var(--pg-gold);
+            transform: rotate(45deg);
+            flex-shrink: 0;
         }
 
         .pg-data-list {
@@ -687,42 +821,44 @@
             display: flex;
             align-items: center;
             gap: 0;
-            border-bottom: 1px solid rgba(7,94,84,0.15);
-            padding: 2.2% 0;
+            border-bottom: 1px solid rgba(200,168,75,0.2);
+            padding: 2% 0;
         }
         .pg-data-row:last-child { border-bottom: none; }
 
         .pg-data-icon {
-            width: clamp(24px, 6%, 32px);
-            height: clamp(24px, 6%, 32px);
+            width: clamp(20px, 5.5%, 28px);
+            height: clamp(20px, 5.5%, 28px);
             border-radius: 50%;
-            background: var(--navy);
+            background: linear-gradient(135deg, var(--navy3), var(--navy));
+            border: 1px solid rgba(200,168,75,0.4);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
-            margin-right: 3%;
-            font-size: clamp(0.6rem, 1.8vw, 0.85rem);
+            margin-right: 2.5%;
+            font-size: clamp(0.55rem, 1.6vw, 0.78rem);
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
         }
         .pg-data-label {
-            font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+            font-size: clamp(0.52rem, 1.7vw, 0.72rem);
             font-weight: 700;
             color: var(--navy);
             text-transform: uppercase;
             letter-spacing: 1px;
-            width: 18%;
+            width: 20%;
             flex-shrink: 0;
         }
         .pg-data-colon {
             font-weight: 700;
-            color: var(--navy);
-            margin-right: 3%;
+            color: var(--pg-gold);
+            margin-right: 2.5%;
             font-size: clamp(0.6rem, 1.8vw, 0.8rem);
         }
         .pg-data-value {
             flex: 1;
-            font-size: clamp(0.6rem, 2vw, 0.82rem);
-            color: var(--wa-ink);
+            font-size: clamp(0.58rem, 1.9vw, 0.8rem);
+            color: #1a1a1a;
             font-weight: 600;
-            border-bottom: 1px solid rgba(7,94,84,0.3);
+            border-bottom: 1px dashed rgba(200,168,75,0.4);
             padding-bottom: 1px;
             min-height: 1.4em;
         }
@@ -730,66 +866,104 @@
         /* Baris HASIL */
         .pg-hasil-boxes {
             display: flex;
-            gap: clamp(10px, 4%, 24px);
+            gap: clamp(8px, 3.5%, 20px);
             align-items: center;
         }
         .pg-checkbox {
             display: flex;
             align-items: center;
             gap: 4px;
-            font-size: clamp(0.55rem, 1.8vw, 0.75rem);
-            font-weight: 600;
-            color: var(--wa-ink);
+            font-size: clamp(0.5rem, 1.7vw, 0.7rem);
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .pg-checkbox-box {
-            width: clamp(11px, 3%, 15px);
-            height: clamp(11px, 3%, 15px);
+            width: clamp(10px, 2.8%, 14px);
+            height: clamp(10px, 2.8%, 14px);
             border: 1.5px solid var(--navy);
             border-radius: 2px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             color: var(--navy);
             background: white;
             flex-shrink: 0;
         }
-        .pg-checkbox-box.checked { background: var(--wa-bright); border-color: var(--wa-bright); color: white; }
+        .pg-checkbox-box.checked {
+            background: var(--navy);
+            border-color: var(--navy);
+            color: var(--pg-gold2);
+            font-weight: 900;
+        }
 
+        /* ── Gold bar 2 ── */
         .pg-gold-bar2 {
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--pg-gold), transparent);
+            height: 4px;
+            background: linear-gradient(90deg,
+                transparent,
+                var(--pg-gold) 20%,
+                var(--pg-gold3) 50%,
+                var(--pg-gold) 80%,
+                transparent
+            );
             margin: 2% 0 0;
         }
 
+        /* ── Footer ── */
         .pg-footer {
-            background: linear-gradient(5deg, var(--navy2) 0%, var(--navy) 100%);
-            padding: 2.5% 8% 3%;
+            background: linear-gradient(175deg, var(--navy3) 0%, var(--navy) 40%, var(--navy2) 100%);
+            padding: 2% 10% 2.5%;
             position: relative;
             flex-shrink: 0;
+            z-index: 1;
         }
         .pg-footer-ornament {
             position: absolute;
-            top: 0; bottom: 0; width: 20%; opacity: 0.12; pointer-events: none;
+            top: 0; bottom: 0;
+            width: 18%;
+            pointer-events: none;
         }
-        .pg-footer-ornament.left { left: 0; }
+        .pg-footer-ornament.left  { left: 0; }
         .pg-footer-ornament.right { right: 0; transform: scaleX(-1); }
         .pg-footer-ornament svg { width: 100%; height: 100%; }
 
+        .pg-footer-diamond {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 1%;
+        }
+        .pg-footer-diamond::before, .pg-footer-diamond::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pg-gold));
+            opacity: 0.6;
+        }
+        .pg-footer-diamond::after {
+            background: linear-gradient(270deg, transparent, var(--pg-gold));
+        }
+        .pg-footer-diamond span { color: var(--pg-gold2); font-size: clamp(0.5rem, 1.5vw, 0.65rem); }
+
         .pg-hadits-arabic {
             font-family: 'Amiri', 'Noto Naskh Arabic', serif;
-            font-size: clamp(0.75rem, 2.8vw, 1.15rem);
-            color: var(--pg-gold2);
+            font-size: clamp(0.7rem, 2.6vw, 1.05rem);
+            color: var(--pg-gold3);
             text-align: center;
             direction: rtl;
-            line-height: 1.8;
-            margin-bottom: 1.5%;
+            line-height: 1.9;
+            margin-bottom: 1%;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
         }
         .pg-hadits-latin {
-            font-size: clamp(0.5rem, 1.6vw, 0.65rem);
-            color: rgba(255,255,255,0.75);
+            font-size: clamp(0.46rem, 1.5vw, 0.6rem);
+            color: rgba(255,255,255,0.72);
             text-align: center;
             font-style: italic;
             line-height: 1.5;
-            margin-bottom: 2%;
+            margin-bottom: 1.5%;
         }
         .pg-ttd-row {
             display: flex;
@@ -801,37 +975,24 @@
         }
         .pg-ttd-block { text-align: center; color: rgba(255,255,255,0.85); }
         .pg-ttd-date {
-            font-size: clamp(0.5rem, 1.5vw, 0.65rem);
+            font-size: clamp(0.46rem, 1.4vw, 0.6rem);
             display: flex;
             align-items: center;
             gap: 4px;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 1%;
+            color: rgba(255,255,255,0.65);
+            margin-bottom: 0.5%;
         }
         .pg-ttd-line {
-            border-top: 1px solid rgba(240,180,41,0.5);
-            margin-top: clamp(18px, 5%, 28px);
+            border-top: 1px solid rgba(200,168,75,0.6);
+            margin-top: clamp(16px, 4.5%, 26px);
             padding-top: 3px;
-            font-size: clamp(0.5rem, 1.6vw, 0.65rem);
+            font-size: clamp(0.46rem, 1.5vw, 0.6rem);
             font-weight: 600;
             color: var(--pg-gold2);
             text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-        .pg-footer-diamond {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            margin-bottom: 1.5%;
-        }
-        .pg-footer-diamond::before, .pg-footer-diamond::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--pg-gold));
-            opacity: 0.5;
-        }
-        .pg-footer-diamond span { color: var(--pg-gold); font-size: clamp(0.55rem, 1.6vw, 0.7rem); }
 
         /* ═══════════════════════════════════════
            EXPORT BUTTON — WA green CTA
@@ -992,27 +1153,32 @@
 
         .hasil-card-header {
             background: linear-gradient(135deg, var(--wa-dark) 0%, var(--wa-mid) 100%);
-            padding: 18px 20px;
+            padding: 16px 16px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
+            flex-wrap: nowrap;
+            min-width: 0;
         }
         .hasil-logo {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             border: 2px solid rgba(255,255,255,0.4);
             object-fit: cover;
             flex-shrink: 0;
         }
-        .hasil-header-text { flex: 1; }
+        .hasil-header-text { flex: 1; min-width: 0; }
         .hasil-header-title {
-            font-size: 1rem;
+            font-size: clamp(0.82rem, 3.5vw, 1rem);
             font-weight: 800;
             color: #ffffff;
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .hasil-header-sub {
             font-size: 0.72rem;
@@ -1025,12 +1191,14 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 6px 16px;
+            padding: 6px 14px;
             border-radius: 50px;
-            font-size: 0.82rem;
+            font-size: clamp(0.72rem, 3vw, 0.82rem);
             font-weight: 700;
             margin-top: 8px;
             letter-spacing: 0.5px;
+            white-space: nowrap;
+            max-width: 100%;
         }
         .hasil-badge-status.lulus {
             background: var(--wa-sent);
@@ -1142,11 +1310,30 @@
             .basmalah-item { font-size: 1.25rem; }
             .app-header h1 { font-size: 0.95rem; }
             .app-header p { font-size: 0.62rem; }
+            .hasil-export-card .result-score-block,
+            .hasil-export-card .result-info-list,
+            .hasil-export-card .result-stats-row,
+            .hasil-export-card .formula-box,
+            .hasil-export-card .wrong-detail-section {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
         }
         @media (max-width: 360px) {
             .pg-data-label { width: 22%; }
             .tab-btn { font-size: 0.6rem; padding: 10px 2px; }
             .ayat-item { font-size: 1.05rem; }
+            .result-info-label { font-size: 0.65rem; }
+            .result-info-value { font-size: 0.8rem; }
+            .stat-value { font-size: 1.1rem; }
+            .hasil-export-card .result-score-block,
+            .hasil-export-card .result-info-list,
+            .hasil-export-card .result-stats-row,
+            .hasil-export-card .formula-box,
+            .hasil-export-card .wrong-detail-section {
+                margin-left: 8px;
+                margin-right: 8px;
+            }
         }
     </style>
 </head>
@@ -1236,7 +1423,6 @@
 
             <!-- Header kartu hasil -->
             <div class="hasil-card-header">
-                <img src="icons/icon-192x192.png" alt="Logo" class="hasil-logo">
                 <div class="hasil-header-text">
                     <div class="hasil-header-title">LAPORAN TASMI'</div>
                     <div class="hasil-header-sub">Juz Amma</div>
@@ -1353,71 +1539,134 @@
             <div class="piagam-wrapper">
             <div id="piagamCard" class="piagam-card">
 
-                <!-- Border ornament luar -->
-                <div class="pg-outer-border"></div>
+                <!-- ═══ FRAME BERLAPIS ═══ -->
+                <div class="pg-frame-outer"></div>
+                <div class="pg-frame-inner"></div>
 
-                <!-- ═══ HEADER NAVY ═══ -->
+                <!-- Sudut ornamen -->
+                <div class="pg-corner tl">
+                    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#c8a84b" stroke-width="1.5">
+                            <path d="M2 2 L18 2 L18 4 L4 4 L4 18 L2 18 Z"/>
+                            <path d="M6 6 L14 6 L14 8 L8 8 L8 14 L6 14 Z"/>
+                            <circle cx="10" cy="10" r="2" fill="#c8a84b" stroke="none"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="pg-corner tr">
+                    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#c8a84b" stroke-width="1.5">
+                            <path d="M2 2 L18 2 L18 4 L4 4 L4 18 L2 18 Z"/>
+                            <path d="M6 6 L14 6 L14 8 L8 8 L8 14 L6 14 Z"/>
+                            <circle cx="10" cy="10" r="2" fill="#c8a84b" stroke="none"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="pg-corner bl">
+                    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#c8a84b" stroke-width="1.5">
+                            <path d="M2 2 L18 2 L18 4 L4 4 L4 18 L2 18 Z"/>
+                            <path d="M6 6 L14 6 L14 8 L8 8 L8 14 L6 14 Z"/>
+                            <circle cx="10" cy="10" r="2" fill="#c8a84b" stroke="none"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="pg-corner br">
+                    <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                        <g fill="none" stroke="#c8a84b" stroke-width="1.5">
+                            <path d="M2 2 L18 2 L18 4 L4 4 L4 18 L2 18 Z"/>
+                            <path d="M6 6 L14 6 L14 8 L8 8 L8 14 L6 14 Z"/>
+                            <circle cx="10" cy="10" r="2" fill="#c8a84b" stroke="none"/>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- ═══ HEADER ═══ -->
                 <div class="pg-header">
-                    <!-- ornamen geometris kiri kanan -->
+                    <!-- Arabesque kiri -->
                     <div class="pg-header-ornament left">
-                        <svg viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
-                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
-                                <path d="M0 0 L100 100 L0 200 Z"/>
-                                <path d="M20 50 L80 100 L20 150 Z"/>
-                                <circle cx="50" cy="100" r="30"/>
-                                <path d="M0 100 L100 0 M0 200 L100 100"/>
-                                <path d="M0 150 L100 200 M50 0 L50 300"/>
-                                <rect x="10" y="10" width="80" height="80" transform="rotate(45 50 50)"/>
+                        <svg viewBox="0 0 80 240" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.7" opacity="0.55">
+                                <!-- bintang 8 titik -->
+                                <polygon points="40,10 46,26 62,20 56,36 72,42 56,48 62,64 46,58 40,74 34,58 18,64 24,48 8,42 24,36 18,20 34,26" fill="rgba(200,168,75,0.08)"/>
+                                <circle cx="40" cy="42" r="14"/>
+                                <!-- arabesque vertikal -->
+                                <path d="M40 74 Q20 90 40 110 Q60 130 40 150 Q20 170 40 190 Q60 210 40 230"/>
+                                <path d="M40 74 Q15 85 20 110 Q25 130 10 145"/>
+                                <path d="M40 74 Q65 85 60 110 Q55 130 70 145"/>
+                                <circle cx="40" cy="110" r="8"/>
+                                <circle cx="40" cy="150" r="6"/>
+                                <circle cx="40" cy="190" r="4"/>
+                                <!-- daun kiri kanan -->
+                                <path d="M20 110 Q5 120 15 135 Q30 125 20 110"/>
+                                <path d="M60 110 Q75 120 65 135 Q50 125 60 110"/>
+                                <path d="M25 150 Q10 160 18 175 Q35 165 25 150"/>
+                                <path d="M55 150 Q70 160 62 175 Q45 165 55 150"/>
                             </g>
                         </svg>
                     </div>
+                    <!-- Arabesque kanan (mirror) -->
                     <div class="pg-header-ornament right">
-                        <svg viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
-                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
-                                <path d="M0 0 L100 100 L0 200 Z"/>
-                                <path d="M20 50 L80 100 L20 150 Z"/>
-                                <circle cx="50" cy="100" r="30"/>
-                                <path d="M0 100 L100 0 M0 200 L100 100"/>
-                                <path d="M0 150 L100 200 M50 0 L50 300"/>
-                                <rect x="10" y="10" width="80" height="80" transform="rotate(45 50 50)"/>
+                        <svg viewBox="0 0 80 240" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.7" opacity="0.55">
+                                <polygon points="40,10 46,26 62,20 56,36 72,42 56,48 62,64 46,58 40,74 34,58 18,64 24,48 8,42 24,36 18,20 34,26" fill="rgba(200,168,75,0.08)"/>
+                                <circle cx="40" cy="42" r="14"/>
+                                <path d="M40 74 Q20 90 40 110 Q60 130 40 150 Q20 170 40 190 Q60 210 40 230"/>
+                                <path d="M40 74 Q15 85 20 110 Q25 130 10 145"/>
+                                <path d="M40 74 Q65 85 60 110 Q55 130 70 145"/>
+                                <circle cx="40" cy="110" r="8"/>
+                                <circle cx="40" cy="150" r="6"/>
+                                <circle cx="40" cy="190" r="4"/>
+                                <path d="M20 110 Q5 120 15 135 Q30 125 20 110"/>
+                                <path d="M60 110 Q75 120 65 135 Q50 125 60 110"/>
+                                <path d="M25 150 Q10 160 18 175 Q35 165 25 150"/>
+                                <path d="M55 150 Q70 160 62 175 Q45 165 55 150"/>
                             </g>
                         </svg>
                     </div>
 
-                    <!-- Logo App -->
-                    <div class="pg-mihrab">
-                        <img src="icons/icon-192x192.png" alt="Logo Tasmi'" style="width:100%;height:auto;border-radius:50%;display:block;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.35));border:2px solid rgba(200,168,75,0.6);">
-                    </div>
+                    <div class="pg-bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيم</div>
 
-                    <div class="pg-title-main">PIAGAM</div>
-                    <div class="pg-title-sub">TASMI' JUZ AMMA</div>
+                    <div class="pg-header-divider"><span>✦ PIAGAM PENGHARGAAN ✦</span></div>
+
+                    <div class="pg-title-main">TASMI'</div>
+                    <div class="pg-title-sub">JUZ AMMA</div>
                 </div>
                 <div class="pg-gold-bar"></div>
 
-                <!-- ═══ BODY CREAM ═══ -->
+                <!-- ═══ BODY ═══ -->
                 <div class="pg-body">
-                    <!-- watermark masjid -->
+                    <!-- Watermark bintang geometrik -->
                     <div class="pg-watermark">
-                        <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" fill="#1a2744">
-                            <rect x="20" y="120" width="260" height="60"/>
-                            <rect x="50" y="90" width="60" height="90"/>
-                            <rect x="190" y="90" width="60" height="90"/>
-                            <rect x="120" y="70" width="60" height="110"/>
-                            <!-- kubah tengah -->
-                            <ellipse cx="150" cy="70" rx="30" ry="30"/>
-                            <rect x="130" y="55" width="40" height="20"/>
-                            <!-- kubah kiri kanan -->
-                            <ellipse cx="80" cy="90" rx="20" ry="20"/>
-                            <ellipse cx="220" cy="90" rx="20" ry="20"/>
-                            <!-- menara -->
-                            <rect x="0" y="60" width="20" height="120"/>
-                            <ellipse cx="10" cy="60" rx="10" ry="12"/>
-                            <rect x="280" y="60" width="20" height="120"/>
-                            <ellipse cx="290" cy="60" rx="10" ry="12"/>
+                        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="#054640">
+                            <polygon points="100,5 115,60 170,60 125,92 142,148 100,115 58,148 75,92 30,60 85,60"/>
+                            <circle cx="100" cy="100" r="55" fill="none" stroke="#054640" stroke-width="3"/>
+                            <circle cx="100" cy="100" r="40" fill="none" stroke="#054640" stroke-width="1.5"/>
+                            <line x1="100" y1="45" x2="100" y2="155" stroke="#054640" stroke-width="1"/>
+                            <line x1="45" y1="100" x2="155" y2="100" stroke="#054640" stroke-width="1"/>
+                            <line x1="61" y1="61" x2="139" y2="139" stroke="#054640" stroke-width="1"/>
+                            <line x1="139" y1="61" x2="61" y2="139" stroke="#054640" stroke-width="1"/>
                         </svg>
                     </div>
 
-                    <div class="pg-intro">Dengan ini menyatakan bahwa:</div>
+                    <!-- Stempel resmi -->
+                    <div class="pg-stamp">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="46" fill="none" stroke="#054640" stroke-width="2.5"/>
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="#054640" stroke-width="1"/>
+                            <circle cx="50" cy="50" r="34" fill="rgba(5,70,64,0.08)" stroke="#054640" stroke-width="0.8"/>
+                            <!-- bintang tengah -->
+                            <polygon points="50,20 55,36 71,36 58,46 63,62 50,52 37,62 42,46 29,36 45,36" fill="#054640" opacity="0.7"/>
+                            <!-- teks melingkar -->
+                            <path id="circle-top" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0" fill="none"/>
+                            <text font-size="7" fill="#054640" font-family="inherit" font-weight="700" letter-spacing="2">
+                                <textPath href="#circle-top">✦ LEMBAGA PENDIDIKAN ISLAM ✦</textPath>
+                            </text>
+                        </svg>
+                    </div>
+
+                    <div class="pg-intro">Dengan penuh kebanggaan menyatakan bahwa</div>
+                    <div class="pg-intro-line"><span></span></div>
 
                     <div class="pg-data-list">
                         <!-- NAMA -->
@@ -1449,7 +1698,7 @@
                                         <span class="pg-checkbox-box" id="pgBoxTidak"></span>
                                         TIDAK LULUS
                                     </span>
-                                    <span style="font-size:clamp(0.5rem,1.6vw,0.68rem);color:#888;margin-left:4px;" id="piagamNilai"></span>
+                                    <span style="font-size:clamp(0.45rem,1.5vw,0.62rem);color:#888;margin-left:4px;" id="piagamNilai"></span>
                                 </div>
                             </div>
                         </div>
@@ -1471,21 +1720,28 @@
                     <div class="pg-gold-bar2"></div>
                 </div>
 
-                <!-- ═══ FOOTER NAVY ═══ -->
+                <!-- ═══ FOOTER ═══ -->
                 <div class="pg-footer">
+                    <!-- Arabesque footer kiri -->
                     <div class="pg-footer-ornament left">
-                        <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
-                                <circle cx="50" cy="80" r="40"/>
-                                <path d="M10 80 L90 80 M50 40 L50 120 M18 48 L82 112 M82 48 L18 112"/>
+                        <svg viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.7" opacity="0.5">
+                                <circle cx="40" cy="40" r="28"/>
+                                <circle cx="40" cy="40" r="18"/>
+                                <polygon points="40,14 48,32 66,32 52,44 58,62 40,52 22,62 28,44 14,32 32,32"/>
+                                <path d="M40 68 Q20 80 30 100 Q50 90 40 68"/>
+                                <path d="M40 68 Q60 80 50 100 Q30 90 40 68"/>
                             </g>
                         </svg>
                     </div>
                     <div class="pg-footer-ornament right">
-                        <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
-                                <circle cx="50" cy="80" r="40"/>
-                                <path d="M10 80 L90 80 M50 40 L50 120 M18 48 L82 112 M82 48 L18 112"/>
+                        <svg viewBox="0 0 80 120" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.7" opacity="0.5">
+                                <circle cx="40" cy="40" r="28"/>
+                                <circle cx="40" cy="40" r="18"/>
+                                <polygon points="40,14 48,32 66,32 52,44 58,62 40,52 22,62 28,44 14,32 32,32"/>
+                                <path d="M40 68 Q20 80 30 100 Q50 90 40 68"/>
+                                <path d="M40 68 Q60 80 50 100 Q30 90 40 68"/>
                             </g>
                         </svg>
                     </div>
@@ -1494,9 +1750,8 @@
 
                     <div class="pg-hadits-arabic">إِنَّ أَحْسَنَكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ</div>
                     <div class="pg-hadits-latin">
-                        "Sesungguhnya sebaik-baik kamu adalah<br>
-                        orang yang mempelajari Al-Qur'an dan mengajarkannya."<br>
-                        <span style="opacity:0.6;">(HR. Bukhari)</span>
+                        "Sesungguhnya sebaik-baik kamu adalah orang yang mempelajari Al-Qur'an dan mengajarkannya."<br>
+                        <span style="opacity:0.55;">(HR. Bukhari)</span>
                     </div>
 
                     <div class="pg-ttd-row">
