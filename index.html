@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#0d5c42">
+    <meta name="theme-color" content="#075E54">
     <meta name="description" content="Aplikasi Tasmi' Juz Amma untuk menilai hafalan santri dengan piagam digital">
     <title>Tasmi' Juz Amma</title>
     
@@ -11,7 +11,7 @@
     <link rel="manifest" href="manifest.json">
     
     <!-- Ikon untuk PWA -->
-    <link rel="apple-touch-icon" href="https://placehold.co/192x192/0d5c42/white?text=Tasmi">
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/075E54/white?text=Tasmi">
     
     <!-- Library External -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -26,70 +26,90 @@
             font-weight: normal; font-style: normal; font-display: swap;
         }
 
+        /* ═══════════════════════════════════════
+           WHATSAPP COLOR TOKENS
+           ═══════════════════════════════════════ */
         :root {
-            --emerald: #0d5c42;
-            --emerald-light: #1a7a5a;
-            --emerald-pale: #e8f5ef;
-            --emerald-pale2: #d0ece0;
-            --gold: #b8892a;
-            --gold-light: #d4a63a;
-            --gold-pale: #fdf5e1;
-            --gold-border: #e8d099;
-            --cream: #faf7f2;
-            --cream2: #f3ede4;
-            --ink: #1a1208;
-            --ink2: #3a3020;
-            --muted: #7a7060;
-            --red: #c0392b;
-            --red-pale: #fdecea;
-            --white: #ffffff;
-            --shadow-sm: 0 2px 8px rgba(13,92,66,0.08);
-            --shadow-md: 0 8px 24px rgba(13,92,66,0.12);
-            --shadow-lg: 0 20px 48px rgba(13,92,66,0.16);
-            --radius: 20px;
-            --radius-sm: 12px;
+            /* WA greens */
+            --wa-dark:      #075E54;   /* header / tab active */
+            --wa-mid:       #128C7E;   /* accents */
+            --wa-bright:    #25D366;   /* bubble sent / CTA */
+            --wa-teal:      #00a884;   /* focus ring / highlights */
+
+            /* WA backgrounds */
+            --wa-bg:        #ECE5DD;   /* chat wallpaper warm beige */
+            --wa-panel:     #f0f2f5;   /* input panel */
+            --wa-card:      #ffffff;   /* bubble / card white */
+            --wa-sidebar:   #111b21;   /* dark sidebar (desktop WA) */
+
+            /* WA text */
+            --wa-ink:       #111b21;
+            --wa-ink2:      #3b4a54;
+            --wa-muted:     #8696a0;
+            --wa-time:      #667781;
+
+            /* WA bubble sent (green) / received (white) */
+            --wa-sent:      #d9fdd3;
+            --wa-recv:      #ffffff;
+
+            /* WA borders / dividers */
+            --wa-border:    #e9edef;
+            --wa-tick:      #53bdeb;   /* blue tick */
+
+            /* red for wrong */
+            --red:          #f15c6d;
+            --red-pale:     #fdecea;
+
+            /* legacy aliases → WA equivalents */
+            --emerald:      var(--wa-dark);
+            --emerald-light:var(--wa-mid);
+            --emerald-pale: #d9fdd3;
+            --emerald-pale2:#b5f0c4;
+            --gold:         #f0b429;
+            --gold-light:   #f6c94e;
+            --gold-pale:    #fdf5dc;
+            --gold-border:  #e8d47a;
+            --cream:        var(--wa-bg);
+            --cream2:       #ddd6cd;
+            --ink:          var(--wa-ink);
+            --ink2:         var(--wa-ink2);
+            --muted:        var(--wa-muted);
+            --white:        #ffffff;
+            --shadow-sm:    0 1px 3px rgba(0,0,0,0.12);
+            --shadow-md:    0 4px 12px rgba(0,0,0,0.15);
+            --shadow-lg:    0 8px 24px rgba(0,0,0,0.18);
+            --radius:       12px;
+            --radius-sm:    8px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background: var(--cream);
-            font-family: 'DM Sans', sans-serif;
-            color: var(--ink);
+            /* WA chat wallpaper — subtle geometric dots */
+            background-color: var(--wa-bg);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='1.2' fill='%23c5bdb5' opacity='0.5'/%3E%3C/svg%3E");
+            font-family: 'Segoe UI', 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--wa-ink);
             min-height: 100vh;
-        }
-
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            opacity: 0.03;
-            background-image:
-                repeating-linear-gradient(45deg, var(--emerald) 0, var(--emerald) 1px, transparent 0, transparent 50%),
-                repeating-linear-gradient(-45deg, var(--emerald) 0, var(--emerald) 1px, transparent 0, transparent 50%);
-            background-size: 28px 28px;
-            pointer-events: none;
-            z-index: 0;
         }
 
         .app-wrapper {
             max-width: 740px;
             margin: 0 auto;
-            padding: 72px 16px 90px;
+            padding: 56px 12px 80px;
             position: relative;
             z-index: 1;
         }
 
-        /* ===== HEADER SIMPEL ===== */
+        /* ═══════════════════════════════════════
+           WHATSAPP HEADER
+           ═══════════════════════════════════════ */
         .app-header {
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
             padding: 0 16px;
-            background: var(--white);
-            border-bottom: 1px solid var(--gold-border);
-            box-shadow: var(--shadow-sm);
+            background: var(--wa-dark);
             height: 56px;
             position: fixed;
             top: 0;
@@ -98,30 +118,42 @@
             width: 100%;
             max-width: 740px;
             z-index: 101;
-            border-radius: 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+        }
+        /* WA avatar circle */
+        .app-header::before {
+            content: '🕌';
+            font-size: 1.5rem;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: var(--wa-mid);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
         .app-header h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--emerald);
-            letter-spacing: -0.3px;
+            font-family: inherit;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0;
             white-space: nowrap;
         }
         .app-header p {
             font-size: 0.72rem;
-            color: var(--muted);
+            color: rgba(255,255,255,0.75);
             font-weight: 400;
             white-space: nowrap;
         }
-        .app-header .header-divider {
-            width: 1px;
-            height: 20px;
-            background: var(--gold-border);
-            flex-shrink: 0;
-        }
+        .app-header .header-divider { display: none; }
+        /* online dot */
+        .app-header .header-text { display: flex; flex-direction: column; flex: 1; }
 
-        /* ===== BOTTOM NAV BAR ===== */
+        /* ═══════════════════════════════════════
+           WHATSAPP BOTTOM NAV (tab bar)
+           ═══════════════════════════════════════ */
         .tab-bar {
             position: fixed;
             bottom: 0;
@@ -132,240 +164,252 @@
             z-index: 100;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            background: var(--white);
-            padding: 6px 8px;
-            padding-bottom: calc(6px + env(safe-area-inset-bottom));
-            box-shadow: 0 -4px 20px rgba(13,92,66,0.12);
-            border-top: 1px solid var(--gold-border);
-            gap: 4px;
+            background: var(--wa-dark);
+            padding: 4px 4px;
+            padding-bottom: calc(4px + env(safe-area-inset-bottom));
+            box-shadow: 0 -1px 0 rgba(255,255,255,0.1);
+            gap: 2px;
             transition: all 0.2s ease;
         }
-
-        .tab-bar.scrolled {
-            box-shadow: 0 -4px 20px rgba(13,92,66,0.2);
-        }
+        .tab-bar.scrolled { box-shadow: 0 -2px 8px rgba(0,0,0,0.3); }
 
         .tab-btn {
             background: transparent;
             border: none;
             padding: 8px 4px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            border-radius: 13px;
-            color: var(--muted);
-            transition: all 0.25s ease;
+            font-weight: 500;
+            font-size: 0.68rem;
+            border-radius: 10px;
+            color: rgba(255,255,255,0.65);
+            transition: all 0.2s ease;
             cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
+            font-family: inherit;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 3px;
             line-height: 1.2;
         }
-        .tab-btn .tab-icon { font-size: 1.2rem; }
+        .tab-btn .tab-icon { font-size: 1.15rem; }
         .tab-btn.active {
-            background: var(--emerald);
-            color: var(--white);
-            box-shadow: 0 4px 14px rgba(13,92,66,0.3);
+            background: rgba(255,255,255,0.15);
+            color: #ffffff;
+            border-bottom: 2px solid var(--wa-bright);
+            border-radius: 8px 8px 0 0;
         }
 
+        /* ═══════════════════════════════════════
+           CARDS — WA message bubble style
+           ═══════════════════════════════════════ */
         .card {
-            background: var(--white);
-            border-radius: var(--radius);
-            padding: 22px 20px;
-            margin-bottom: 16px;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(184,137,42,0.15);
-            animation: cardIn 0.3s ease;
+            background: var(--wa-recv);
+            border-radius: 0 12px 12px 12px; /* WA received bubble shape */
+            padding: 18px 16px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.13);
+            border: none;
+            animation: cardIn 0.25s ease;
+            position: relative;
+        }
+        /* bubble tail */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -8px;
+            border-top: 8px solid var(--wa-recv);
+            border-left: 8px solid transparent;
         }
         @keyframes cardIn {
-            from { opacity:0; transform: translateY(12px); }
-            to { opacity:1; transform: translateY(0); }
+            from { opacity:0; transform: translateY(8px) scale(0.98); }
+            to   { opacity:1; transform: translateY(0) scale(1); }
         }
 
         .section-title {
-            font-family: 'Playfair Display', serif;
-            font-weight: 700;
-            font-size: 1.05rem;
-            color: var(--emerald);
-            margin-bottom: 18px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--wa-dark);
+            margin-bottom: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
         .section-title::before {
             content: '';
             display: block;
-            width: 4px;
-            height: 20px;
-            background: linear-gradient(to bottom, var(--gold), var(--emerald));
+            width: 3px;
+            height: 16px;
+            background: var(--wa-bright);
             border-radius: 2px;
             flex-shrink: 0;
         }
 
-        .form-grid { display: flex; flex-direction: column; gap: 12px; }
-        .form-grid .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .form-grid { display: flex; flex-direction: column; gap: 10px; }
+        .form-grid .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
-        .input-group { display: flex; flex-direction: column; gap: 6px; }
+        .input-group { display: flex; flex-direction: column; gap: 4px; }
         .input-group label {
-            font-size: 0.72rem;
+            font-size: 0.7rem;
             font-weight: 600;
-            color: var(--emerald);
-            letter-spacing: 0.5px;
+            color: var(--wa-muted);
+            letter-spacing: 0.4px;
             text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
         .input-group input, .input-group select {
-            padding: 12px 14px;
+            padding: 11px 13px;
             border-radius: var(--radius-sm);
-            border: 1.5px solid #e0d9cc;
-            background: var(--cream);
-            font-size: 0.95rem;
+            border: 1.5px solid var(--wa-border);
+            background: var(--wa-panel);
+            font-size: 0.93rem;
             outline: none;
-            transition: all 0.2s;
-            font-family: 'DM Sans', sans-serif;
-            color: var(--ink);
+            transition: all 0.18s;
+            font-family: inherit;
+            color: var(--wa-ink);
             width: 100%;
         }
         .input-group input:focus {
-            border-color: var(--emerald-light);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(13,92,66,0.1);
+            border-color: var(--wa-teal);
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(0,168,132,0.12);
         }
 
+        /* ═══════════════════════════════════════
+           AYAT LIST
+           ═══════════════════════════════════════ */
         .ayat-toolbar {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 14px;
-            gap: 10px;
+            margin-bottom: 10px;
+            gap: 8px;
             flex-wrap: wrap;
         }
         .ayat-hint {
-            font-size: 0.75rem;
-            color: var(--muted);
-            background: var(--cream);
-            padding: 6px 14px;
+            font-size: 0.72rem;
+            color: var(--wa-muted);
+            background: #fff;
+            padding: 5px 12px;
             border-radius: 50px;
-            border: 1px solid var(--gold-border);
+            border: 1px solid var(--wa-border);
         }
         .btn-reset-wrong {
-            background: var(--white);
-            border: 1.5px solid #e0d9cc;
-            color: var(--ink2);
-            padding: 8px 16px;
+            background: #fff;
+            border: 1.5px solid var(--wa-border);
+            color: var(--wa-ink2);
+            padding: 7px 14px;
             border-radius: 50px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
-            font-family: 'DM Sans', sans-serif;
+            transition: all 0.18s;
+            font-family: inherit;
         }
         .btn-reset-wrong:hover { border-color: var(--red); color: var(--red); background: var(--red-pale); }
 
         .ayat-list {
-            max-height: calc(100vh - 260px);
+            max-height: calc(100vh - 240px);
             overflow-y: auto;
-            border-radius: 16px;
-            border: 1px solid #ece6da;
-            background: var(--cream);
-            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--wa-border);
+            background: var(--wa-panel);
+            padding: 4px;
             scroll-behavior: smooth;
         }
-        .ayat-list::-webkit-scrollbar { width: 5px; }
+        .ayat-list::-webkit-scrollbar { width: 4px; }
         .ayat-list::-webkit-scrollbar-track { background: transparent; }
-        .ayat-list::-webkit-scrollbar-thumb { background: var(--emerald-pale2); border-radius: 3px; }
+        .ayat-list::-webkit-scrollbar-thumb { background: #c5bdb5; border-radius: 2px; }
 
         .surah-header {
-            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
-            padding: 11px 18px;
-            margin: 10px 4px 6px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 0.82rem;
+            background: var(--wa-dark);
+            padding: 9px 16px;
+            margin: 8px 2px 4px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.8rem;
             color: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.3px;
         }
         .surah-header .surah-num {
-            background: rgba(255,255,255,0.2);
-            padding: 3px 10px;
+            background: rgba(255,255,255,0.18);
+            padding: 2px 9px;
             border-radius: 50px;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
         }
 
         .basmalah-item {
             direction: rtl;
             text-align: center;
-            padding: 14px 18px;
-            margin: 6px 4px;
+            padding: 12px 16px;
+            margin: 4px 2px;
             font-family: 'Uthmanic Hafs', 'Amiri', 'Noto Naskh Arabic', serif;
-            font-size: 1.55rem;
-            background: var(--gold-pale);
-            border-radius: 12px;
-            color: var(--gold);
-            border: 1px solid var(--gold-border);
+            font-size: 1.45rem;
+            /* WA sent bubble */
+            background: var(--wa-sent);
+            border-radius: 8px 0 8px 8px;
+            color: var(--wa-dark);
+            border: none;
             line-height: 2;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .ayat-item {
             direction: rtl;
             text-align: right;
-            padding: 14px 16px;
-            border-radius: 10px;
-            margin: 3px 4px;
+            padding: 12px 14px;
+            border-radius: 0 8px 8px 8px;   /* WA received */
+            margin: 3px 2px;
             font-family: 'Uthmanic Hafs', 'Amiri', 'Noto Naskh Arabic', serif;
-            font-size: 1.35rem;
+            font-size: 1.3rem;
             line-height: 1.8;
             cursor: pointer;
-            background: var(--white);
+            background: #fff;
             transition: all 0.15s ease;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 12px;
-            border: 1px solid transparent;
+            gap: 10px;
+            border: none;
+            box-shadow: 0 1px 1px rgba(0,0,0,0.08);
         }
-        .ayat-item:hover { background: var(--emerald-pale); border-color: var(--emerald-pale2); }
+        .ayat-item:hover { background: #f0faf5; }
         .ayat-item:active { transform: scale(0.99); }
         .ayat-text { flex: 1; font-weight: 400; }
         .ayat-number {
             direction: ltr;
-            font-size: 0.68rem;
-            background: var(--cream2);
-            padding: 4px 10px;
+            font-size: 0.65rem;
+            background: var(--wa-panel);
+            padding: 3px 9px;
             border-radius: 50px;
-            font-family: 'DM Sans', monospace;
+            font-family: inherit;
             font-weight: 700;
-            color: var(--emerald);
+            color: var(--wa-teal);
             white-space: nowrap;
             flex-shrink: 0;
-            border: 1px solid var(--emerald-pale2);
         }
         .ayat-item.salah {
-            background: var(--red-pale);
-            border-color: #f5c2be;
+            background: #fff0f0;
         }
-        .ayat-item.salah .ayat-number {
-            background: #fde0dd;
-            color: var(--red);
-            border-color: #f5c2be;
-        }
+        .ayat-item.salah .ayat-number { background: #fde0dd; color: var(--red); }
         .ayat-item.salah .ayat-text { color: var(--red); }
 
-        /* ===== RESULT TAB ===== */
+        /* ═══════════════════════════════════════
+           RESULT TAB
+           ═══════════════════════════════════════ */
         .result-score-block {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 6px;
-            padding: 20px 0 16px;
-            border-bottom: 1px solid #ece6da;
-            margin-bottom: 18px;
+            padding: 18px 0 14px;
+            border-bottom: 1px solid var(--wa-border);
+            margin-bottom: 14px;
         }
         .score-circle-wrap {
             display: flex;
@@ -374,16 +418,16 @@
             gap: 6px;
         }
         .score-circle {
-            width: 130px;
-            height: 130px;
+            width: 120px;
+            height: 120px;
             position: relative;
             flex-shrink: 0;
         }
         .score-circle svg { transform: rotate(-90deg); }
-        .score-circle .circle-bg { fill: none; stroke: var(--emerald-pale2); stroke-width: 8; }
+        .score-circle .circle-bg { fill: none; stroke: var(--wa-border); stroke-width: 8; }
         .score-circle .circle-val {
             fill: none;
-            stroke: var(--emerald);
+            stroke: var(--wa-bright);
             stroke-width: 8;
             stroke-linecap: round;
             transition: stroke-dashoffset 0.8s cubic-bezier(0.4,0,0.2,1);
@@ -397,303 +441,430 @@
             justify-content: center;
         }
         .score-num {
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--emerald);
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--wa-dark);
             line-height: 1;
         }
         .score-label {
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 600;
-            color: var(--muted);
+            color: var(--wa-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .score-circle-wrap small { font-size: 0.72rem; color: var(--muted); font-weight: 500; }
+        .score-circle-wrap small { font-size: 0.7rem; color: var(--wa-muted); font-weight: 500; }
 
         .result-info-list {
             width: 100%;
             display: flex;
             flex-direction: column;
-            border: 1px solid #ece6da;
+            border: 1px solid var(--wa-border);
             border-radius: var(--radius-sm);
             overflow: hidden;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
         .result-info-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 11px 16px;
-            background: var(--white);
-            border-bottom: 1px solid #f0ebe1;
-            gap: 12px;
+            padding: 10px 14px;
+            background: #fff;
+            border-bottom: 1px solid var(--wa-border);
+            gap: 10px;
         }
         .result-info-row:last-child { border-bottom: none; }
-        .result-info-row:nth-child(even) { background: var(--cream); }
-        .result-info-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); white-space: nowrap; }
-        .result-info-value { font-size: 0.92rem; font-weight: 600; color: var(--ink); text-align: right; }
+        .result-info-row:nth-child(even) { background: var(--wa-panel); }
+        .result-info-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; color: var(--wa-muted); white-space: nowrap; }
+        .result-info-value { font-size: 0.9rem; font-weight: 600; color: var(--wa-ink); text-align: right; }
 
         .result-stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
+            gap: 8px;
+            margin-bottom: 12px;
         }
         .stat-box {
-            background: var(--cream);
-            border: 1px solid #ece6da;
+            background: var(--wa-panel);
+            border: 1px solid var(--wa-border);
             border-radius: var(--radius-sm);
-            padding: 16px 10px;
+            padding: 14px 8px;
             text-align: center;
         }
-        .stat-box.highlight { background: var(--emerald-pale); border-color: var(--emerald-pale2); }
+        .stat-box.highlight { background: var(--wa-sent); border-color: #b5f0c4; }
         .stat-box.danger { background: var(--red-pale); border-color: #f5c2be; }
-        .stat-value { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 800; color: var(--emerald); line-height: 1; }
+        .stat-value { font-size: 1.7rem; font-weight: 800; color: var(--wa-dark); line-height: 1; }
         .stat-box.danger .stat-value { color: var(--red); }
-        .stat-sub { font-size: 0.68rem; color: var(--muted); font-weight: 500; margin-top: 5px; text-transform: uppercase; letter-spacing: 0.3px; }
+        .stat-sub { font-size: 0.65rem; color: var(--wa-muted); font-weight: 500; margin-top: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
 
         .status-selector {
-            background: var(--cream);
+            background: var(--wa-panel);
             border-radius: var(--radius-sm);
-            padding: 14px 16px;
-            border: 1px solid #ece6da;
-            margin-bottom: 14px;
+            padding: 12px 14px;
+            border: 1px solid var(--wa-border);
+            margin-bottom: 12px;
         }
-        .status-selector-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; color: var(--emerald); letter-spacing: 0.5px; margin-bottom: 10px; }
-        .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .radio-option {
-            position: relative;
-        }
+        .status-selector-label { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--wa-dark); letter-spacing: 0.5px; margin-bottom: 10px; }
+        .radio-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .radio-option { position: relative; }
         .radio-option input { position: absolute; opacity: 0; width: 0; height: 0; }
         .radio-option label {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            padding: 13px 14px;
+            gap: 6px;
+            padding: 11px 10px;
             border-radius: var(--radius-sm);
-            border: 2px solid #e0d9cc;
+            border: 1.5px solid var(--wa-border);
             cursor: pointer;
-            font-weight: 700;
-            font-size: 0.9rem;
-            transition: all 0.2s;
-            background: var(--white);
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.18s;
+            background: #fff;
             width: 100%;
             height: 100%;
-            min-height: 50px;
+            min-height: 44px;
             box-sizing: border-box;
         }
         .radio-option.lulus input:checked + label {
-            border-color: var(--emerald);
-            background: var(--emerald-pale);
-            color: var(--emerald);
-            box-shadow: 0 2px 8px rgba(13,92,66,0.15);
+            border-color: var(--wa-bright);
+            background: var(--wa-sent);
+            color: var(--wa-dark);
+            box-shadow: 0 2px 6px rgba(37,211,102,0.2);
         }
         .radio-option.tidak input:checked + label {
             border-color: var(--red);
             background: var(--red-pale);
             color: var(--red);
-            box-shadow: 0 2px 8px rgba(192,57,43,0.15);
+            box-shadow: 0 2px 6px rgba(241,92,109,0.15);
         }
 
-        /* === PIAGAM CARD — portrait A4 ratio (1:√2 ≈ 210:297) === */
+        /* ═══════════════════════════════════════
+           PIAGAM — WhatsApp theme
+           ═══════════════════════════════════════ */
+        :root {
+            --navy: #075E54;
+            --navy2: #054640;
+            --pg-gold: #f0b429;
+            --pg-gold2: #f6c94e;
+            --pg-cream: #d9fdd3;
+            --pg-cream2: #b5f0c4;
+        }
+
         .piagam-wrapper {
             width: 100%;
-            max-width: 560px;
+            max-width: 520px;
             margin: 0 auto;
         }
+
         .piagam-card {
-            background: linear-gradient(160deg, #fffef5 0%, #fff9ea 50%, #fdf3d8 100%);
-            border: 2px solid var(--gold-border);
-            border-radius: 20px;
-            /* A4 portrait ratio: height ≈ width × 1.414 */
+            background: #f0f2f5;
+            border-radius: 4px;
             aspect-ratio: 210 / 297;
-            padding: 5% 6%;
-            text-align: center;
-            box-shadow: 0 12px 40px rgba(184,137,42,0.15), inset 0 1px 0 rgba(255,255,255,0.9);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
+            align-items: stretch;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.22);
+            font-family: inherit;
         }
-        .piagam-card::before {
-            content: '';
+
+        .pg-outer-border {
             position: absolute;
-            inset: 10px;
-            border: 1px solid rgba(184,137,42,0.3);
-            border-radius: 14px;
+            inset: 7px;
+            border: 1.5px solid var(--pg-gold);
+            border-radius: 2px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .pg-header {
+            background: linear-gradient(170deg, var(--navy2) 0%, var(--navy) 100%);
+            padding: 3.5% 8% 2.5%;
+            text-align: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .pg-header-ornament {
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 22%;
+            opacity: 0.12;
             pointer-events: none;
         }
-        /* decorative top stripe */
-        .piagam-card::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald));
-            border-radius: 20px 20px 0 0;
-        }
-        .piagam-corner {
-            position: absolute;
-            width: 44px; height: 44px;
-            opacity: 0.25;
-        }
-        .piagam-corner svg { width: 100%; height: 100%; }
-        .piagam-corner.tl { top: 18px; left: 18px; }
-        .piagam-corner.tr { top: 18px; right: 18px; transform: scaleX(-1); }
-        .piagam-corner.bl { bottom: 18px; left: 18px; transform: scaleY(-1); }
-        .piagam-corner.br { bottom: 18px; right: 18px; transform: scale(-1); }
+        .pg-header-ornament.left { left: 0; }
+        .pg-header-ornament.right { right: 0; transform: scaleX(-1); }
+        .pg-header-ornament svg { width: 100%; height: 100%; }
 
-        .piagam-arabic {
-            font-family: 'Uthmanic Hafs', 'Amiri', serif;
-            font-size: clamp(1rem, 3.5vw, 1.4rem);
-            color: var(--gold);
-            margin-bottom: 2px;
-            line-height: 2;
+        .pg-mihrab {
+            width: 17%;
+            max-width: 80px;
+            margin: 0 auto 2%;
+            display: block;
         }
-        .piagam-divider {
+        .pg-mihrab svg { width: 100%; }
+
+        .pg-title-main {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.6rem, 6vw, 2.8rem);
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 1%;
+        }
+        .pg-title-sub {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin: 6px 0;
-            width: 100%;
+            justify-content: center;
+            gap: 8px;
+            color: var(--pg-gold);
+            font-size: clamp(0.55rem, 2vw, 0.82rem);
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
-        .piagam-divider::before, .piagam-divider::after {
+        .pg-title-sub::before, .pg-title-sub::after {
             content: '';
             flex: 1;
+            max-width: 40px;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--gold-border), transparent);
+            background: var(--pg-gold);
+            opacity: 0.7;
         }
-        .piagam-divider span { font-size: 0.75rem; color: var(--gold); }
 
-        .piagam-logo-circle {
-            width: clamp(52px, 12%, 70px);
-            height: clamp(52px, 12%, 70px);
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--emerald), var(--emerald-light));
-            display: flex; align-items: center; justify-content: center;
-            margin: 6px auto;
-            font-size: clamp(1.4rem, 4vw, 2rem);
-            box-shadow: 0 4px 16px rgba(13,92,66,0.25);
-            border: 3px solid rgba(184,137,42,0.4);
+        .pg-gold-bar {
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--pg-gold2) 20%, var(--pg-gold) 50%, var(--pg-gold2) 80%, transparent);
             flex-shrink: 0;
         }
 
-        .piagam-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.3rem, 4.5vw, 2rem);
-            font-weight: 800;
-            color: var(--gold);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            line-height: 1.15;
-            position: relative; z-index: 1;
-            margin: 2px 0;
-        }
-        .piagam-subtitle {
-            font-size: clamp(0.6rem, 2vw, 0.75rem);
-            text-transform: uppercase;
-            letter-spacing: 2.5px;
-            color: var(--muted);
-            font-weight: 500;
-            margin: 1px 0 4px;
-        }
-        .piagam-keterangan {
-            font-size: clamp(0.72rem, 2.2vw, 0.85rem);
-            color: var(--muted);
-            margin: 6px 0 2px;
-            font-style: italic;
-        }
-        .piagam-name {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.3rem, 5vw, 2.2rem);
-            font-weight: 700;
-            color: var(--emerald);
-            margin: 2px 0;
-            line-height: 1.2;
-        }
-        .piagam-kelas {
-            font-size: clamp(0.75rem, 2.4vw, 0.9rem);
-            color: var(--muted);
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .piagam-nilai {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 7vw, 3.2rem);
-            font-weight: 800;
-            color: var(--emerald);
-            line-height: 1;
-        }
-        .piagam-status {
-            display: inline-block;
-            padding: 6px 24px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: clamp(0.72rem, 2.2vw, 0.88rem);
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin: 8px 0 10px;
-        }
-        .piagam-status.lulus { background: var(--emerald-pale); color: var(--emerald); border: 2px solid var(--emerald-pale2); }
-        .piagam-status.tidak { background: var(--red-pale); color: var(--red); border: 2px solid #f5c2be; }
-        .piagam-footer-row {
+        /* WA chat wallpaper inside piagam body */
+        .pg-body {
+            background-color: #ECE5DD;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='1.2' fill='%23c5bdb5' opacity='0.4'/%3E%3C/svg%3E");
+            flex: 1;
+            padding: 3% 8% 2%;
             display: flex;
-            justify-content: center;
-            gap: 16px;
-            font-size: clamp(0.65rem, 2vw, 0.78rem);
-            color: var(--muted);
-            flex-wrap: wrap;
-        }
-        .piagam-footer-row span strong { color: var(--ink2); font-weight: 600; }
-        .piagam-bottom-stripe {
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--emerald), var(--gold), var(--emerald));
-            border-radius: 0 0 20px 20px;
+            flex-direction: column;
+            position: relative;
         }
 
+        .pg-watermark {
+            position: absolute;
+            bottom: 0; left: 50%;
+            transform: translateX(-50%);
+            width: 55%;
+            opacity: 0.05;
+            pointer-events: none;
+        }
+        .pg-watermark svg { width: 100%; }
+
+        .pg-intro {
+            text-align: center;
+            font-size: clamp(0.62rem, 2vw, 0.82rem);
+            color: var(--wa-ink2);
+            margin-bottom: 3%;
+            font-style: italic;
+        }
+
+        .pg-data-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            flex: 1;
+        }
+        .pg-data-row {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            border-bottom: 1px solid rgba(7,94,84,0.15);
+            padding: 2.2% 0;
+        }
+        .pg-data-row:last-child { border-bottom: none; }
+
+        .pg-data-icon {
+            width: clamp(24px, 6%, 32px);
+            height: clamp(24px, 6%, 32px);
+            border-radius: 50%;
+            background: var(--navy);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            margin-right: 3%;
+            font-size: clamp(0.6rem, 1.8vw, 0.85rem);
+        }
+        .pg-data-label {
+            font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 18%;
+            flex-shrink: 0;
+        }
+        .pg-data-colon {
+            font-weight: 700;
+            color: var(--navy);
+            margin-right: 3%;
+            font-size: clamp(0.6rem, 1.8vw, 0.8rem);
+        }
+        .pg-data-value {
+            flex: 1;
+            font-size: clamp(0.6rem, 2vw, 0.82rem);
+            color: var(--wa-ink);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(7,94,84,0.3);
+            padding-bottom: 1px;
+            min-height: 1.4em;
+        }
+
+        /* Baris HASIL */
+        .pg-hasil-boxes {
+            display: flex;
+            gap: clamp(10px, 4%, 24px);
+            align-items: center;
+        }
+        .pg-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: clamp(0.55rem, 1.8vw, 0.75rem);
+            font-weight: 600;
+            color: var(--wa-ink);
+        }
+        .pg-checkbox-box {
+            width: clamp(11px, 3%, 15px);
+            height: clamp(11px, 3%, 15px);
+            border: 1.5px solid var(--navy);
+            border-radius: 2px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.6rem;
+            color: var(--navy);
+            background: white;
+            flex-shrink: 0;
+        }
+        .pg-checkbox-box.checked { background: var(--wa-bright); border-color: var(--wa-bright); color: white; }
+
+        .pg-gold-bar2 {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--pg-gold), transparent);
+            margin: 2% 0 0;
+        }
+
+        .pg-footer {
+            background: linear-gradient(5deg, var(--navy2) 0%, var(--navy) 100%);
+            padding: 2.5% 8% 3%;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .pg-footer-ornament {
+            position: absolute;
+            top: 0; bottom: 0; width: 20%; opacity: 0.12; pointer-events: none;
+        }
+        .pg-footer-ornament.left { left: 0; }
+        .pg-footer-ornament.right { right: 0; transform: scaleX(-1); }
+        .pg-footer-ornament svg { width: 100%; height: 100%; }
+
+        .pg-hadits-arabic {
+            font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+            font-size: clamp(0.75rem, 2.8vw, 1.15rem);
+            color: var(--pg-gold2);
+            text-align: center;
+            direction: rtl;
+            line-height: 1.8;
+            margin-bottom: 1.5%;
+        }
+        .pg-hadits-latin {
+            font-size: clamp(0.5rem, 1.6vw, 0.65rem);
+            color: rgba(255,255,255,0.75);
+            text-align: center;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 2%;
+        }
+        .pg-ttd-row {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            gap: 4%;
+            position: relative;
+            z-index: 2;
+        }
+        .pg-ttd-block { text-align: center; color: rgba(255,255,255,0.85); }
+        .pg-ttd-date {
+            font-size: clamp(0.5rem, 1.5vw, 0.65rem);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 1%;
+        }
+        .pg-ttd-line {
+            border-top: 1px solid rgba(240,180,41,0.5);
+            margin-top: clamp(18px, 5%, 28px);
+            padding-top: 3px;
+            font-size: clamp(0.5rem, 1.6vw, 0.65rem);
+            font-weight: 600;
+            color: var(--pg-gold2);
+            text-align: center;
+        }
+        .pg-footer-diamond {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 1.5%;
+        }
+        .pg-footer-diamond::before, .pg-footer-diamond::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pg-gold));
+            opacity: 0.5;
+        }
+        .pg-footer-diamond span { color: var(--pg-gold); font-size: clamp(0.55rem, 1.6vw, 0.7rem); }
+
+        /* ═══════════════════════════════════════
+           EXPORT BUTTON — WA green CTA
+           ═══════════════════════════════════════ */
         .btn-export {
             width: 100%;
-            margin-top: 16px;
-            padding: 15px 20px;
-            border-radius: 16px;
+            margin-top: 12px;
+            padding: 14px 18px;
+            border-radius: 50px;
             font-weight: 700;
-            font-size: 0.95rem;
-            background: var(--emerald);
+            font-size: 0.92rem;
+            background: var(--wa-bright);
             color: white;
             border: none;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: 'DM Sans', sans-serif;
-            box-shadow: 0 4px 16px rgba(13,92,66,0.25);
+            font-family: inherit;
+            box-shadow: 0 4px 14px rgba(37,211,102,0.3);
+            letter-spacing: 0.3px;
         }
-        .btn-export:hover { background: var(--emerald-light); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(13,92,66,0.3); }
+        .btn-export:hover { background: #20bd5a; transform: translateY(-1px); box-shadow: 0 6px 18px rgba(37,211,102,0.35); }
         .btn-export:active { transform: translateY(0); }
-        .export-note { font-size: 0.72rem; text-align: center; color: var(--muted); margin-top: 8px; }
+        .export-note { font-size: 0.7rem; text-align: center; color: var(--wa-muted); margin-top: 6px; }
 
         .tab-content { display: none; }
-        .tab-content.active-tab { display: block; animation: tabIn 0.25s ease; }
+        .tab-content.active-tab { display: block; animation: tabIn 0.22s ease; }
         @keyframes tabIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .loading-state {
             text-align: center;
-            padding: 48px 20px;
-            color: var(--muted);
+            padding: 40px 20px;
+            color: var(--wa-muted);
         }
-        .loading-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 14px; }
+        .loading-dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 12px; }
         .loading-dots span {
             width: 8px; height: 8px;
-            background: var(--emerald);
+            background: var(--wa-bright);
             border-radius: 50%;
             animation: bounce 1.2s ease infinite;
             opacity: 0.6;
@@ -701,98 +872,83 @@
         .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
         .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
         @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px);opacity:1} }
-        .loading-state p { font-size: 0.85rem; font-weight: 500; }
+        .loading-state p { font-size: 0.83rem; font-weight: 500; }
 
         .formula-box {
-            background: var(--emerald-pale);
+            background: var(--wa-sent);
             border-radius: var(--radius-sm);
-            padding: 12px 16px;
-            margin-top: 14px;
-            font-size: 0.8rem;
-            color: var(--emerald);
+            padding: 10px 14px;
+            margin-top: 12px;
+            font-size: 0.78rem;
+            color: var(--wa-dark);
             font-weight: 500;
-            border: 1px solid var(--emerald-pale2);
+            border: none;
             text-align: center;
         }
 
         footer {
-            font-size: 0.72rem;
+            font-size: 0.68rem;
             text-align: center;
-            margin-top: 24px;
-            color: var(--muted);
+            margin-top: 20px;
+            color: var(--wa-muted);
             font-weight: 400;
         }
 
-        @media (max-width: 520px) {
-            .tab-btn { font-size: 0.68rem; }
-            .tab-btn .tab-icon { font-size: 1.1rem; }
-            .ayat-item { font-size: 1.2rem; }
-            .basmalah-item { font-size: 1.35rem; }
-            .piagam-name { font-size: 1.5rem; }
-            .piagam-nilai { font-size: 2.4rem; }
-            .app-header h1 { font-size: 1rem; }
-            .app-header p { font-size: 0.62rem; }
-        }
-        @media (max-width: 360px) {
-            .piagam-title { font-size: 1.4rem; }
-            .piagam-name { font-size: 1.2rem; }
-            .piagam-nilai { font-size: 2rem; }
-            .tab-btn { font-size: 0.62rem; padding: 10px 2px; }
-            .ayat-item { font-size: 1.1rem; }
-        }
-
+        /* ═══════════════════════════════════════
+           TIMER
+           ═══════════════════════════════════════ */
         .timer-section {
-            margin-top: 20px;
-            border-top: 1px solid var(--gold-border);
-            padding-top: 18px;
+            margin-top: 16px;
+            border-top: 1px solid var(--wa-border);
+            padding-top: 14px;
         }
         .timer-display {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: 700;
-            font-family: 'DM Sans', monospace;
+            font-family: 'Courier New', monospace;
             text-align: center;
-            background: var(--emerald-pale);
-            color: var(--emerald);
-            padding: 14px;
-            border-radius: 16px;
-            border: 1.5px solid var(--emerald-pale2);
+            background: var(--wa-dark);
+            color: var(--wa-bright);
+            padding: 12px;
+            border-radius: 12px;
             letter-spacing: 4px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .timer-buttons {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+            gap: 8px;
         }
         .btn-timer {
             border: none;
-            padding: 11px 10px;
-            border-radius: 12px;
+            padding: 10px 8px;
+            border-radius: 50px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            font-family: 'DM Sans', sans-serif;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            transition: all 0.18s ease;
+            font-family: inherit;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        .btn-timer:hover { transform: translateY(-1px); filter: brightness(0.95); }
+        .btn-timer:hover { transform: translateY(-1px); filter: brightness(0.93); }
         .btn-timer:active { transform: translateY(1px); }
-        #timerStartBtn { background: var(--emerald); color: white; }
-        #timerStopBtn { background: var(--muted); color: white; }
-        #timerResetBtn { background: var(--gold); color: white; }
+        #timerStartBtn { background: var(--wa-bright); color: white; }
+        #timerStopBtn  { background: var(--wa-muted); color: white; }
+        #timerResetBtn { background: var(--wa-dark); color: white; }
 
         html, body {
             overscroll-behavior-y: contain;
             overscroll-behavior-x: none;
         }
 
+        /* clear cache button */
         .btn-clear-cache {
             background: transparent;
             border: none;
             cursor: pointer;
             padding: 6px 8px;
             border-radius: 8px;
-            color: var(--muted);
+            color: rgba(255,255,255,0.7);
             font-size: 1rem;
             transition: all 0.2s;
             margin-left: auto;
@@ -801,18 +957,36 @@
             justify-content: center;
             flex-shrink: 0;
         }
-        .btn-clear-cache:hover { background: var(--cream2); color: var(--emerald); }
+        .btn-clear-cache:hover { color: white; background: rgba(255,255,255,0.1); }
         .btn-clear-cache:active { transform: rotate(180deg); }
+
+        /* ═══════════════════════════════════════
+           RESPONSIVE
+           ═══════════════════════════════════════ */
+        @media (max-width: 520px) {
+            .tab-btn { font-size: 0.65rem; }
+            .tab-btn .tab-icon { font-size: 1.05rem; }
+            .ayat-item { font-size: 1.15rem; }
+            .basmalah-item { font-size: 1.25rem; }
+            .app-header h1 { font-size: 0.95rem; }
+            .app-header p { font-size: 0.62rem; }
+        }
+        @media (max-width: 360px) {
+            .pg-data-label { width: 22%; }
+            .tab-btn { font-size: 0.6rem; padding: 10px 2px; }
+            .ayat-item { font-size: 1.05rem; }
+        }
     </style>
 </head>
 <body>
 <div class="app-wrapper">
 
-    <!-- HEADER SIMPEL -->
+    <!-- HEADER WHATSAPP -->
     <div class="app-header">
-        <h1>Tasmi' Juz Amma</h1>
-        <div class="header-divider"></div>
-        <p>Penilaian Hafalan Juz Amma</p>
+        <div class="header-text">
+            <h1>Tasmi' Juz Amma</h1>
+            <p>🟢 online</p>
+        </div>
         <button class="btn-clear-cache" id="clearCacheBtn" title="Hapus cache & muat ulang">🔄</button>
     </div>
 
@@ -968,58 +1142,186 @@
         <div class="card" style="padding:0;background:transparent;border:none;box-shadow:none;">
             <div class="piagam-wrapper">
             <div id="piagamCard" class="piagam-card">
-                <!-- corner ornaments -->
-                <div class="piagam-corner tl">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
-                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
-                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
-                    </svg>
+
+                <!-- Border ornament luar -->
+                <div class="pg-outer-border"></div>
+
+                <!-- ═══ HEADER NAVY ═══ -->
+                <div class="pg-header">
+                    <!-- ornamen geometris kiri kanan -->
+                    <div class="pg-header-ornament left">
+                        <svg viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
+                                <path d="M0 0 L100 100 L0 200 Z"/>
+                                <path d="M20 50 L80 100 L20 150 Z"/>
+                                <circle cx="50" cy="100" r="30"/>
+                                <path d="M0 100 L100 0 M0 200 L100 100"/>
+                                <path d="M0 150 L100 200 M50 0 L50 300"/>
+                                <rect x="10" y="10" width="80" height="80" transform="rotate(45 50 50)"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="pg-header-ornament right">
+                        <svg viewBox="0 0 100 300" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
+                                <path d="M0 0 L100 100 L0 200 Z"/>
+                                <path d="M20 50 L80 100 L20 150 Z"/>
+                                <circle cx="50" cy="100" r="30"/>
+                                <path d="M0 100 L100 0 M0 200 L100 100"/>
+                                <path d="M0 150 L100 200 M50 0 L50 300"/>
+                                <rect x="10" y="10" width="80" height="80" transform="rotate(45 50 50)"/>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <!-- Ikon mihrab islami -->
+                    <div class="pg-mihrab">
+                        <svg viewBox="0 0 120 140" xmlns="http://www.w3.org/2000/svg">
+                            <!-- base -->
+                            <rect x="10" y="110" width="100" height="10" rx="2" fill="#c8a84b"/>
+                            <!-- tiang kiri kanan -->
+                            <rect x="15" y="60" width="12" height="55" rx="2" fill="#c8a84b" opacity="0.7"/>
+                            <rect x="93" y="60" width="12" height="55" rx="2" fill="#c8a84b" opacity="0.7"/>
+                            <!-- lengkung mihrab -->
+                            <path d="M27 60 Q27 20 60 15 Q93 20 93 60 L93 105 L27 105 Z" fill="#c8a84b" opacity="0.15" stroke="#c8a84b" stroke-width="2"/>
+                            <!-- bulan sabit + bintang -->
+                            <path d="M55 38 A14 14 0 1 1 68 52 A10 10 0 1 0 55 38 Z" fill="#c8a84b"/>
+                            <polygon points="72,34 74,40 80,40 75,44 77,50 72,46 67,50 69,44 64,40 70,40" fill="#c8a84b" opacity="0.85" transform="scale(0.6) translate(62,30)"/>
+                            <!-- buku al-quran kecil -->
+                            <rect x="43" y="80" width="34" height="22" rx="2" fill="#c8a84b" opacity="0.9"/>
+                            <line x1="60" y1="80" x2="60" y2="102" stroke="#1a2744" stroke-width="1.5"/>
+                            <line x1="47" y1="87" x2="58" y2="87" stroke="#1a2744" stroke-width="0.8"/>
+                            <line x1="47" y1="91" x2="58" y2="91" stroke="#1a2744" stroke-width="0.8"/>
+                            <line x1="47" y1="95" x2="58" y2="95" stroke="#1a2744" stroke-width="0.8"/>
+                            <line x1="62" y1="87" x2="73" y2="87" stroke="#1a2744" stroke-width="0.8"/>
+                            <line x1="62" y1="91" x2="73" y2="91" stroke="#1a2744" stroke-width="0.8"/>
+                            <line x1="62" y1="95" x2="73" y2="95" stroke="#1a2744" stroke-width="0.8"/>
+                        </svg>
+                    </div>
+
+                    <div class="pg-title-main">PIAGAM</div>
+                    <div class="pg-title-sub">TASMI' JUZ AMMA</div>
                 </div>
-                <div class="piagam-corner tr">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
-                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
-                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
-                    </svg>
-                </div>
-                <div class="piagam-corner bl">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
-                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
-                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
-                    </svg>
-                </div>
-                <div class="piagam-corner br">
-                    <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M5 45 L5 5 L45 5" stroke="#b8892a" stroke-width="2.5" fill="none"/>
-                        <path d="M5 5 L15 15 M25 5 L25 15 M5 25 L15 25" stroke="#b8892a" stroke-width="1.5" fill="none"/>
-                        <circle cx="5" cy="5" r="3" fill="#b8892a"/>
-                    </svg>
+                <div class="pg-gold-bar"></div>
+
+                <!-- ═══ BODY CREAM ═══ -->
+                <div class="pg-body">
+                    <!-- watermark masjid -->
+                    <div class="pg-watermark">
+                        <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" fill="#1a2744">
+                            <rect x="20" y="120" width="260" height="60"/>
+                            <rect x="50" y="90" width="60" height="90"/>
+                            <rect x="190" y="90" width="60" height="90"/>
+                            <rect x="120" y="70" width="60" height="110"/>
+                            <!-- kubah tengah -->
+                            <ellipse cx="150" cy="70" rx="30" ry="30"/>
+                            <rect x="130" y="55" width="40" height="20"/>
+                            <!-- kubah kiri kanan -->
+                            <ellipse cx="80" cy="90" rx="20" ry="20"/>
+                            <ellipse cx="220" cy="90" rx="20" ry="20"/>
+                            <!-- menara -->
+                            <rect x="0" y="60" width="20" height="120"/>
+                            <ellipse cx="10" cy="60" rx="10" ry="12"/>
+                            <rect x="280" y="60" width="20" height="120"/>
+                            <ellipse cx="290" cy="60" rx="10" ry="12"/>
+                        </svg>
+                    </div>
+
+                    <div class="pg-intro">Dengan ini menyatakan bahwa:</div>
+
+                    <div class="pg-data-list">
+                        <!-- NAMA -->
+                        <div class="pg-data-row">
+                            <div class="pg-data-icon">👤</div>
+                            <div class="pg-data-label">NAMA</div>
+                            <div class="pg-data-colon">:</div>
+                            <div class="pg-data-value" id="piagamNama">—</div>
+                        </div>
+                        <!-- KELAS -->
+                        <div class="pg-data-row">
+                            <div class="pg-data-icon">📚</div>
+                            <div class="pg-data-label">KELAS</div>
+                            <div class="pg-data-colon">:</div>
+                            <div class="pg-data-value" id="piagamKelas">—</div>
+                        </div>
+                        <!-- HASIL -->
+                        <div class="pg-data-row">
+                            <div class="pg-data-icon">🏆</div>
+                            <div class="pg-data-label">HASIL</div>
+                            <div class="pg-data-colon">:</div>
+                            <div class="pg-data-value">
+                                <div class="pg-hasil-boxes">
+                                    <span class="pg-checkbox">
+                                        <span class="pg-checkbox-box" id="pgBoxLulus"></span>
+                                        LULUS
+                                    </span>
+                                    <span class="pg-checkbox">
+                                        <span class="pg-checkbox-box" id="pgBoxTidak"></span>
+                                        TIDAK LULUS
+                                    </span>
+                                    <span style="font-size:clamp(0.5rem,1.6vw,0.68rem);color:#888;margin-left:4px;" id="piagamNilai"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- WAKTU -->
+                        <div class="pg-data-row">
+                            <div class="pg-data-icon">⏱</div>
+                            <div class="pg-data-label">WAKTU</div>
+                            <div class="pg-data-colon">:</div>
+                            <div class="pg-data-value" id="piagamDurasi">—</div>
+                        </div>
+                        <!-- PENGUJI -->
+                        <div class="pg-data-row">
+                            <div class="pg-data-icon">👨‍🏫</div>
+                            <div class="pg-data-label">PENGUJI</div>
+                            <div class="pg-data-colon">:</div>
+                            <div class="pg-data-value" id="piagamPenguji">—</div>
+                        </div>
+                    </div>
+                    <div class="pg-gold-bar2"></div>
                 </div>
 
-                <!-- content -->
-                <div class="piagam-arabic">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>
-                <div class="piagam-divider"><span>✦</span></div>
-                <div class="piagam-subtitle">Piagam Penghargaan</div>
-                <div class="piagam-logo-circle">🌙</div>
-                <div class="piagam-title">TASMI' JUZ AMMA</div>
-                <div class="piagam-divider"><span>✦</span></div>
-                <div class="piagam-keterangan">Diberikan kepada</div>
-                <div class="piagam-name" id="piagamNama">Nama Siswa</div>
-                <div class="piagam-kelas" id="piagamKelas">Kelas —</div>
-                <div class="piagam-keterangan">Telah menyelesaikan Tasmi' Juz Amma dengan nilai</div>
-                <div class="piagam-nilai" id="piagamNilai">—%</div>
-                <div><span id="piagamStatusBadge" class="piagam-status lulus">LULUS</span></div>
-                <div class="piagam-divider"><span>✦</span></div>
-                <div class="piagam-footer-row">
-                    <span>📅 <strong id="piagamTanggal">—</strong></span>
-                    <span>Penguji: <strong id="piagamPenguji">—</strong></span>
-                    <span>⏱ <strong id="piagamDurasi">—</strong></span>
+                <!-- ═══ FOOTER NAVY ═══ -->
+                <div class="pg-footer">
+                    <div class="pg-footer-ornament left">
+                        <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
+                                <circle cx="50" cy="80" r="40"/>
+                                <path d="M10 80 L90 80 M50 40 L50 120 M18 48 L82 112 M82 48 L18 112"/>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="pg-footer-ornament right">
+                        <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+                            <g fill="none" stroke="#c8a84b" stroke-width="0.8">
+                                <circle cx="50" cy="80" r="40"/>
+                                <path d="M10 80 L90 80 M50 40 L50 120 M18 48 L82 112 M82 48 L18 112"/>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <div class="pg-footer-diamond"><span>❖</span></div>
+
+                    <div class="pg-hadits-arabic">إِنَّ أَحْسَنَكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ</div>
+                    <div class="pg-hadits-latin">
+                        "Sesungguhnya sebaik-baik kamu adalah<br>
+                        orang yang mempelajari Al-Qur'an dan mengajarkannya."<br>
+                        <span style="opacity:0.6;">(HR. Bukhari)</span>
+                    </div>
+
+                    <div class="pg-ttd-row">
+                        <div class="pg-ttd-block">
+                            <div class="pg-ttd-date">
+                                <span>📅</span>
+                                <span id="piagamTanggal" style="color:rgba(255,255,255,0.8);">—</span>
+                            </div>
+                            <div class="pg-ttd-line">Penguji</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="piagam-bottom-stripe"></div>
-            </div>
-            </div>
+
+            </div><!-- /piagamCard -->
+            </div><!-- /piagam-wrapper -->
 
             <button id="exportPdfBtn" class="btn-export">📄 Export Piagam ke PDF (Portrait A4)</button>
             <p class="export-note">* Proses PDF bisa memakan waktu lebih lama di HP. Pastikan layar tidak terkunci saat proses berlangsung.</p>
@@ -1263,7 +1565,6 @@ const piagamKelas = document.getElementById('piagamKelas');
 const piagamTanggal = document.getElementById('piagamTanggal');
 const piagamPenguji = document.getElementById('piagamPenguji');
 const piagamNilai = document.getElementById('piagamNilai');
-const piagamStatusBadge = document.getElementById('piagamStatusBadge');
 const scoreCirclePath = document.getElementById('scoreCirclePath');
 
 function getCurrentStatus() {
@@ -1302,13 +1603,23 @@ function updateAllUI() {
     resNilaiPersen.textContent = nilai;
     updateScoreCircle(nilai);
 
+    // Piagam fields
     piagamNama.textContent = nama === "—" ? "Nama Siswa" : nama;
-    piagamKelas.textContent = kelas === "—" ? "Kelas —" : `Kelas ${kelas}`;
+    piagamKelas.textContent = kelas === "—" ? "—" : `Kelas ${kelas}`;
     piagamTanggal.textContent = tanggal;
     piagamPenguji.textContent = penguji;
-    piagamNilai.textContent = `${nilai}%`;
-    piagamStatusBadge.textContent = status;
-    piagamStatusBadge.className = `piagam-status ${status === 'LULUS' ? 'lulus' : 'tidak'}`;
+    piagamNilai.textContent = `Nilai: ${nilai}%`;
+
+    // Checkbox lulus/tidak di piagam baru
+    const boxLulus = document.getElementById('pgBoxLulus');
+    const boxTidak = document.getElementById('pgBoxTidak');
+    if (boxLulus && boxTidak) {
+        const isLulus = status === 'LULUS';
+        boxLulus.textContent = isLulus ? '✓' : '';
+        boxLulus.className = `pg-checkbox-box${isLulus ? ' checked' : ''}`;
+        boxTidak.textContent = !isLulus ? '✓' : '';
+        boxTidak.className = `pg-checkbox-box${!isLulus ? ' checked' : ''}`;
+    }
 }
 function formatTanggal(dateStr) {
     if (!dateStr) return "—";
