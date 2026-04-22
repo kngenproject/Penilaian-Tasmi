@@ -86,6 +86,11 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
+
         body {
             /* WA chat wallpaper — subtle geometric dots */
             background-color: var(--wa-bg);
@@ -98,7 +103,8 @@
         .app-wrapper {
             max-width: 740px;
             margin: 0 auto;
-            padding: 56px 12px 80px;
+            padding: 56px 12px 100px;
+            padding-bottom: calc(100px + env(safe-area-inset-bottom, 0px));
             position: relative;
             z-index: 1;
         }
@@ -411,22 +417,23 @@
            ═══════════════════════════════════════ */
         .result-score-block {
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            gap: 6px;
-            padding: 18px 0 14px;
+            justify-content: center;
+            gap: 12px;
+            padding: 8px 16px 8px;
             border-bottom: 1px solid var(--wa-border);
-            margin-bottom: 14px;
+            margin-bottom: 8px;
         }
         .score-circle-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
+            gap: 2px;
         }
         .score-circle {
-            width: 120px;
-            height: 120px;
+            width: 64px;
+            height: 64px;
             position: relative;
             flex-shrink: 0;
         }
@@ -448,53 +455,58 @@
             justify-content: center;
         }
         .score-num {
-            font-size: 1.9rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--wa-dark);
             line-height: 1;
         }
         .score-label {
-            font-size: 0.6rem;
+            font-size: 0.52rem;
             font-weight: 600;
             color: var(--wa-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .score-circle-wrap small { font-size: 0.7rem; color: var(--wa-muted); font-weight: 500; }
+        .score-circle-wrap small { font-size: 0.62rem; color: var(--wa-muted); font-weight: 500; }
 
         .result-info-list {
-            width: 100%;
+            width: calc(100% - 28px);
             display: flex;
             flex-direction: column;
             border: 1px solid var(--wa-border);
             border-radius: var(--radius-sm);
             overflow: hidden;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
+            height: auto;
+            min-height: 0;
+            flex-shrink: 0;
+            align-self: stretch;
         }
         .result-info-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 14px;
+            padding: 5px 10px;
             background: #fff;
             border-bottom: 1px solid var(--wa-border);
             gap: 8px;
             flex-wrap: nowrap;
+            min-height: 32px;
         }
         .result-info-row:last-child { border-bottom: none; }
         .result-info-row:nth-child(even) { background: var(--wa-panel); }
         .result-info-label {
-            font-size: 0.7rem;
+            font-size: 0.62rem;
             font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
             color: var(--wa-muted);
             white-space: nowrap;
             flex-shrink: 0;
             max-width: 50%;
         }
         .result-info-value {
-            font-size: 0.88rem;
+            font-size: 0.78rem;
             font-weight: 600;
             color: var(--wa-ink);
             text-align: right;
@@ -502,6 +514,7 @@
             overflow-wrap: anywhere;
             min-width: 0;
             flex: 1;
+            max-width: 55%;
         }
 
         .result-stats-row {
@@ -1148,17 +1161,27 @@
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow-md);
-            margin-bottom: 0;
+            margin: 0 auto;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        #tab3 {
+            padding: 0 4px;
         }
 
         .hasil-card-header {
             background: linear-gradient(135deg, var(--wa-dark) 0%, var(--wa-mid) 100%);
-            padding: 16px 16px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
             gap: 12px;
             flex-wrap: nowrap;
             min-width: 0;
+            border-radius: var(--radius) var(--radius) 0 0;
         }
         .hasil-logo {
             width: 44px;
@@ -1213,14 +1236,20 @@
 
         /* bungkus semua konten kartu dalam padding */
         .hasil-export-card .result-score-block,
-        .hasil-export-card .result-info-list,
         .hasil-export-card .result-stats-row,
         .hasil-export-card .formula-box,
         .hasil-export-card .wrong-detail-section {
-            margin-left: 16px;
-            margin-right: 16px;
+            margin-left: 12px;
+            margin-right: 12px;
         }
-        .hasil-export-card .result-score-block { margin-top: 16px; }
+        .hasil-export-card .result-info-list {
+            margin-left: auto;
+            margin-right: auto;
+            width: calc(100% - 28px);
+            align-self: center;
+        }
+        .hasil-export-card .result-score-block { margin-top: 12px; }
+        .hasil-export-card .result-info-list { margin-bottom: 8px; }
         .hasil-export-card .formula-box { margin-bottom: 0; }
         .hasil-export-card .wrong-detail-section { padding-bottom: 4px; }
 
@@ -1433,7 +1462,7 @@
             <div class="result-score-block">
                 <div class="score-circle-wrap">
                     <div class="score-circle">
-                        <svg viewBox="0 0 100 100" width="130" height="130">
+                        <svg viewBox="0 0 100 100" width="64" height="64">
                             <circle class="circle-bg" cx="50" cy="50" r="42"/>
                             <circle class="circle-val" id="scoreCirclePath" cx="50" cy="50" r="42"
                                 stroke-dasharray="263.9" stroke-dashoffset="263.9"/>
