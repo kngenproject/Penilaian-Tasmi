@@ -2067,6 +2067,7 @@ function updateAllUI() {
     const benar = totalAyat - salah;
     const nilai = computeNilai();
     const status = getCurrentStatus();
+    const isLulus = status === 'LULUS';
 
     resNama.textContent = nama;
     resKelas.textContent = kelas;
@@ -2085,10 +2086,15 @@ function updateAllUI() {
     piagamPenguji.textContent = penguji;
     piagamNilai.textContent = `Nilai: ${nilai}%`;
 
+    // Update nama dua tempat
+    if (document.getElementById('piagamNama'))
+        document.getElementById('piagamNama').textContent = nama || 'Nama Siswa';
+    if (document.getElementById('piagamNama2'))
+        document.getElementById('piagamNama2').textContent = nama || '—';
+
     // Badge status di kartu hasil
     const hasilBadge = document.getElementById('hasilBadgeStatus');
     if (hasilBadge) {
-        const isLulus = status === 'LULUS';
         hasilBadge.textContent = isLulus ? '✅ LULUS' : '❌ TIDAK LULUS';
         hasilBadge.className = `hasil-badge-status ${isLulus ? 'lulus' : 'tidak'}`;
     }
@@ -2097,31 +2103,21 @@ function updateAllUI() {
     const hasilFooter = document.getElementById('hasilFooterTanggal');
     if (hasilFooter) hasilFooter.textContent = tanggal;
 
-    // Checkbox lulus/tidak di piagam baru
+    // Checkbox lulus/tidak di piagam
     const boxLulus = document.getElementById('pgBoxLulus');
     const boxTidak = document.getElementById('pgBoxTidak');
     if (boxLulus && boxTidak) {
-        const isLulus = status === 'LULUS';
         boxLulus.textContent = isLulus ? '✓' : '';
         boxLulus.className = `pg-checkbox-box${isLulus ? ' checked' : ''}`;
         boxTidak.textContent = !isLulus ? '✓' : '';
         boxTidak.className = `pg-checkbox-box${!isLulus ? ' checked' : ''}`;
-        // Update nama (dua tempat)
-        if (document.getElementById('piagamNama'))
-            document.getElementById('piagamNama').textContent = nama || 'Nama Siswa';
-        if (document.getElementById('piagamNama2'))
-            document.getElementById('piagamNama2').textContent = nama || '—';
-
-        // Ganti logika checkbox lama → teks active/inactive
-        const isLulus = document.querySelector('input[name="statusKelulusan"]:checked')?.value === 'LULUS';
-        const pgLulus = document.getElementById('pgTextLulus');
-        const pgTidak = document.getElementById('pgTextTidak');
-        if (pgLulus) { pgLulus.classList.toggle('active', isLulus); pgLulus.style.fontWeight = isLulus ? '800' : '500'; }
-        if (pgTidak) { pgTidak.classList.toggle('active', !isLulus); pgTidak.style.fontWeight = !isLulus ? '800' : '500'; }
-
-    // Render perincian ayat yang salah
-    renderWrongDetail();   // ← ini sudah ada, jangan duplikat
     }
+
+    // Teks active/inactive lulus di piagam
+    const pgLulus = document.getElementById('pgTextLulus');
+    const pgTidak = document.getElementById('pgTextTidak');
+    if (pgLulus) { pgLulus.classList.toggle('active', isLulus); pgLulus.style.fontWeight = isLulus ? '800' : '500'; }
+    if (pgTidak) { pgTidak.classList.toggle('active', !isLulus); pgTidak.style.fontWeight = !isLulus ? '800' : '500'; }
 
     // Render perincian ayat yang salah
     renderWrongDetail();
