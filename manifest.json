@@ -12,7 +12,7 @@
     "src": "icons/icon-1024.png",
     "sizes": "1024x1024",
     "type": "image/png",
-    "purpose": "any maskable"
+    "purpose": "maskable any"
   },
   {
     "src": "icons/icon-512.png",
