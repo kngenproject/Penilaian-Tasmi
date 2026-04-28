@@ -607,7 +607,7 @@
         
         /* ── Kartu utama pakai background image ── */
         .piagam-card {
-            background-image: url('piagam-bg.png');
+            background-image: url('piagam-bg-kecil.png');
             background-size: 100% 100%;
             background-repeat: no-repeat;
             background-position: center;
@@ -2157,6 +2157,18 @@ async function exportPiagamPDF() {
         piagam.style.borderRadius = '0';
         piagam.style.margin = '0';
 
+        // Swap ke background HD untuk export
+        const origBg = piagam.style.backgroundImage;
+        piagam.style.backgroundImage = "url('piagam-bg.png')";
+
+        // Tunggu gambar HD selesai dimuat
+        await new Promise(resolve => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = resolve;
+            img.src = 'piagam-bg.png';
+        });
+
         // Tunggu re-layout selesai
         await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
 
@@ -2172,7 +2184,8 @@ async function exportPiagamPDF() {
             letterRendering: true,
         });
 
-        // Pulihkan style asli
+        // Pulihkan background ringan & style asli
+        piagam.style.backgroundImage = origBg;
         Object.assign(piagam.style, origStyle);
 
         // Konversi ke JPEG kualitas tinggi
