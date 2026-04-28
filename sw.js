@@ -1,4 +1,4 @@
-const CACHE_NAME = 'tasmi-cache-v6';
+const CACHE_NAME = 'tasmi-cache-v7';
 
 // Resource lokal yang PASTI ada - cache wajib
 const CORE_ASSETS = [
@@ -13,10 +13,6 @@ const OPTIONAL_ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
 ];
 
-// URL font yang akan di-cache dengan fetch manual (mode no-cors)
-const FONT_URLS = [
-  'https://cdn.jsdelivr.net/gh/mpcabd/quran-fonts@master/UthmanicHafs1/UthmanicHafs1.woff2'
-];
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -36,19 +32,7 @@ self.addEventListener('install', event => {
         )
       );
 
-      // 3. Cache font dengan fetch no-cors agar tidak kena CORS error
-      await Promise.allSettled(
-        FONT_URLS.map(async url => {
-          try {
-            const response = await fetch(url, { mode: 'no-cors' });
-            // response.type === 'opaque' untuk no-cors, tetap simpan
-            await cache.put(url, response);
-            console.log('Font berhasil di-cache:', url);
-          } catch (err) {
-            console.warn('Gagal cache font (akan dimuat langsung):', url, err);
-          }
-        })
-      );
+      // Font Google Fonts di-handle langsung oleh browser (tidak perlu cache manual)
     })
   );
 });
@@ -75,19 +59,38 @@ self.addEventListener('fetch', event => {
   const { request } = event;
   if (request.method !== 'GET') return;
   if (request.url.startsWith('chrome-extension')) return;
-  // Abaikan request analytics / non-http
   if (!request.url.startsWith('http')) return;
+
+  const url = new URL(request.url);
+
+  // Strategi khusus untuk Google Fonts: cache-first, fallback network
+  if (
+    url.hostname === 'fonts.googleapis.com' ||
+    url.hostname === 'fonts.gstatic.com'
+  ) {
+    event.respondWith(
+      caches.open(CACHE_NAME).then(cache =>
+        cache.match(request).then(cached => {
+          if (cached) return cached;
+          return fetch(request).then(response => {
+            if (response && response.status === 200) {
+              cache.put(request, response.clone());
+            }
+            return response;
+          }).catch(() => cached || new Response('', { status: 503 }));
+        })
+      )
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(request).then(cachedResponse => {
       if (cachedResponse) return cachedResponse;
 
       return fetch(request.clone()).then(networkResponse => {
-        // Simpan ke cache jika response valid (termasuk opaque dari no-cors)
-        if (
-          networkResponse &&
-          (networkResponse.status === 200 || networkResponse.type === 'opaque')
-        ) {
+        // Hanya cache response yang benar-benar valid (status 200, bukan opaque)
+        if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(request, responseToCache));
         }
