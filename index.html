@@ -83,6 +83,8 @@
 
         html, body {
             overflow-x: hidden;
+            overflow-y: auto;
+            height: auto;
             width: 100%;
         }
 
@@ -319,13 +321,13 @@
         .btn-reset-wrong:hover { border-color: var(--red); color: var(--red); background: var(--red-pale); }
 
         .ayat-list {
-            max-height: calc(100vh - 240px);
-            overflow-y: auto;
+            overflow-y: visible;
             border-radius: 10px;
             border: 1px solid var(--wa-border);
             background: var(--wa-panel);
             padding: 4px;
-            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
         }
         .ayat-list::-webkit-scrollbar { width: 4px; }
         .ayat-list::-webkit-scrollbar-track { background: transparent; }
@@ -1261,10 +1263,7 @@
         #timerStopBtn  { background: var(--wa-muted); color: white; }
         #timerResetBtn { background: var(--wa-dark); color: white; }
 
-        html, body {
-            overscroll-behavior-y: contain;
-            overscroll-behavior-x: none;
-        }
+        /* overscroll-behavior dihapus: menyebabkan scroll terkunci di Chrome Android PWA */
 
         /* clear cache button */
         .btn-clear-cache {
