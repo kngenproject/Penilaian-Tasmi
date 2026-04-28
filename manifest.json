@@ -1,11 +1,11 @@
 {
   "name": "Tasmi' Juz Amma",
-  "short_name": "Tasmi",
+  "short_name": "Tasmi'",
   "description": "Aplikasi penilaian tasmi' Juz Amma dengan piagam digital",
   "start_url": "./index.html",
   "display": "standalone",
-  "theme_color": "#0d5c42",
-  "background_color": "#faf7f2",
+  "theme_color": "#1B4D35",
+  "background_color": "#1B4D35",
   "orientation": "portrait",
   "icons": [
   {
