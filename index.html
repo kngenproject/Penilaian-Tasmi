@@ -1531,112 +1531,107 @@
 
     <!-- ═══ OVERLAY TEKS DI ATAS BACKGROUND IMAGE ═══ -->
 
-    <!-- Nama besar di area "DIBERIKAN KEPADA" -->
+    <!-- Nama besar di area "DIBERIKAN KEPADA" — tengah sekitar 46% dari atas -->
     <div style="
         position: absolute;
-        top: 47%;
+        top: 44%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 70%;
+        width: 68%;
         text-align: center;
         font-family: 'Playfair Display', Georgia, serif;
         font-style: italic;
-        font-size: clamp(1rem, 4vw, 1.8rem);
+        font-size: clamp(0.9rem, 3.5vw, 1.6rem);
         font-weight: 700;
         color: #054640;
         line-height: 1.2;
         letter-spacing: 0.5px;
     " id="piagamNama">Nama Siswa</div>
 
-    <!-- Baris NAMA -->
+    <!-- Baris NAMA : isi nama -->
     <div style="
         position: absolute;
-        top: 57.5%;
-        left: 38%;
-        width: 54%;
+        top: 55.5%;
+        left: 37%;
+        width: 55%;
         font-family: 'DM Sans', sans-serif;
-        font-size: clamp(0.5rem, 1.6vw, 0.72rem);
+        font-size: clamp(0.48rem, 1.55vw, 0.68rem);
         font-weight: 600;
         color: #1a1a1a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     " id="piagamNama2">—</div>
 
-    <!-- Baris KELAS -->
+    <!-- Baris KELAS : isi kelas -->
     <div style="
         position: absolute;
-        top: 62%;
-        left: 38%;
-        width: 54%;
+        top: 60%;
+        left: 37%;
+        width: 55%;
         font-family: 'DM Sans', sans-serif;
-        font-size: clamp(0.5rem, 1.6vw, 0.72rem);
+        font-size: clamp(0.48rem, 1.55vw, 0.68rem);
         font-weight: 600;
         color: #1a1a1a;
     " id="piagamKelas">—</div>
 
-    <!-- Baris HASIL -->
+    <!-- Baris HASIL : LULUS / TIDAK LULUS -->
     <div style="
         position: absolute;
-        top: 66.5%;
-        left: 38%;
-        width: 38%;
+        top: 64.5%;
+        left: 37%;
+        width: 55%;
         font-family: 'DM Sans', sans-serif;
-        font-size: clamp(0.5rem, 1.6vw, 0.72rem);
+        font-size: clamp(0.48rem, 1.55vw, 0.68rem);
         font-weight: 700;
         color: #054640;
         display: flex;
-        gap: 6px;
+        gap: 5px;
         align-items: center;
     ">
         <span class="pg-hasil-text" id="pgTextLulus">LULUS</span>
-        <span style="color:#aaa;">/</span>
+        <span style="color:#aaa;font-weight:400;">/</span>
         <span class="pg-hasil-text" id="pgTextTidak">TIDAK LULUS</span>
     </div>
 
-    <!-- Baris NILAI -->
+    <!-- Baris WAKTU : durasi -->
     <div style="
         position: absolute;
-        top: 66.5%;
-        left: 78%;
+        top: 69%;
+        left: 37%;
+        width: 55%;
         font-family: 'DM Sans', sans-serif;
-        font-size: clamp(0.5rem, 1.6vw, 0.72rem);
-        font-weight: 700;
-        color: #054640;
-    " id="piagamNilai"></div>
-
-    <!-- Baris WAKTU -->
-    <div style="
-        position: absolute;
-        top: 71%;
-        left: 38%;
-        width: 54%;
-        font-family: 'DM Sans', sans-serif;
-        font-size: clamp(0.5rem, 1.6vw, 0.72rem);
+        font-size: clamp(0.48rem, 1.55vw, 0.68rem);
         font-weight: 600;
         color: #1a1a1a;
     " id="piagamDurasi">00:00:00</div>
 
-    <!-- Baris PENGUJI -->
+    <!-- Baris PENGUJI : nama penguji -->
     <div style="
         position: absolute;
-        top: 75.5%;
-        left: 38%;
-        width: 54%;
+        top: 73.5%;
+        left: 37%;
+        width: 55%;
         font-family: 'DM Sans', sans-serif;
-        font-size: clamp(0.5rem, 1.6vw, 0.72rem);
+        font-size: clamp(0.48rem, 1.55vw, 0.68rem);
         font-weight: 600;
         color: #1a1a1a;
     " id="piagamPenguji">—</div>
 
-    <!-- Tanggal di footer kanan -->
+    <!-- Tanggal di area TTD kanan bawah -->
     <div style="
         position: absolute;
-        top: 91%;
-        left: 50%;
-        width: 38%;
+        top: 91.5%;
+        left: 55%;
+        width: 35%;
         text-align: center;
         font-family: 'DM Sans', sans-serif;
-        font-size: clamp(0.44rem, 1.4vw, 0.6rem);
+        font-size: clamp(0.42rem, 1.3vw, 0.56rem);
         color: #3a2a0a;
     " id="piagamTanggal">—</div>
+
+    <!-- piagamNilai disembunyikan (tidak ditampilkan di piagam) -->
+    <div style="display:none;" id="piagamNilai"></div>
 
 </div><!-- /piagamCard -->
             </div><!-- /piagam-wrapper -->
@@ -1927,7 +1922,7 @@ function updateAllUI() {
     piagamKelas.textContent = kelas === "—" ? "—" : `Kelas ${kelas}`;
     piagamTanggal.textContent = tanggal;
     piagamPenguji.textContent = penguji;
-    piagamNilai.textContent = `Nilai: ${nilai}%`;
+    piagamNilai.textContent = '';
 
     // Update nama dua tempat
     if (document.getElementById('piagamNama'))
