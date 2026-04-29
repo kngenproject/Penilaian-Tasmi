@@ -1,38 +1,49 @@
-const CACHE_NAME = 'tasmi-cache-v7';
+const CACHE_NAME = 'tasmi-cache-v8';
 
-// Resource lokal yang PASTI ada - cache wajib
+// Resource lokal yang WAJIB ada - termasuk SEMUA icon
 const CORE_ASSETS = [
   './',
   './index.html',
-  './manifest.json'
+  './manifest.json',
+  // SEMUA icon - ini yang bikin ikon buram kalau tidak ada
+  './icons/icon-16.png',
+  './icons/icon-32.png',
+  './icons/icon-48.png',
+  './icons/icon-72.png',
+  './icons/icon-96.png',
+  './icons/icon-128.png',
+  './icons/icon-144.png',
+  './icons/icon-192.png',
+  './icons/icon-256.png',
+  './icons/icon-384.png',
+  './icons/icon-512.png',
+  './icons/icon-1024.png'
 ];
 
-// Resource eksternal - cache optional (tidak gagalkan install jika error)
+// Resource eksternal
 const OPTIONAL_ASSETS = [
   'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
   'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
 ];
 
-
 self.addEventListener('install', event => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then(async cache => {
-      // 1. Cache core assets (wajib berhasil)
+      // Cache core assets (wajib berhasil semua)
       try {
         await cache.addAll(CORE_ASSETS);
+        console.log('Core assets (termasuk icon) berhasil di-cache');
       } catch (err) {
         console.warn('Gagal cache core assets:', err);
       }
 
-      // 2. Cache optional assets (boleh gagal satu-satu)
+      // Cache optional assets
       await Promise.allSettled(
         OPTIONAL_ASSETS.map(url =>
           cache.add(url).catch(err => console.warn('Gagal cache optional:', url, err))
         )
       );
-
-      // Font Google Fonts di-handle langsung oleh browser (tidak perlu cache manual)
     })
   );
 });
@@ -63,7 +74,25 @@ self.addEventListener('fetch', event => {
 
   const url = new URL(request.url);
 
-  // Strategi khusus untuk Google Fonts: cache-first, fallback network
+  // Strategi khusus untuk icon - cache first, immediate return
+  if (url.pathname.includes('/icons/')) {
+    event.respondWith(
+      caches.match(request).then(cached => {
+        if (cached) {
+          return cached;
+        }
+        return fetch(request).then(response => {
+          if (response && response.status === 200) {
+            caches.open(CACHE_NAME).then(cache => cache.put(request, response.clone()));
+          }
+          return response;
+        });
+      })
+    );
+    return;
+  }
+
+  // Strategi khusus untuk Google Fonts
   if (
     url.hostname === 'fonts.googleapis.com' ||
     url.hostname === 'fonts.gstatic.com'
@@ -84,12 +113,12 @@ self.addEventListener('fetch', event => {
     return;
   }
 
+  // Strategi default
   event.respondWith(
     caches.match(request).then(cachedResponse => {
       if (cachedResponse) return cachedResponse;
 
       return fetch(request.clone()).then(networkResponse => {
-        // Hanya cache response yang benar-benar valid (status 200, bukan opaque)
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(request, responseToCache));
